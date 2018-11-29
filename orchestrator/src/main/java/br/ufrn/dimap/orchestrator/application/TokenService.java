@@ -1,5 +1,6 @@
 package br.ufrn.dimap.orchestrator.application;
 
+import br.ufrn.dimap.orchestrator.domain.application.ApplicationNotFoundException;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
 import br.ufrn.dimap.orchestrator.domain.token.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class TokenService {
         return tokenRepository.save(tokenToValidate);
     }
 
-    public Token generateToken(Appspot clientAppspot, Appspot serverAppspot, String serviceName){
+    public Token generateToken(Appspot clientAppspot, Appspot serverAppspot, String serviceName) throws InvalidServiceException, ApplicationNotFoundException{
         Token generatedToken = tokenFactory.generateToken(clientAppspot,serverAppspot,serviceName);
 
         return tokenRepository.save(generatedToken);
