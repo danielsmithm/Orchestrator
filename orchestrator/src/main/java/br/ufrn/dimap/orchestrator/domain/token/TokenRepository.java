@@ -6,13 +6,13 @@ import java.util.UUID;
 
 @Repository
 public class TokenRepository {
+
     public Token save(Token generatedToken) {
         //TODO: Implement this.
         return null;
     }
 
     public Token findTokenById(UUID tokenUUID) throws TokenNotFoundException {
-
 
         //TODO: Implement persistency.
         Token token = null;
