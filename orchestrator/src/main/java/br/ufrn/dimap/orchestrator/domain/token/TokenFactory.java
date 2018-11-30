@@ -1,9 +1,10 @@
 package br.ufrn.dimap.orchestrator.domain.token;
 
 import br.ufrn.dimap.orchestrator.domain.application.Application;
-import br.ufrn.dimap.orchestrator.domain.application.ApplicationNotFoundException;
+import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
 import br.ufrn.dimap.orchestrator.domain.application.ApplicationRepository;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

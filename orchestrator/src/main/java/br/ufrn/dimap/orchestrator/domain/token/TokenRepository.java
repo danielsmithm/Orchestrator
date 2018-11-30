@@ -1,5 +1,6 @@
 package br.ufrn.dimap.orchestrator.domain.token;
 
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;

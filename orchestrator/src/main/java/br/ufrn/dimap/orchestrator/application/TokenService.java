@@ -1,8 +1,12 @@
 package br.ufrn.dimap.orchestrator.application;
 
-import br.ufrn.dimap.orchestrator.domain.application.ApplicationNotFoundException;
+import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
 import br.ufrn.dimap.orchestrator.domain.token.*;
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidServiceException;
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidTokenException;
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenAlreadyValidatedException;
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +25,8 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
     }
 
-    public Token validate(UUID tokenUUID, Appspot clientAppspot, Appspot serverAppspot, String serviceName) throws InvalidTokenException, TokenNotFoundException, TokenAlreadyValidatedException {
+    public Token validate(UUID tokenUUID, Appspot clientAppspot, Appspot serverAppspot, String serviceName)
+            throws InvalidTokenException, TokenNotFoundException, TokenAlreadyValidatedException {
 
         if(tokenUUID == null){
             throw new InvalidTokenException("The token UUID is required.");
@@ -34,7 +39,8 @@ public class TokenService {
         return tokenRepository.save(tokenToValidate);
     }
 
-    public Token generateToken(Appspot clientAppspot, Appspot serverAppspot, String serviceName) throws InvalidServiceException, ApplicationNotFoundException{
+    public Token generateToken(Appspot clientAppspot, Appspot serverAppspot, String serviceName)
+            throws InvalidServiceException, ApplicationNotFoundException{
         Token generatedToken = tokenFactory.generateToken(clientAppspot,serverAppspot,serviceName);
 
         return tokenRepository.save(generatedToken);

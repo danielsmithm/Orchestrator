@@ -1,13 +1,13 @@
 package br.ufrn.dimap.orchestrator.resources;
 
 import br.ufrn.dimap.orchestrator.application.TokenService;
-import br.ufrn.dimap.orchestrator.domain.application.ApplicationNotFoundException;
+import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
-import br.ufrn.dimap.orchestrator.domain.token.InvalidServiceException;
-import br.ufrn.dimap.orchestrator.domain.token.InvalidTokenException;
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidServiceException;
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidTokenException;
 import br.ufrn.dimap.orchestrator.domain.token.Token;
-import br.ufrn.dimap.orchestrator.domain.token.TokenAlreadyValidatedException;
-import br.ufrn.dimap.orchestrator.domain.token.TokenNotFoundException;
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenAlreadyValidatedException;
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenNotFoundException;
 import br.ufrn.dimap.orchestrator.resources.dto.TokenCreationDTO;
 import br.ufrn.dimap.orchestrator.resources.dto.TokenDTO;
 import br.ufrn.dimap.orchestrator.resources.dto.TokenValidationDTO;

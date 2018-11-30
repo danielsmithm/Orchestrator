@@ -1,6 +1,8 @@
 package br.ufrn.dimap.orchestrator.domain.token;
 
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidTokenException;
+import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenAlreadyValidatedException;
 
 import java.util.Date;
 import java.util.UUID;
@@ -20,13 +22,25 @@ public class Token {
         this.serviceName = serviceName;
     }
 
-    public void validate(Appspot clientAppspot, Appspot serverAppspot, String serviceName) throws TokenAlreadyValidatedException{
+    public void validate(Appspot clientAppspot, Appspot serverAppspot, String serviceName) throws TokenAlreadyValidatedException, InvalidTokenException {
 
         if(this.hasValidation()){
             throw new TokenAlreadyValidatedException("This token has been already validated.");
         }
 
-        //TODO: Implement
+        if(!this.clientAppspot.equals(clientAppspot)){
+            throw new InvalidTokenException("The provided client appspot isn't valid for this token.");
+        }
+
+        if(!this.serverAppspot.equals(serverAppspot)){
+            throw new InvalidTokenException("The provided server appspot isn't valid for this token.");
+        }
+
+        if(!this.serviceName.equals(serviceName)){
+            throw new InvalidTokenException("The provided service name isn't valid for this token.");
+        }
+
+        this.validationDate = new Date();
 
     }
 

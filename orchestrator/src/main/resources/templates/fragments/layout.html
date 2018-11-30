@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="page">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="../static/css/main.css" th:href="@{/css/Layout.css}" rel="stylesheet" />
+</head>
+
+<body>
+    <div>
+
+        <!-- Include header fragment -->
+
+        <div>
+            <div class="col-md-12" style="margin-top: 10px;">
+                <section th:include="this :: content"/>
+            </div>
+
+        </div>
+
+        <!-- Include footer fragment -->
+
+    </div>
+</body>
+
+</html>
