@@ -2,8 +2,29 @@
 
 <body>
 <div th:fragment="content">
-    <marquee>Hello society!</marquee>
+	<form method="POST" th:object="${appRegistration}">
+		<fieldset>
+			<legend>About you</legend>
+			<p>
+				<label for="appspot">Appspot</label>
+				<input type="text" th:field="*{app.appspot}" placeholder="Your appspot from Google"/>
+			</p>
+			<p>
+				<label for="personName">Your name</label>
+				<input type="text" th:field="*{app.ownerName}" placeholder="Who are you?"/>
+			</p>
+
+		</fieldset>
+		<fieldset>
+			<legend>About your service</legend>
+			<p>
+				<label for="serviceName">Service name</label>
+				<input type="text" th:field="*{app.providedService.serviceName}" placeholder="What are you providing?"/>
+			</p>
+		</fieldset>
+	</form>
 </div>
+
 </body>
 
 </html>

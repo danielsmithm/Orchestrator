@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Application {
 
+	private String ownerName;
 	private Appspot appspot;
 	private List<ProvidedService> providedServices;
 
@@ -41,5 +42,13 @@ public class Application {
 
 	public void setProvidedServices(List<ProvidedService> providedServices) {
 		this.providedServices = providedServices;
+	}
+
+	public String getOwnerName() {
+		return ownerName;
+	}
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 }
