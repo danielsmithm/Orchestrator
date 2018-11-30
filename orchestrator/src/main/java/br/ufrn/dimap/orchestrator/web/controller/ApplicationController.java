@@ -18,7 +18,7 @@ public class ApplicationController {
     	ApplicationCreationForm appCreationForm = 
     			new ApplicationCreationForm();
     	
-    	appCreationForm.getApp().setProvidedServices(new AutoPopulatingList<>(ProvidedService.class));
+    	//appCreationForm.getApp().setProvidedServices(new AutoPopulatingList<>(ProvidedService.class));
     	
     	model.addAttribute("appRegistration", new ApplicationCreationForm());
         return "application/register";

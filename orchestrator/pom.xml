@@ -65,6 +65,12 @@
    			<artifactId>spring-boot-devtools</artifactId>
    			<optional>true</optional>
    		</dependency>
+   		
+   		<dependency>
+		    <groupId>com.google.cloud</groupId>
+		    <artifactId>google-cloud-datastore</artifactId>
+		    <version>0.8.0-beta</version>
+		</dependency>
 	</dependencies>
 
 	<build>
