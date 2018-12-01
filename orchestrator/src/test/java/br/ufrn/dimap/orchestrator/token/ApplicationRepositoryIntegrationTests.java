@@ -18,12 +18,13 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import java.util.List;
 
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertNotSame;
 
 @WebAppConfiguration
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations="classpath:application.properties")
 @ContextConfiguration(classes = {OrchestratorApplication.class})
-public class ApplicationIntegrationTests {
+public class ApplicationRepositoryIntegrationTests {
 
     @Autowired
     private ApplicationRepository repository;
@@ -46,6 +47,7 @@ public class ApplicationIntegrationTests {
 
         assertNotNull(applicationAfterSave);
         assertNotNull(application.getId());
+        assertNotSame(application.getId(),0l);
         assertNotNull(application.getAppspot());
         assertNotNull(application.getOwnerName());
     }

@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
@@ -15,9 +14,14 @@ import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Repository
 public class ApplicationRepository {
+
+    public static final String APPSPOT_FIELD = "appspot";
+    public static final String OWNER_FIELD = "owner";
+    public static final String APPLICATION_ENTITY_NAME = "Application";
 
     private final Datastore datastore;
     private final KeyFactory keyFactory;
@@ -25,39 +29,63 @@ public class ApplicationRepository {
     @Autowired
     public ApplicationRepository(Datastore datastore) {
         this.datastore = Objects.requireNonNull(datastore, "The datastore object could not be null.");
-        this.keyFactory = datastore.newKeyFactory().setKind("Application");
+        this.keyFactory = datastore.newKeyFactory().setKind(APPLICATION_ENTITY_NAME);
     }
 
     public Application findByAppspot(Appspot serverAppspot) throws ApplicationNotFoundException {
 
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("App")
+                .setKind(APPLICATION_ENTITY_NAME)
                 .setFilter(PropertyFilter.eq("__key__",
                         keyFactory.newKey(serverAppspot.getAppspotName())))
                 .build();
 
-        QueryResults<Entity> apps = datastore.run(query);
-        Application appReturn = null;
-        while (apps.hasNext()) {
-            Entity app = apps.next();
-            appReturn = new Application();
-            //TODO populate app
+        QueryResults<Entity> result = datastore.run(query);
+
+        if(!result.hasNext()){
+            throw new ApplicationNotFoundException("An application with the provided appspot was not found.");
         }
-        return appReturn;
+
+        Application application = convertToApplication(result.next());
+
+        if(result.hasNext()){
+            throw new IllegalStateException("The query returned more than one result, when a single result was expected");
+        }
+
+        return application;
+    }
+
+    private Application convertToApplication(Entity entity) {
+        Application application = new Application();
+
+        application.setAppspot(Appspot.from(entity.getString(APPSPOT_FIELD)));
+        application.setOwnerName(entity.getString(OWNER_FIELD));
+
+        return application;
     }
 
     public List<Application> findAllApplications() {
-        return null;
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind(APPLICATION_ENTITY_NAME)
+                .build();
+
+        QueryResults<Entity> result = datastore.run(query);
+
+        List<Application> apps = new CopyOnWriteArrayList<>();
+        result.forEachRemaining(entity -> apps.add(convertToApplication(entity)));
+
+        return apps;
     }
 
     public Application save(Application application) {
         Key key = keyFactory.newKey(application.getAppspot().getAppspotName());
         Entity app = Entity.newBuilder(key)
-                .set("appspot", application.getAppspot().getAppspotName())
-                .set("owner", application.getOwnerName())
+                .set(APPSPOT_FIELD, application.getAppspot().getAppspotName())
+                .set(OWNER_FIELD, application.getOwnerName())
                 .build();
         // TODO add services etc
-        datastore.put(app);
+        Entity put = datastore.put(app);
+
         // TODO check how to retrieve app id
         return application;
     }
@@ -72,6 +100,10 @@ public class ApplicationRepository {
     }
 
     public boolean existsApplicationWithAppspot(Appspot appspot) {
-        return false;
+        try{
+            return findByAppspot(appspot) != null;
+        } catch (ApplicationNotFoundException e) {
+            return false;
+        }
     }
 }
