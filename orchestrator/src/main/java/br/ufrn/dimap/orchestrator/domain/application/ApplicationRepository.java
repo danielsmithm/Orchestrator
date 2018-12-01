@@ -1,6 +1,7 @@
 package br.ufrn.dimap.orchestrator.domain.application;
 
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.cloud.datastore.Datastore;
@@ -13,16 +14,17 @@ import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class ApplicationRepository{
 
 	private final Datastore datastore;
-
 	private final KeyFactory keyFactory;
-	
-	public ApplicationRepository() {
-		this.datastore = DatastoreOptions.getDefaultInstance().getService();
+
+	@Autowired
+	public ApplicationRepository(Datastore datastore) {
+		this.datastore = Objects.requireNonNull(datastore,"The datastore object could not be null.");
 		this.keyFactory = datastore.newKeyFactory().setKind("App");
 	}
 	
