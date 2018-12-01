@@ -1,17 +1,23 @@
 package br.ufrn.dimap.orchestrator.web.form;
 
-import br.ufrn.dimap.orchestrator.domain.application.Application;
-import br.ufrn.dimap.orchestrator.domain.application.ProvidedService;
-
 public class ApplicationCreationForm {
 	
-	private Application app;
+	private String appspot;
+	private String ownerName;
 
-	public Application getApp() {
-		return app;
+	public String getAppspot() {
+		return appspot;
 	}
 
-	public void setApp(Application app) {
-		this.app = app;
+	public void setAppspot(String appspot) {
+		this.appspot = appspot;
+	}
+
+	public String getOwnerName() {
+		return ownerName;
+	}
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 }

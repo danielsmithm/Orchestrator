@@ -7,13 +7,15 @@
 			<legend>About you</legend>
 			<p>
 				<label for="appspot">Appspot</label>
-				<input type="text" th:field="*{app.appspot}" placeholder="Your appspot from Google"/>
+				<input id="appspot" type="text" th:field="*{appspot}" placeholder="Your appspot from Google"/>
 			</p>
 			<p>
 				<label for="personName">Your name</label>
-				<input type="text" th:field="*{app.ownerName}" placeholder="Who are you?"/>
+				<input id="personName" type="text" th:field="*{ownerName}" placeholder="Who are you?"/>
 			</p>
-
+			<p>
+				<input type="submit" value="Enviar"/>
+			</p>
 		</fieldset>
 		<fieldset>
 			<legend>About your service</legend>
