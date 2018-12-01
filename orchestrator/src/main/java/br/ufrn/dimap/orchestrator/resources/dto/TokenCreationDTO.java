@@ -25,7 +25,7 @@ public class TokenCreationDTO {
     /**
 	 * Attribute for the client-appspot field.
 	 */
-    @JsonProperty("client-appspot")
+    @JsonProperty("service-name")
     private String serviceName;
 
     //Getters and setters below this line.
