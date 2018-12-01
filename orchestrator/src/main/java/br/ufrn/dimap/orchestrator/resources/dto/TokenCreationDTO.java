@@ -2,15 +2,33 @@ package br.ufrn.dimap.orchestrator.resources.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * DTO for the body of the Token creation request.
+ * 
+ * @author Daniel Smith
+ *
+ */
 public class TokenCreationDTO {
 
+	/**
+	 * Attribute for the client-appspot field.
+	 */
     @JsonProperty("client-appspot")
     private String clientAppspot;
+    
+    /**
+	 * Attribute for the server-appspot field.
+	 */
     @JsonProperty("server-appspot")
     private String serverAppspot;
-    @JsonProperty("service-name")
+    
+    /**
+	 * Attribute for the client-appspot field.
+	 */
+    @JsonProperty("client-appspot")
     private String serviceName;
 
+    //Getters and setters below this line.
     public String getClientAppspot() {
         return clientAppspot;
     }

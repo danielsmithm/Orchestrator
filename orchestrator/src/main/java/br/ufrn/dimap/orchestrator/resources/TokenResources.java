@@ -21,10 +21,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
-@RequestMapping("/token")
+/**
+ * Restful endpoint for the token services. 
+ * <p>
+ * Provides operations for generation and validation of tokens.  
+ * 
+ * @author Daniel Smith 
+ * @author Vitor Greati
+ *
+ */
 @RestController
+@RequestMapping("/token")
 public class TokenResources {
 
+	/**
+	 * Dependency for the token service.
+	 */
     private final TokenService tokenService;
 
     @Autowired
@@ -32,6 +44,14 @@ public class TokenResources {
         this.tokenService = tokenService;
     }
 
+    /**
+     * Create a token and returns a DTO containing the token information.
+     * 
+     * @param tokenCreationDTO the DTO containing the parameters for token creation.
+     * @return a DTO containing the token informations
+     * @throws InvalidServiceException if the informed appspot for the provider of the service doesn't provide the service. 
+     * @throws ApplicationNotFoundException if doesn't exists an application for a provided appspot in DTO.
+     */
     @RequestMapping(value = "/create",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     private TokenDTO createToken(@RequestBody TokenCreationDTO tokenCreationDTO) throws InvalidServiceException, ApplicationNotFoundException{
 
@@ -40,8 +60,17 @@ public class TokenResources {
         return TokenDTOAssembler.fromToken(token);
     }
 
+    /**
+     * Validate a token and returns the result of the validation.
+     * 
+     * @param tokenValidationDTO the DTO containing the parameters for the validation.
+     * @return the TokenDTO containing the result of the validation, if the token is successfully validated 
+     * @throws TokenAlreadyValidatedException if the token was validated before this request
+     * @throws InvalidTokenException if a token with the provided parameters in tokenValidationDTO doesn't exists.
+     * @throws TokenNotFoundException if a token with the DTO tokenId field wasn't found.
+     */
     @RequestMapping(value = "/validate",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    private TokenDTO createToken(@RequestBody TokenValidationDTO tokenValidationDTO) throws TokenAlreadyValidatedException, InvalidTokenException, TokenNotFoundException {
+    private TokenDTO validateToken(@RequestBody TokenValidationDTO tokenValidationDTO) throws TokenAlreadyValidatedException, InvalidTokenException, TokenNotFoundException {
         Token token = tokenService.validate(UUID.fromString(tokenValidationDTO.getTokenId()), Appspot.from(tokenValidationDTO.getClientAppspot()),Appspot.from(tokenValidationDTO.getServerAppspot()),tokenValidationDTO.getServiceName());
 
         return TokenDTOAssembler.fromToken(token);

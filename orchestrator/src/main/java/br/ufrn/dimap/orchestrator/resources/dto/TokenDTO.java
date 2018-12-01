@@ -2,13 +2,48 @@ package br.ufrn.dimap.orchestrator.resources.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * DTO for the Token resources responses. 
+ * 
+ * @author Daniel Smith
+ * @author Vitor Greati
+ *
+ */
 public class TokenDTO {
+
+	/**
+	 * Attribute for the token-id field.
+	 */
+	@JsonProperty("token-id")
     private String tokenUUID;
+	
+	/**
+	 * Attribute for the generation-date field.
+	 */
+	@JsonProperty("generation-date")
     private Date generationDate;
+	
+	/**
+	 * Attribute for the client-appspot field.
+	 */
+	@JsonProperty("client-appspot")
     private String clientAppspot;
+	
+	/**
+	 * Attibute for the server-appspot field.
+	 */
+	@JsonProperty("server-appspot")
     private String serverAppspot;
+	
+	/**
+	 * Attribute for the service-name field.
+	 */
+	@JsonProperty("service-name")
     private String serviceName;
 
+	//Getters and setters below this line
     public String getTokenUUID() {
         return tokenUUID;
     }

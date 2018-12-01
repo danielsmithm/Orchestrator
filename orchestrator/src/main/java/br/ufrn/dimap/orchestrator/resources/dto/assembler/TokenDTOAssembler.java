@@ -6,8 +6,21 @@ import br.ufrn.dimap.orchestrator.resources.dto.TokenDTO;
 
 import java.util.UUID;
 
+/**
+ * Class that assemble TokenDTO based on the token domain object.
+ * 
+ * @author Daniel Smith
+ *
+ */
 public class TokenDTOAssembler{
 
+	/**
+	 * Assemble a TokenDTO with the token domain object provided. 
+	 * 
+	 * @param token the token domain object
+	 * @return the TokentDTO representation of the domain object
+	 * @throws IllegalArgumentException if the provided token is null.
+	 */
     public static TokenDTO fromToken(Token token){
 
         if(token == null){

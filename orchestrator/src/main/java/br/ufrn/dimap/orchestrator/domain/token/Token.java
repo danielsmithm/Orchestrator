@@ -7,6 +7,13 @@ import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenAlreadyValidatedE
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * Class that represents an access token for an application service.
+ * <p> 
+ *  
+ * @author danielsmith
+ *
+ */
 public class Token {
 
     private UUID id;

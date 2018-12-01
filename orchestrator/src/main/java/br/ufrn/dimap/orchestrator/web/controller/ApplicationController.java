@@ -17,6 +17,12 @@ import br.ufrn.dimap.orchestrator.web.form.ApplicationCreationForm;
 
 import javax.validation.Valid;
 
+/**
+ * Controller for the application use cases.
+ * 
+ * @author Daniel Smith
+ *
+ */
 @Controller
 @RequestMapping("/application")
 public class ApplicationController {

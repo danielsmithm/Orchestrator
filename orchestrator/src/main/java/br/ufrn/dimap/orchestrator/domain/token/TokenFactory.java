@@ -8,20 +8,50 @@ import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidServiceExceptio
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Factory that creates a token and guarantee the consistent creation of it. 
+ * 
+ * @author Daniel Smith
+ * @author Vitor Greati
+ *
+ */
 @Service
 public class TokenFactory {
 
-    @Autowired
-    private TokenRepository tokenRepository;
+	/**
+	 * Dependency of token repository.
+	 */    
+    private final TokenRepository tokenRepository;
     
+    /**
+     * Dependency of the application repository.
+     */    
+    private final ApplicationRepository applicationRepository;
+
     @Autowired
-    private ApplicationRepository applicationRepository;
-
+    public TokenFactory(TokenRepository tokenRepository, ApplicationRepository applicationRepository) {
+    	this.tokenRepository = tokenRepository;
+    	this.applicationRepository = applicationRepository;
+    }
+    
+    /**
+     * 
+     * @param clientAppspot
+     * @param serverAppspot
+     * @param serviceName
+     * @return
+     * @throws InvalidServiceException
+     * @throws ApplicationNotFoundException
+     */
     public Token generateToken(Appspot clientAppspot, Appspot serverAppspot, String serviceName) throws InvalidServiceException, ApplicationNotFoundException {
-
-        //TODO: Guarantee that the passed client and server information's are valid.
-
-        Token token = new Token(clientAppspot,serverAppspot,serviceName);
+    	    	
+    	if(!applicationRepository.existsApplicationWithAppspot(clientAppspot)) {
+    		throw new ApplicationNotFoundException("The client application wasn't found.");
+    	}
+    	
+    	if(!applicationRepository.existsApplicationWithAppspot(serverAppspot)) {
+    		throw new ApplicationNotFoundException("The server application wasn't found.");
+    	}
         
         Application serverApplication = applicationRepository.findByAppspot(serverAppspot);
         
@@ -29,10 +59,6 @@ public class TokenFactory {
         	throw new InvalidServiceException("The server application doesn't provide a service with this name.");
         }
         
-        //TODO: persistir no gae
-        
-        
-
-        return token;
+        return new Token(clientAppspot,serverAppspot,serviceName);
     }
 }
