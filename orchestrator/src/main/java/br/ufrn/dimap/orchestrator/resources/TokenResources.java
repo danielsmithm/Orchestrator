@@ -8,17 +8,18 @@ import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidTokenException;
 import br.ufrn.dimap.orchestrator.domain.token.Token;
 import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenAlreadyValidatedException;
 import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenNotFoundException;
+import br.ufrn.dimap.orchestrator.resources.dto.ServerErrorDTO;
 import br.ufrn.dimap.orchestrator.resources.dto.TokenCreationDTO;
 import br.ufrn.dimap.orchestrator.resources.dto.TokenDTO;
 import br.ufrn.dimap.orchestrator.resources.dto.TokenValidationDTO;
 import br.ufrn.dimap.orchestrator.resources.dto.assembler.TokenDTOAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 /**
@@ -75,5 +76,20 @@ public class TokenResources {
 
         return TokenDTOAssembler.fromToken(token);
     }
+
+    //EXCEPTION HANDLING
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ExceptionHandler({TokenNotFoundException.class,ApplicationNotFoundException.class})
+    public ResponseEntity<ServerErrorDTO> exceptionHandlerForForbiddenException(HttpServletRequest req, Exception e) {
+        return new ResponseEntity<ServerErrorDTO>(new ServerErrorDTO(HttpStatus.FORBIDDEN.value(), e.getMessage(),e.getClass().getName()), HttpStatus.FORBIDDEN);
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({TokenAlreadyValidatedException.class, InvalidTokenException.class})
+    public ResponseEntity<ServerErrorDTO> exceptionHandlerForBadRequestException(HttpServletRequest req, Exception e) {
+        return new ResponseEntity<ServerErrorDTO>(new ServerErrorDTO(HttpStatus.FORBIDDEN.value(), e.getMessage(),e.getClass().getName()), HttpStatus.FORBIDDEN);
+    }
+
+
 
 }

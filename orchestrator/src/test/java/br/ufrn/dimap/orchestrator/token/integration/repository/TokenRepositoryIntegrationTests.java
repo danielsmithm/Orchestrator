@@ -1,4 +1,4 @@
-package br.ufrn.dimap.orchestrator.token;
+package br.ufrn.dimap.orchestrator.token.integration.repository;
 
 import br.ufrn.dimap.orchestrator.OrchestratorApplication;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;

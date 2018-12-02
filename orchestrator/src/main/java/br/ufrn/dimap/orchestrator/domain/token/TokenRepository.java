@@ -15,8 +15,8 @@ import java.util.UUID;
 @Repository
 public class TokenRepository {
 
-    public static final String TOKENID_FIELD = "appspot";
-    public static final String TOKEN_ENTITY_NAME = "Application";
+    public static final String TOKENID_FIELD = "token_id";
+    public static final String TOKEN_ENTITY_NAME = "Token";
 
     private final Datastore datastore;
     private final KeyFactory keyFactory;
