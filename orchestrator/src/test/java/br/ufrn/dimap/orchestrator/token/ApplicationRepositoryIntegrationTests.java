@@ -48,8 +48,6 @@ public class ApplicationRepositoryIntegrationTests {
         Application applicationAfterSave = repository.save(application);
 
         assertNotNull(applicationAfterSave);
-        assertNotNull(application.getId());
-        assertNotSame(application.getId(),0l);
         assertNotNull(application.getAppspot());
         assertNotNull(application.getOwnerName());
     }
