@@ -29,6 +29,11 @@ public class Token {
         this.serviceName = serviceName;
     }
 
+    //Default constructor, should be used only by the persistence mechanism.
+    public Token(){
+
+    }
+
     public void validate(Appspot clientAppspot, Appspot serverAppspot, String serviceName) throws TokenAlreadyValidatedException, InvalidTokenException {
 
         if(this.hasValidation()){

@@ -38,6 +38,8 @@ public class ApplicationRepositoryIntegrationTests {
 
     @Test
     public void testSaveApplication(){
+
+        //Using the persistence constructor to initialize the application just for database integration purposes.
         Application application = new Application();
 
         application.setAppspot(Appspot.from("Appspot test"));

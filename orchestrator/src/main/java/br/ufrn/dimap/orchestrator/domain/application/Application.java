@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Application {
 
-	private long id;
 	private String ownerName;
 	private Appspot appspot;
 	private List<ProvidedService> providedServices;
@@ -53,11 +52,4 @@ public class Application {
 		this.ownerName = ownerName;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 }
