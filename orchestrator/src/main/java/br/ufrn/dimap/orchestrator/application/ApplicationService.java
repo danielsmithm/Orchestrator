@@ -25,8 +25,8 @@ public class ApplicationService {
         return applicationRepository.findAllApplications();
     }
 
-    public Application registerApplication(Appspot appspot) throws ApplicationAlreadyRegisteredException {
-        Application application = applicationFactory.createApplication(appspot);
+    public Application registerApplication(Appspot appspot, String ownerName) throws ApplicationAlreadyRegisteredException {
+        Application application = applicationFactory.createApplication(appspot,ownerName);
 
         return applicationRepository.save(application);
     }

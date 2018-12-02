@@ -10,7 +10,7 @@ public class ApplicationFactory{
     @Autowired
     private ApplicationRepository applicationRepository;
 
-    public Application createApplication(Appspot appspot) throws ApplicationAlreadyRegisteredException {
+    public Application createApplication(Appspot appspot, String ownerName) throws ApplicationAlreadyRegisteredException {
 
         if(applicationRepository.existsApplicationWithAppspot(appspot)){
             throw new ApplicationAlreadyRegisteredException("The application was already registered.");
@@ -19,6 +19,7 @@ public class ApplicationFactory{
         Application application = new Application();
 
         application.setAppspot(appspot);
+        application.setOwnerName(ownerName);
 
         return application;
     }

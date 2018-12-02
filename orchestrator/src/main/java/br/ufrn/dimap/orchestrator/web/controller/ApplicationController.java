@@ -48,7 +48,7 @@ public class ApplicationController {
     @PostMapping("/register")
     public String submitRegister(@Valid @ModelAttribute("appRegistration")ApplicationCreationForm form) throws ApplicationAlreadyRegisteredException {
 
-        Application application = applicationService.registerApplication(Appspot.from(form.getAppspot()));
+        Application application = applicationService.registerApplication(Appspot.from(form.getAppspot()), form.getOwnerName());
 
         return "application/register";
     }
