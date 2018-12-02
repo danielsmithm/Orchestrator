@@ -1,10 +1,16 @@
 package br.ufrn.dimap.orchestrator.domain.application;
 
-public class ProvidedService{
+public class ProvidedService {
 
     private int id;
     private String serviceName;
     private String serviceDescription;
+    private String accessPath;
+    private HTTPVerb httpVerb;
+    
+    enum HTTPVerb {
+    	POST, GET, PUT, DELETE
+    }
 
     public ProvidedService(String serviceName, String serviceDescription) {
         this.serviceName = serviceName;
