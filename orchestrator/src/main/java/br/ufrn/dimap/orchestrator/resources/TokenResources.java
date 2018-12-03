@@ -1,6 +1,6 @@
 package br.ufrn.dimap.orchestrator.resources;
 
-import br.ufrn.dimap.orchestrator.application.TokenService;
+import br.ufrn.dimap.orchestrator.service.TokenService;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
 import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidServiceException;
@@ -89,7 +89,5 @@ public class TokenResources {
     public ResponseEntity<ServerErrorDTO> exceptionHandlerForBadRequestException(HttpServletRequest req, Exception e) {
         return new ResponseEntity<ServerErrorDTO>(new ServerErrorDTO(HttpStatus.FORBIDDEN.value(), e.getMessage(),e.getClass().getName()), HttpStatus.FORBIDDEN);
     }
-
-
 
 }

@@ -7,6 +7,7 @@ public class Application {
 
 	private String ownerName;
 	private Appspot appspot;
+	private String password;
 	private List<ProvidedService> providedServices;
 
 	public Application(Appspot appspot){
@@ -36,20 +37,28 @@ public class Application {
 		this.appspot = appspot;
 	}
 
-	public List<ProvidedService> getProvidedServices() {
-		return providedServices;
-	}
-
-	public void setProvidedServices(List<ProvidedService> providedServices) {
-		this.providedServices = providedServices;
-	}
-
 	public String getOwnerName() {
 		return ownerName;
 	}
 
 	public void setOwnerName(String ownerName) {
 		this.ownerName = ownerName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public List<ProvidedService> getProvidedServices() {
+		return providedServices;
+	}
+
+	public void setProvidedServices(List<ProvidedService> providedServices) {
+		this.providedServices = providedServices;
 	}
 
 }

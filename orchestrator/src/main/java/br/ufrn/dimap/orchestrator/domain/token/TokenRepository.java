@@ -38,7 +38,7 @@ public class TokenRepository {
                 .set("validation_date", generatedToken.getValidationDate().getTime())
                 .build();
 
-        // TODO add services etc
+        // TODO add.html services etc
 
         Entity entityAfterPersisted = datastore.put(app);
 

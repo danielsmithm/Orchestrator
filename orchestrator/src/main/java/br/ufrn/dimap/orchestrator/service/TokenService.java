@@ -1,4 +1,4 @@
-package br.ufrn.dimap.orchestrator.application;
+package br.ufrn.dimap.orchestrator.service;
 
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;

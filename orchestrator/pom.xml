@@ -71,6 +71,12 @@
 		    <artifactId>google-cloud-datastore</artifactId>
 		    <version>0.8.0-beta</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

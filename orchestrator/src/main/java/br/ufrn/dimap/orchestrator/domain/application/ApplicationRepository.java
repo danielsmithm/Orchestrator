@@ -22,6 +22,7 @@ public class ApplicationRepository {
     public static final String APPSPOT_FIELD = "appspot";
     public static final String OWNER_FIELD = "owner";
     public static final String APPLICATION_ENTITY_NAME = "Application";
+    private static final String PASSWORD_FIELD = "password";
 
     private final Datastore datastore;
     private final KeyFactory keyFactory;
@@ -60,6 +61,7 @@ public class ApplicationRepository {
 
         application.setAppspot(Appspot.from(entity.getString(APPSPOT_FIELD)));
         application.setOwnerName(entity.getString(OWNER_FIELD));
+        application.setPassword(entity.getString(PASSWORD_FIELD));
 
         return application;
     }
@@ -82,8 +84,9 @@ public class ApplicationRepository {
         Entity app = Entity.newBuilder(key)
                 .set(APPSPOT_FIELD, application.getAppspot().getAppspotName())
                 .set(OWNER_FIELD, application.getOwnerName())
+                .set(PASSWORD_FIELD,application.getPassword())
                 .build();
-        // TODO add services etc
+        // TODO add.html services etc
         Entity put = datastore.put(app);
 
         // TODO check how to retrieve app id

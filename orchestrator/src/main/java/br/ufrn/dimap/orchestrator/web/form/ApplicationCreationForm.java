@@ -5,6 +5,7 @@ public class ApplicationCreationForm {
 	private String appspot;
 	private String ownerName;
 	private String password;
+	private String passwordConfirmation;
 
 	public String getAppspot() {
 		return appspot;
@@ -28,5 +29,13 @@ public class ApplicationCreationForm {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getPasswordConfirmation() {
+		return passwordConfirmation;
+	}
+
+	public void setPasswordConfirmation(String passwordConfirmation) {
+		this.passwordConfirmation = passwordConfirmation;
 	}
 }

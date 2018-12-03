@@ -1,8 +1,9 @@
-package br.ufrn.dimap.orchestrator.application;
+package br.ufrn.dimap.orchestrator.service;
 
 import br.ufrn.dimap.orchestrator.domain.application.*;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationAlreadyRegisteredException;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
+import br.ufrn.dimap.orchestrator.domain.application.exceptions.PasswordNotInformedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,8 @@ public class ApplicationService {
         return applicationRepository.findAllApplications();
     }
 
-    public Application registerApplication(Appspot appspot, String ownerName) throws ApplicationAlreadyRegisteredException {
-        Application application = applicationFactory.createApplication(appspot,ownerName);
+    public Application registerApplication(Appspot appspot, String ownerName, String password) throws ApplicationAlreadyRegisteredException, PasswordNotInformedException {
+        Application application = applicationFactory.createApplication(appspot,ownerName,password);
 
         return applicationRepository.save(application);
     }
@@ -37,6 +38,10 @@ public class ApplicationService {
 
     public void remove(Appspot appspot){
         applicationRepository.remove(appspot);
+    }
+
+    public Application findApplicationByAppspot(Appspot appspot) throws ApplicationNotFoundException {
+        return applicationRepository.findByAppspot(appspot);
     }
 
     public Application addProvidedService(Appspot appspot, String serviceName, String serviceDescription) throws ApplicationNotFoundException {
