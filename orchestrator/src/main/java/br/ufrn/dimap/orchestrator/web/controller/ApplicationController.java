@@ -4,8 +4,13 @@ import br.ufrn.dimap.orchestrator.service.ApplicationService;
 import br.ufrn.dimap.orchestrator.domain.application.Application;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.PasswordNotInformedException;
+import br.ufrn.dimap.orchestrator.security.ApplicationUserDetailsAdapter;
+import br.ufrn.dimap.orchestrator.security.GoogleCloudAuthenticationProvider;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationAlreadyRegisteredException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,14 +44,18 @@ public class ApplicationController {
     }
     
     @GetMapping("")
-    public String index(){
-        return "application/edit";
+    public String index(Model model){
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	ApplicationUserDetailsAdapter userDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
+    	//model.addAttribute("app", ApplicationCreationForm.from(userDetails.getApplication()));
+    	model.addAttribute("app", ApplicationCreationForm.from(userDetails.getApplication()));
+    	return "application/edit";
     }
 
     @GetMapping("/register")
     public String register(Model model){
     	ApplicationCreationForm appCreationForm = new ApplicationCreationForm();
-    	model.addAttribute("appRegistration", new ApplicationCreationForm());
+    	model.addAttribute("app", new ApplicationCreationForm());
         return "application/register";
     }
 
