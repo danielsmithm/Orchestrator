@@ -37,6 +37,11 @@ public class ApplicationController {
         this.applicationService = applicationService;
         this.passwordEncoder = passwordEncoder;
     }
+    
+    @GetMapping("")
+    public String index(){
+        return "application/edit";
+    }
 
     @GetMapping("/register")
     public String register(Model model){
@@ -52,12 +57,6 @@ public class ApplicationController {
 
         return "application/register";
     }
-
-    @GetMapping("/index")
-    public String index(){
-        return "application/index";
-    }
-
 
 
 }

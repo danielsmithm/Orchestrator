@@ -31,18 +31,19 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login.html").anonymous()
                 .antMatchers("/application/register").anonymous()
-                .antMatchers("/application/index").authenticated()
+                .antMatchers("/application").authenticated()
                 .antMatchers("/application/services/add").authenticated()
                 .antMatchers("/application/services/list").anonymous()
                 .and()
                 .formLogin()
-                .loginPage("/login.html")
+                .loginPage("/login")
                 .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/application/index", true)
+                .defaultSuccessUrl("/application", true)
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")
-                .deleteCookies("JSESSIONID");
+                .deleteCookies("JSESSIONID")
+                ;
     }
 
 }
