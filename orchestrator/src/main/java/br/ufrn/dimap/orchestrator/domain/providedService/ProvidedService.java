@@ -14,9 +14,11 @@ public class ProvidedService {
     private HTTPVerb httpVerb;
     private List<ServiceParameter> serviceParameters;
 
-    public ProvidedService(String serviceName, String serviceDescription) {
+    public ProvidedService(String serviceName, String serviceDescription, String accessPath, HTTPVerb httpVerb) {
         this.serviceName = serviceName;
         this.serviceDescription = serviceDescription;
+        this.accessPath = accessPath;
+        this.httpVerb = httpVerb;
         this.serviceParameters = new ArrayList<>();
     }
 
@@ -32,6 +34,7 @@ public class ProvidedService {
     //Persistence constructor. Should be used only by the persistence mechanism.
     public ProvidedService() {}
 
+    
     public int getId() {
         return id;
     }

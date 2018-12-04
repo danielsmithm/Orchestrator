@@ -1,10 +1,12 @@
 package br.ufrn.dimap.orchestrator.web.form;
 
+import br.ufrn.dimap.orchestrator.domain.providedService.ParameterType;
+
 public class ParameterCreationForm {
 
 	private String name;
 	private String description;
-	private String type;
+	private ParameterType type;
 	
 	public String getName() {
 		return name;
@@ -18,10 +20,10 @@ public class ParameterCreationForm {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getType() {
+	public ParameterType getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(ParameterType type) {
 		this.type = type;
 	}
 	

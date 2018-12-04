@@ -1,8 +1,9 @@
 package br.ufrn.dimap.orchestrator.web.form;
 
 import br.ufrn.dimap.orchestrator.domain.providedService.HTTPVerb;
+import br.ufrn.dimap.orchestrator.domain.providedService.ProvidedService;
 
-public class ServiceCreationForm {
+public class ProvidedServiceCreationForm {
 
     private String serviceName;
     private String serviceDescription;
@@ -41,4 +42,12 @@ public class ServiceCreationForm {
 		this.httpVerb = httpVerb;
 	}
 	
+	public static ProvidedServiceCreationForm from(ProvidedService providedService) {
+		ProvidedServiceCreationForm form = new ProvidedServiceCreationForm();
+		form.serviceDescription= providedService.getServiceDescription();
+		form.serviceName= providedService.getServiceName();
+		form.accessPath = providedService.getAccessPath();
+		form.httpVerb = providedService.getHttpVerb();
+		return form;
+	}
 }

@@ -20,7 +20,12 @@ public class ProvidedServiceFactory {
         this.providedServiceRepository = providedServiceRepository;
     }
 
-    public ProvidedService createProvidedService(Appspot appspot, String serviceName, String serviceDescription) throws ApplicationNotFoundException, ServiceNameAlreadyTaken {
+    public ProvidedService createProvidedService(
+    		Appspot appspot, 
+    		String serviceName, 
+    		String serviceDescription,
+    		String accessPath,
+    		HTTPVerb httpVerb) throws ApplicationNotFoundException, ServiceNameAlreadyTaken {
 
         if(applicationRepository.existsApplicationWithAppspot(appspot)){
             throw new ApplicationNotFoundException("An application with the provided appspot wasn't found.");
@@ -30,9 +35,24 @@ public class ProvidedServiceFactory {
             throw new ServiceNameAlreadyTaken("The service name is already taken for the application.");
         }
 
-        ProvidedService providedService = new ProvidedService(serviceName, serviceDescription);
+        ProvidedService providedService = new ProvidedService(serviceName, serviceDescription, accessPath, httpVerb);
 
         return providedService;
+    }
+    
+    public ServiceParameter createServiceParameter(
+    		String serviceId,
+    		String name,
+    		String description,
+    		ParameterType type
+    		) {
+    	
+    	//TODO: check for nonexisting service
+    	//TODO: check for already existing parameter
+    	
+    	ServiceParameter parameter = new ServiceParameter(name, type, description);
+
+    	return parameter;
     }
 
 }

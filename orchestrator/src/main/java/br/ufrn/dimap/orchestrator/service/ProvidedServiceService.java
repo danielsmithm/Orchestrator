@@ -7,6 +7,9 @@ import br.ufrn.dimap.orchestrator.domain.providedService.exceptions.ParameterNam
 import br.ufrn.dimap.orchestrator.domain.providedService.exceptions.ProvidedServiceNotFoundException;
 import br.ufrn.dimap.orchestrator.domain.providedService.exceptions.ServiceNameAlreadyTaken;
 import br.ufrn.dimap.orchestrator.domain.providedService.exceptions.ServiceNotFoundException;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,25 +24,42 @@ public class ProvidedServiceService {
         this.repository = repository;
         this.factory = factory;
     }
+    
+    public List<ProvidedService> listByApplication(Appspot appspot) {
+    	return this.repository.listByApplication(appspot);
+    }
 
-    public ProvidedService createProvidedService(Appspot appspot, String serviceName, String serviceDescription) throws ApplicationNotFoundException, ServiceNameAlreadyTaken {
-        ProvidedService providedService = factory.createProvidedService(appspot,serviceName,serviceDescription);
+    public ProvidedService findProvidedServiceById(String serviceId) throws ProvidedServiceNotFoundException {
+    	return repository.findProvidedServiceById(serviceId);
+    }
+    
+    public ProvidedService createProvidedService(
+    		Appspot appspot, 
+    		String serviceName, 
+    		String serviceDescription,
+    		String accessPath,
+    		HTTPVerb httpVerb) 
+    				throws ApplicationNotFoundException, ServiceNameAlreadyTaken {
+        ProvidedService providedService = 
+        		factory.createProvidedService(appspot,serviceName,serviceDescription,accessPath,httpVerb);
 
         return repository.save(providedService);
     }
 
-    public ProvidedService addParameter(int serviceId, String parameterName, ParameterType parameterType, String description) throws ServiceNotFoundException, ParameterNameAlreadyTaken, ProvidedServiceNotFoundException {
 
-        ProvidedService providedService = repository.findProvidedServiceById(serviceId);
+    public ServiceParameter addParameter(String serviceId, String parameterName, ParameterType parameterType, String description) throws ServiceNotFoundException, ParameterNameAlreadyTaken, ProvidedServiceNotFoundException {
 
-        providedService.addParameter(parameterName,parameterType,description);
-
-        return repository.save(providedService);
+    	ServiceParameter serviceParameter = factory.createServiceParameter(serviceId, parameterName, description, parameterType);
+    	
+        return repository.addParameter(serviceParameter);
+    }
+    
+    public void removeParameter(String parameterId) throws ProvidedServiceNotFoundException {
+    	repository.removeParameter(parameterId);
     }
 
-    public void removeProvidedService(int serviceId) throws ProvidedServiceNotFoundException {
+    public void removeProvidedService(String serviceId) throws ProvidedServiceNotFoundException {
         ProvidedService providedService = repository.findProvidedServiceById(serviceId);
-
         repository.remove(serviceId);
     }
 
