@@ -4,6 +4,7 @@ import br.ufrn.dimap.orchestrator.domain.application.Application;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
 import br.ufrn.dimap.orchestrator.domain.application.ApplicationRepository;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
+import br.ufrn.dimap.orchestrator.domain.providedService.ProvidedServiceRepository;
 import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,16 @@ public class TokenFactory {
      */    
     private final ApplicationRepository applicationRepository;
 
+    /**
+     * Dependency of the provided service repository.
+     */
+    private ProvidedServiceRepository providedServiceRepository;
+
     @Autowired
-    public TokenFactory(TokenRepository tokenRepository, ApplicationRepository applicationRepository) {
+    public TokenFactory(TokenRepository tokenRepository, ApplicationRepository applicationRepository, ProvidedServiceRepository providedServiceRepository) {
     	this.tokenRepository = tokenRepository;
     	this.applicationRepository = applicationRepository;
+        this.providedServiceRepository = providedServiceRepository;
     }
     
     /**
@@ -55,7 +62,7 @@ public class TokenFactory {
         
         Application serverApplication = applicationRepository.findByAppspot(serverAppspot);
         
-        if(!serverApplication.hasProvidedService(serviceName)) {
+        if(!providedServiceRepository.hasProvidedService(serverAppspot, serviceName)) {
         	throw new InvalidServiceException("The server application doesn't provide a service with this name.");
         }
         

@@ -2,6 +2,7 @@ package br.ufrn.dimap.orchestrator.token;
 
 import static org.junit.Assert.assertNotNull;
 
+import br.ufrn.dimap.orchestrator.domain.providedService.ProvidedServiceRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,13 +29,16 @@ public class TokenFactoryTests {
 	
 	@Mock
 	private ApplicationRepository applicationRepositoryMock;
+
+	@Mock
+	private ProvidedServiceRepository providedServiceRepository;
 	
 	@Mock
 	private Application applicationMock;
 	
 	@Before
 	public void setup() {
-		tokenFactory = new TokenFactory(tokenRepositoryMock,applicationRepositoryMock);
+		tokenFactory = new TokenFactory(tokenRepositoryMock,applicationRepositoryMock, providedServiceRepository);
 	}
 	
 	@Test(expected=ApplicationNotFoundException.class)
@@ -63,7 +67,7 @@ public class TokenFactoryTests {
 		Mockito.when(applicationRepositoryMock.existsApplicationWithAppspot(serverAppspot)).thenReturn(true);		
 		Mockito.when(applicationRepositoryMock.findByAppspot(serverAppspot)).thenReturn(applicationMock);
 		
-		Mockito.when(applicationMock.hasProvidedService(serviceName)).thenReturn(true);		
+		Mockito.when(providedServiceRepository.hasProvidedService(serverAppspot,serviceName)).thenReturn(true);
 		
 		Token generatedToken = tokenFactory.generateToken(clientAppspot, serverAppspot, serviceName);
 		
