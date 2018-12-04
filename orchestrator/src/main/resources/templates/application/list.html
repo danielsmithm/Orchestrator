@@ -3,12 +3,16 @@
 <body>
 <div th:fragment="content">
 
+<h3 class="page-title">Explore</h3>
+
 <div class="card-columns">
 
   <div class="card" th:each="app : ${apps}">
     <!--  <img class="card-img-top" src="..." alt="Card image cap">-->
     <div class="card-body">
-      <h5 class="card-title" th:text="${app.appspot.appspotName}"></h5>
+      <h5 class="card-title">
+      	<a th:href="@{/{appspot}(appspot=${app.appspot.appspotName})}" th:text="${app.appspot.appspotName}"></a>
+      </h5>
       <p class="card-text" th:text="${app.ownerName}"></p>
       <p class="card-text"><small class="text-muted" th:text="${app.ownerName}"/></small></p>
     </div>

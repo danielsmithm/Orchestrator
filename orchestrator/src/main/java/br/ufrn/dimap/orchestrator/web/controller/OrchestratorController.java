@@ -40,11 +40,15 @@ public class OrchestratorController {
     
     private final ProvidedServiceService providedServiceService;
 
-
     @Autowired
     public OrchestratorController(ApplicationService applicationService, ProvidedServiceService providedServiceService) {
         this.applicationService = applicationService;
         this.providedServiceService = providedServiceService;
+    }
+    
+    @GetMapping("")
+    public String index() {
+    	return "redirect:/explore";
     }
     
     @GetMapping("explore")

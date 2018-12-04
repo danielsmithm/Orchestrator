@@ -24,7 +24,7 @@
     <div>
 
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		  <a class="navbar-brand" href="#">Orchestrator</a>
+		  <a class="navbar-brand" href="/">Orchestrator</a>
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
@@ -32,7 +32,7 @@
 		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		    <ul class="navbar-nav mr-auto">
 
-		      <li class="nav-item active" sec:authorize="!isAuthenticated()">
+		      <li class="nav-item" sec:authorize="!isAuthenticated()">
 		        <a class="nav-link" href="/application/register">Register<span class="sr-only">(current)</span></a>
 		      </li>
 
@@ -59,8 +59,8 @@
 			          <span sec:authentication="name">user</span>
 			        </a>
 			        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-			          <a class="dropdown-item" href="#">App configuration</a>
-			          <a class="dropdown-item" href="#">Services management</a>
+			          <a class="dropdown-item" href="/application">App configuration</a>
+			          <a class="dropdown-item" href="/services">Services management</a>
 			          <div class="dropdown-divider"></div>
 			          <a class="dropdown-item" href="/perform_logout">Logout</a>
 			        </div>
@@ -72,10 +72,9 @@
         <!-- Include header fragment -->
 
         <div>
-            <div class="col-md-12" style="margin-top: 10px;">
+            <div class="col-md-12" style="margin-top: 10px;">            
                 <section th:include="this :: content"></section>
             </div>
-
         </div>
 
         <!-- Include footer fragment -->

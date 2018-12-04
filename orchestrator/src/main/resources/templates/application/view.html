@@ -10,9 +10,10 @@
   </div>
 </div>
 
-<h2>Provided services</h2>
+<p th:if="${#lists.size(app.services) == 0}">No provided services yet.</p>
 
-<div id="accordion">
+<h2 th:if="${#lists.size(app.services) > 0}">Provided services</h2>
+<div id="accordion" th:if="${#lists.size(app.services) > 0}">
   <div class="card" th:each="service : ${app.services}">
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">

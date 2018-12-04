@@ -2,20 +2,20 @@
 
 <body>
 <div th:fragment="content">
+	<h3>Login</h3>
+
     <form name='f' action="perform_login" method='POST'>
-        <table>
-            <tr>
-                <td>User:</td>
-                <td><input type='text' name='username' value=''></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><input type='password' name='password'/></td>
-            </tr>
-            <tr>
-                <td><input name="submit" type="submit" value="submit"/></td>
-            </tr>
-        </table>
+            <p>
+                <label for="user">Appspot</label>
+                <input class="form-control" type='text' name='username' value=''>
+            </p>
+            <p>
+                <label for="password">Password</label>
+                <input type='password' class="form-control" name='password'/>
+            </p>
+            <p>
+                <input class="btn btn-primary" name="submit" type="submit" value="Enter"/>
+            </p>
     </form>
 </div>
 

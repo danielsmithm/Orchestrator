@@ -2,8 +2,10 @@
 
 <body>
 <div th:fragment="content">
+
+	<h3 class="page-title">App configuration</h3>
+
 	<form method="POST" th:object="${app}">
-	
 		<p>
 			<label for="personName">Your name</label>
 			<input class="form-control" id="personName" type="text" th:field="*{ownerName}" placeholder="Who are you?"/>
