@@ -27,7 +27,7 @@ public class ProvidedServiceFactory {
     		String accessPath,
     		HTTPVerb httpVerb) throws ApplicationNotFoundException, ServiceNameAlreadyTaken {
 
-        if(applicationRepository.existsApplicationWithAppspot(appspot)){
+        if(!applicationRepository.existsApplicationWithAppspot(appspot)){
             throw new ApplicationNotFoundException("An application with the provided appspot wasn't found.");
         }
 
@@ -35,7 +35,7 @@ public class ProvidedServiceFactory {
             throw new ServiceNameAlreadyTaken("The service name is already taken for the application.");
         }
 
-        ProvidedService providedService = new ProvidedService(serviceName, serviceDescription, accessPath, httpVerb);
+        ProvidedService providedService = new ProvidedService(appspot, serviceName, serviceDescription, accessPath, httpVerb);
 
         return providedService;
     }

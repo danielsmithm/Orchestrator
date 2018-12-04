@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -81,14 +82,18 @@ public class ServicesController {
     	model.addAttribute("service", serviceForm);
     	model.addAttribute("parameter", new ParameterCreationForm());
     	
-    	return "application/services/edit";
+    	return "redirect:/services/"+newProvService.getId();
     }
     
     @GetMapping("{serviceId}")
-    public String editService(@PathParam("serviceId") String serviceId, Model model) throws ProvidedServiceNotFoundException {
+    public String editService(@PathVariable("serviceId") Long serviceId, Model model) throws ProvidedServiceNotFoundException {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
+  
     	
-    	ProvidedService provService = this.providedServiceService.findProvidedServiceById(serviceId);//= this.providedServiceService.
-
+    	ProvidedService provService = this.providedServiceService.findProvidedServiceById(
+    			authenticationDetails.getApplication().getAppspot(), serviceId);
+    	
     	model.addAttribute("service", ProvidedServiceCreationForm.from(provService));
     	model.addAttribute("parameter", new ParameterCreationForm());
     	
@@ -96,9 +101,12 @@ public class ServicesController {
     }
     
     @PostMapping("{serviceId}/delete")
-    public String deleteService(@PathParam("serviceId") String serviceId, Model model) throws ProvidedServiceNotFoundException {   
+    public String deleteService(@PathParam("serviceId") Long serviceId, Model model) throws ProvidedServiceNotFoundException {   
     	
-    	this.providedServiceService.removeProvidedService(serviceId);
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
+
+    	this.providedServiceService.removeProvidedService(authenticationDetails.getApplication().getAppspot(), serviceId);
 
     	return "application/services/edit";
     }

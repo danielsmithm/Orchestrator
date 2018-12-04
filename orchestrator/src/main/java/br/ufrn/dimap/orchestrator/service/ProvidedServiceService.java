@@ -29,8 +29,9 @@ public class ProvidedServiceService {
     	return this.repository.listByApplication(appspot);
     }
 
-    public ProvidedService findProvidedServiceById(String serviceId) throws ProvidedServiceNotFoundException {
-    	return repository.findProvidedServiceById(serviceId);
+    public ProvidedService findProvidedServiceById(Appspot appspot, Long serviceId) throws ProvidedServiceNotFoundException {
+    	    	
+    	return repository.findProvidedServiceById(appspot, serviceId);
     }
     
     public ProvidedService createProvidedService(
@@ -58,8 +59,8 @@ public class ProvidedServiceService {
     	repository.removeParameter(parameterId);
     }
 
-    public void removeProvidedService(String serviceId) throws ProvidedServiceNotFoundException {
-        ProvidedService providedService = repository.findProvidedServiceById(serviceId);
+    public void removeProvidedService(Appspot appspot, Long serviceId) throws ProvidedServiceNotFoundException {
+        ProvidedService providedService = repository.findProvidedServiceById(appspot, serviceId);
         repository.remove(serviceId);
     }
 

@@ -1,5 +1,6 @@
 package br.ufrn.dimap.orchestrator.domain.providedService;
 
+import br.ufrn.dimap.orchestrator.domain.application.Appspot;
 import br.ufrn.dimap.orchestrator.domain.providedService.exceptions.ParameterNameAlreadyTaken;
 
 import java.util.ArrayList;
@@ -7,18 +8,20 @@ import java.util.List;
 
 public class ProvidedService {
 
-    private int id;
+    private long id;
+    private Appspot appspot;
     private String serviceName;
     private String serviceDescription;
     private String accessPath;
     private HTTPVerb httpVerb;
     private List<ServiceParameter> serviceParameters;
 
-    public ProvidedService(String serviceName, String serviceDescription, String accessPath, HTTPVerb httpVerb) {
+    public ProvidedService(Appspot appspot, String serviceName, String serviceDescription, String accessPath, HTTPVerb httpVerb) {
         this.serviceName = serviceName;
         this.serviceDescription = serviceDescription;
         this.accessPath = accessPath;
         this.httpVerb = httpVerb;
+        this.appspot = appspot;
         this.serviceParameters = new ArrayList<>();
     }
 
@@ -35,11 +38,11 @@ public class ProvidedService {
     public ProvidedService() {}
 
     
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -73,5 +76,13 @@ public class ProvidedService {
 
 	public void setHttpVerb(HTTPVerb httpVerb) {
 		this.httpVerb = httpVerb;
+	}
+
+	public Appspot getAppspot() {
+		return appspot;
+	}
+
+	public void setAppspot(Appspot appspot) {
+		this.appspot = appspot;
 	}
 }
