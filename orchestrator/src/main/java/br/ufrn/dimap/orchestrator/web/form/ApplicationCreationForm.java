@@ -1,5 +1,7 @@
 package br.ufrn.dimap.orchestrator.web.form;
 
+import br.ufrn.dimap.orchestrator.domain.application.Application;
+
 public class ApplicationCreationForm {
 	
 	private String appspot;
@@ -37,5 +39,12 @@ public class ApplicationCreationForm {
 
 	public void setPasswordConfirmation(String passwordConfirmation) {
 		this.passwordConfirmation = passwordConfirmation;
+	}
+	
+	public static ApplicationCreationForm from(Application app) {
+		ApplicationCreationForm appForm = new ApplicationCreationForm();
+		appForm.setAppspot(app.getAppspot().getAppspotName());
+		appForm.setOwnerName(app.getOwnerName());		
+		return null;
 	}
 }

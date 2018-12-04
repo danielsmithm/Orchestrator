@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-public class AplicationUserDetailsAdapter implements UserDetails {
+public class ApplicationUserDetailsAdapter implements UserDetails {
 
     private Application application;
 
-    public AplicationUserDetailsAdapter(Application application) {
+    public ApplicationUserDetailsAdapter(Application application) {
         this.application = Objects.requireNonNull(application);
     }
 
@@ -57,4 +57,9 @@ public class AplicationUserDetailsAdapter implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public Application getApplication() {
+        return application;
+    }
+
 }

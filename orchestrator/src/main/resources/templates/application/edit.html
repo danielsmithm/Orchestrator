@@ -2,7 +2,7 @@
 
 <body>
 <div th:fragment="content">
-	<form method="POST" th:object="${appRegistration}">
+	<form method="POST" th:object="${app}">
 		<p>
 			<label for="personName">Your name</label>
 			<input class="form-control" id="personName" type="text" th:field="*{ownerName}" placeholder="Who are you?"/>

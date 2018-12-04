@@ -48,7 +48,7 @@ public class GoogleCloudAuthenticationProvider implements AuthenticationProvider
 
             Appspot applicationAppspot = application.getAppspot();
 
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(applicationAppspot.getAppspotName(), password, new ArrayList<>());
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(new ApplicationUserDetailsAdapter(application), password, new ArrayList<>());
 
             return usernamePasswordAuthenticationToken;
         } catch (ApplicationNotFoundException e) {
