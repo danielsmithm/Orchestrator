@@ -5,10 +5,8 @@ import br.ufrn.dimap.orchestrator.domain.application.Application;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.PasswordNotInformedException;
 import br.ufrn.dimap.orchestrator.security.ApplicationUserDetailsAdapter;
-import br.ufrn.dimap.orchestrator.security.GoogleCloudAuthenticationProvider;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationAlreadyRegisteredException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.ufrn.dimap.orchestrator.web.form.ApplicationCreationForm;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -47,7 +46,6 @@ public class ApplicationController {
     public String index(Model model){
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	ApplicationUserDetailsAdapter userDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
-    	//model.addAttribute("app", ApplicationCreationForm.from(userDetails.getApplication()));
     	model.addAttribute("app", ApplicationCreationForm.from(userDetails.getApplication()));
     	return "application/edit";
     }
@@ -60,9 +58,11 @@ public class ApplicationController {
     }
 
     @PostMapping("/register")
-    public String submitRegister(@Valid @ModelAttribute("appRegistration") ApplicationCreationForm form) throws ApplicationAlreadyRegisteredException, PasswordNotInformedException {
+    public String submitRegister(@Valid @ModelAttribute("appRegistration") ApplicationCreationForm form, Model model) throws ApplicationAlreadyRegisteredException, PasswordNotInformedException {
 
         Application application = applicationService.registerApplication(Appspot.from(form.getAppspot()), form.getOwnerName(), passwordEncoder.encode(form.getPassword()));
+
+        model.addAttribute("app", new ApplicationCreationForm());
 
         return "application/register";
     }

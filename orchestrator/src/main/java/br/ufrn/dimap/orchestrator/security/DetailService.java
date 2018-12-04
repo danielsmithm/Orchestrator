@@ -22,7 +22,7 @@ public class DetailService implements UserDetailsService {
         try {
             Application application = applicationService.findApplicationByAppspot(Appspot.from(appspot));
 
-            return new AplicationUserDetailsAdapter(application);
+            return new ApplicationUserDetailsAdapter(application);
         } catch (ApplicationNotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage());
         }
