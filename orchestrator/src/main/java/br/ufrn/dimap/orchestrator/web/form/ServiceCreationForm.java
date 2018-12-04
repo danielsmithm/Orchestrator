@@ -1,6 +1,6 @@
 package br.ufrn.dimap.orchestrator.web.form;
 
-import br.ufrn.dimap.orchestrator.domain.application.ProvidedService.HTTPVerb;
+import br.ufrn.dimap.orchestrator.domain.providedService.HTTPVerb;
 
 public class ServiceCreationForm {
 
