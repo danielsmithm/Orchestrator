@@ -66,14 +66,12 @@
   					</tr>
   				</thead>
   				<tbody>
-  					<tr>
-  						<td>Sample</td>
-  						<td>int</td>
-  						<td>Description basic</td>
+  					<tr th:each="parameter : ${service.serviceParameters}">
+  						<td th:text="${parameter.parameterName}"/>
+  						<td th:text="${parameter.parameterType}"/>
+  						<td th:text="${parameter.description}"/>
   						<td>
-  						
   							<a href="#"><span class="fas fa-trash"></span></a>
-  						
   						</td>
   					</tr>
   				</tbody>

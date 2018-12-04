@@ -10,6 +10,8 @@ public class ServiceParameter{
     private ParameterType parameterType;
     private String description;
 
+    public ServiceParameter() {}
+    
     public ServiceParameter(Long serviceId, String parameterName, ParameterType parameterType, String description) {
         this.parameterName = parameterName;
         this.parameterType = parameterType;

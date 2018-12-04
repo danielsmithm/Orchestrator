@@ -1,7 +1,10 @@
 package br.ufrn.dimap.orchestrator.web.form;
 
+import java.util.List;
+
 import br.ufrn.dimap.orchestrator.domain.providedService.HTTPVerb;
 import br.ufrn.dimap.orchestrator.domain.providedService.ProvidedService;
+import br.ufrn.dimap.orchestrator.domain.providedService.ServiceParameter;
 
 public class ProvidedServiceCreationForm {
 
@@ -10,6 +13,7 @@ public class ProvidedServiceCreationForm {
     private String serviceDescription;
     private String accessPath;
     private HTTPVerb httpVerb;
+    private List<ServiceParameter> serviceParameters;
     
 	public String getServiceName() {
 		return serviceName;
@@ -51,6 +55,7 @@ public class ProvidedServiceCreationForm {
 		form.serviceName= providedService.getServiceName();
 		form.accessPath = providedService.getAccessPath();
 		form.httpVerb = providedService.getHttpVerb();
+		form.serviceParameters = providedService.getServiceParameters();
 		return form;
 	}
 
@@ -60,5 +65,13 @@ public class ProvidedServiceCreationForm {
 
 	public void setServiceId(Long serviceId) {
 		this.serviceId = serviceId;
+	}
+
+	public List<ServiceParameter> getServiceParameters() {
+		return serviceParameters;
+	}
+
+	public void setServiceParameters(List<ServiceParameter> serviceParameters) {
+		this.serviceParameters = serviceParameters;
 	}
 }

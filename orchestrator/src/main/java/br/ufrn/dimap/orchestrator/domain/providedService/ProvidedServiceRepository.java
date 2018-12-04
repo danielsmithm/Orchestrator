@@ -109,6 +109,34 @@ public class ProvidedServiceRepository {
         return makeFromEntity(appspot, e);
     }
     
+    public List<ServiceParameter> listServiceParametersByServiceId(Long serviceId) {
+    	Query<Entity> query = Query.newEntityQueryBuilder()
+    		    .setKind(SERVICE_PARAM_ENTITY_NAME)
+    		    .setFilter(PropertyFilter.hasAncestor(
+    		        datastore.newKeyFactory().setKind(PROV_SERVICE_ENTITY_NAME).newKey(serviceId)))
+    		    .build();
+    	
+    	QueryResults<Entity> parameterResults = datastore.run(query);
+    	
+    	List<ServiceParameter> parameters = new ArrayList<>();
+    	
+    	while(parameterResults.hasNext()) {
+    		parameters.add(makeParameterFromEntity(serviceId, parameterResults.next()));
+    	}
+    	
+    	return parameters;
+    }
+    
+    public ServiceParameter makeParameterFromEntity(Long serviceId, Entity e) {
+    	ServiceParameter param = new ServiceParameter();
+    	param.setParameterId(e.getKey().getId());
+    	param.setParameterName(e.getString(SERVICE_PARAM_NAME_FIELD));
+    	param.setDescription(e.getString(SERVICE_PARAM_DESC_FIELD));
+    	param.setParameterType(ParameterType.valueOf(e.getString(SERVICE_PARAM_TYPE_FIELD)));
+    	param.setServiceId(serviceId);
+    	return param;
+    }
+    
     public ProvidedService makeFromEntity(Appspot appspot, Entity e) {
     	ProvidedService ps = new ProvidedService();
     	ps.setId(e.getKey().getId());

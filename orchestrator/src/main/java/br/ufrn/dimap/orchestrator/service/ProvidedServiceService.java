@@ -34,6 +34,10 @@ public class ProvidedServiceService {
     	return repository.findProvidedServiceById(appspot, serviceId);
     }
     
+    public List<ServiceParameter> listServiceParameterByServiceId(Long serviceId) {
+    	return repository.listServiceParametersByServiceId(serviceId);
+    }
+    
     public ProvidedService createProvidedService(
     		Appspot appspot, 
     		String serviceName, 

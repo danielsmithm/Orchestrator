@@ -92,6 +92,8 @@ public class ServicesController {
   
     	ProvidedService provService = this.providedServiceService.findProvidedServiceById(
     			authenticationDetails.getApplication().getAppspot(), serviceId);
+
+    	provService.setServiceParameters(this.providedServiceService.listServiceParameterByServiceId(serviceId));
     	
     	model.addAttribute("service", ProvidedServiceCreationForm.from(provService));
     	model.addAttribute("parameter", new ParameterCreationForm());

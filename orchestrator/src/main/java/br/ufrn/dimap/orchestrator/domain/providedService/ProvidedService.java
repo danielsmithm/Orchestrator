@@ -22,16 +22,16 @@ public class ProvidedService {
         this.accessPath = accessPath;
         this.httpVerb = httpVerb;
         this.appspot = appspot;
-        this.serviceParameters = new ArrayList<>();
+        this.setServiceParameters(new ArrayList<>());
     }
 
     public void addParameter(String parameterName, ParameterType parameterType, String description) throws ParameterNameAlreadyTaken {
 
-        if(serviceParameters.stream().anyMatch(serviceParameter -> serviceParameter.getParameterName().equals(parameterName))){
+        if(getServiceParameters().stream().anyMatch(serviceParameter -> serviceParameter.getParameterName().equals(parameterName))){
             throw new ParameterNameAlreadyTaken("This service already has a parameter with the provided name");
         }
 
-        serviceParameters.add(new ServiceParameter(id, parameterName,parameterType,description));
+        getServiceParameters().add(new ServiceParameter(id, parameterName,parameterType,description));
     }
 
     //Persistence constructor. Should be used only by the persistence mechanism.
@@ -92,5 +92,13 @@ public class ProvidedService {
 		this.serviceDescription = serviceDescription;
 		this.accessPath = accessPath;
 		this.httpVerb = httpVerb;
+	}
+
+	public List<ServiceParameter> getServiceParameters() {
+		return serviceParameters;
+	}
+
+	public void setServiceParameters(List<ServiceParameter> serviceParameters) {
+		this.serviceParameters = serviceParameters;
 	}
 }
