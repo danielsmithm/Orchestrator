@@ -4,15 +4,17 @@ import br.ufrn.dimap.orchestrator.domain.providedService.ParameterType;
 
 public class ServiceParameter{
 
-    private int parameterId;
+    private Long parameterId;
+    private Long serviceId;
     private String parameterName;
     private ParameterType parameterType;
     private String description;
 
-    public ServiceParameter(String parameterName, ParameterType parameterType, String description) {
+    public ServiceParameter(Long serviceId, String parameterName, ParameterType parameterType, String description) {
         this.parameterName = parameterName;
         this.parameterType = parameterType;
         this.description = description;
+        this.serviceId = serviceId;
     }
 
     public String getParameterName() {
@@ -38,4 +40,20 @@ public class ServiceParameter{
     public void setDescription(String description) {
         this.description = description;
     }
+
+	public Long getServiceId() {
+		return serviceId;
+	}
+
+	public void setServiceId(Long serviceId) {
+		this.serviceId = serviceId;
+	}
+
+	public Long getParameterId() {
+		return parameterId;
+	}
+
+	public void setParameterId(Long parameterId) {
+		this.parameterId = parameterId;
+	}
 }

@@ -120,7 +120,7 @@ public class ServicesController {
     	model.addAttribute("service", ProvidedServiceCreationForm.from(provService));
     	model.addAttribute("parameter", new ParameterCreationForm());
     	
-    	return "application/services/edit";
+    	return "redirect:/services/"+serviceId;
     }
     
     @PostMapping("{serviceId}/delete")
@@ -136,7 +136,7 @@ public class ServicesController {
     
     @PostMapping("{serviceId}/parameters/new")
     public String createParam(
-    		@PathParam("serviceId") String serviceId, 
+    		@PathVariable("serviceId") Long serviceId, 
     		@Valid @ModelAttribute("parameter") ParameterCreationForm parameter,
     		Model model) 
     				throws ServiceNotFoundException, ParameterNameAlreadyTaken, ProvidedServiceNotFoundException {
@@ -148,7 +148,7 @@ public class ServicesController {
     			parameter.getDescription());
     	
     	// TODO what to put in the model?
-    	return "application/services/edit";
+    	return "redirect:/services/"+serviceId;
     }
     
     @PostMapping("{serviceId}/parameters/{parameterId}/delete")

@@ -31,7 +31,7 @@ public class ProvidedService {
             throw new ParameterNameAlreadyTaken("This service already has a parameter with the provided name");
         }
 
-        serviceParameters.add(new ServiceParameter(parameterName,parameterType,description));
+        serviceParameters.add(new ServiceParameter(id, parameterName,parameterType,description));
     }
 
     //Persistence constructor. Should be used only by the persistence mechanism.

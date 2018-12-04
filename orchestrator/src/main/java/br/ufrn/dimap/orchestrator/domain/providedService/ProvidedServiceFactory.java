@@ -41,7 +41,7 @@ public class ProvidedServiceFactory {
     }
     
     public ServiceParameter createServiceParameter(
-    		String serviceId,
+    		Long serviceId,
     		String name,
     		String description,
     		ParameterType type
@@ -50,7 +50,7 @@ public class ProvidedServiceFactory {
     	//TODO: check for nonexisting service
     	//TODO: check for already existing parameter
     	
-    	ServiceParameter parameter = new ServiceParameter(name, type, description);
+    	ServiceParameter parameter = new ServiceParameter(serviceId, name, type, description);
 
     	return parameter;
     }

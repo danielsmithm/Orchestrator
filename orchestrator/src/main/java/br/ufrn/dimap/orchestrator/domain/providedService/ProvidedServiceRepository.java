@@ -20,20 +20,29 @@ import com.google.cloud.datastore.PathElement;
 public class ProvidedServiceRepository {
 
 	public static final String PROV_SERVICE_ENTITY_NAME = "ProvidedService";
+	public static final String SERVICE_PARAM_ENTITY_NAME = "ServiceParameter";
+
 	
 	public static final String PROVSERV_NAME_FIELD = "name";
 	public static final String PROVSERV_DESC_FIELD = "description";
 	public static final String PROVSERV_PATH_FIELD = "path";
 	public static final String PROVSERV_VERB_FIELD = "verb";
 
+	public static final String SERVICE_PARAM_NAME_FIELD = "name";
+	public static final String SERVICE_PARAM_DESC_FIELD = "description";
+	public static final String SERVICE_PARAM_TYPE_FIELD = "type";
+	
 	
     private final Datastore datastore;
-    private final KeyFactory keyFactory;
+    private final KeyFactory serviceKeyFactory;
+    private final KeyFactory paramKeyFactory;
+
 
     @Autowired
     public ProvidedServiceRepository(Datastore datastore) {
         this.datastore = Objects.requireNonNull(datastore, "The datastore object could not be null.");
-        this.keyFactory = datastore.newKeyFactory().setKind(PROV_SERVICE_ENTITY_NAME);
+        this.serviceKeyFactory = datastore.newKeyFactory().setKind(PROV_SERVICE_ENTITY_NAME);
+        this.paramKeyFactory = datastore.newKeyFactory().setKind(SERVICE_PARAM_ENTITY_NAME);
     }
 	
 	
@@ -74,7 +83,7 @@ public class ProvidedServiceRepository {
 
     public ProvidedService findProvidedServiceById(Appspot appspot, Long serviceId) throws ProvidedServiceNotFoundException {
         
-    	Key key = keyFactory.reset().setKind(PROV_SERVICE_ENTITY_NAME)
+    	Key key = serviceKeyFactory.reset().setKind(PROV_SERVICE_ENTITY_NAME)
     			.addAncestor(PathElement.of(ApplicationRepository.APPLICATION_ENTITY_NAME, appspot.getAppspotName()))
     			.newKey(serviceId);
     	Entity e = datastore.get(key);
@@ -98,8 +107,22 @@ public class ProvidedServiceRepository {
     }
     
     public ServiceParameter addParameter(ServiceParameter serviceParameter) {
-    	//TODO: Implement
-    	return null;	
+    	KeyFactory keyFactory = paramKeyFactory.reset()
+    			.addAncestor(PathElement.of(PROV_SERVICE_ENTITY_NAME, serviceParameter.getServiceId()))
+    			.setKind(SERVICE_PARAM_ENTITY_NAME);
+    	Key key = datastore.allocateId(keyFactory.newKey());
+    	
+    	Entity entity = Entity.newBuilder(key)
+    			.set(SERVICE_PARAM_NAME_FIELD, serviceParameter.getParameterName())
+    			.set(SERVICE_PARAM_DESC_FIELD, serviceParameter.getDescription())
+    			.set(SERVICE_PARAM_TYPE_FIELD, serviceParameter.getParameterType().name())
+    			.build();
+    	
+    	datastore.put(entity);
+    	
+    	serviceParameter.setParameterId(entity.getKey().getId());
+    	
+    	return serviceParameter;	
     }
 
 	public void removeParameter(String parameterId) {

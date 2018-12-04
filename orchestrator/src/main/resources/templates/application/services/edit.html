@@ -93,7 +93,7 @@
 	      </div>
 	      <div class="modal-body">
 	        
-	        <form method="post" action="parameters/new" th:object="${parameter}">
+	        <form method="post" th:action="@{/services/{serviceId}/parameters/new(serviceId=${service.serviceId})}" th:object="${parameter}">
      		    <p>
 					<label for="parameterName">Name</label>
 					<input class="form-control" id="parameterName" type="text" th:field="*{name}" placeholder="e.g. size, name, age..."/>
@@ -111,13 +111,15 @@
 						</option>
 					</select>
 				</p>
+				
+		      	<div class="modal-footer">
+	        		<button type="submit" class="btn btn-primary">Save</button>
+	        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      		</div>
 	        </form>
 	        
 	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary">Save</button>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	      </div>
+
 	    </div>
 	  </div>
 	</div>

@@ -5,6 +5,7 @@ import br.ufrn.dimap.orchestrator.domain.providedService.ProvidedService;
 
 public class ProvidedServiceCreationForm {
 
+	private Long serviceId;
     private String serviceName;
     private String serviceDescription;
     private String accessPath;
@@ -44,10 +45,20 @@ public class ProvidedServiceCreationForm {
 	
 	public static ProvidedServiceCreationForm from(ProvidedService providedService) {
 		ProvidedServiceCreationForm form = new ProvidedServiceCreationForm();
+		if (providedService.getId() != null)
+			form.setServiceId(providedService.getId());
 		form.serviceDescription= providedService.getServiceDescription();
 		form.serviceName= providedService.getServiceName();
 		form.accessPath = providedService.getAccessPath();
 		form.httpVerb = providedService.getHttpVerb();
 		return form;
+	}
+
+	public Long getServiceId() {
+		return serviceId;
+	}
+
+	public void setServiceId(Long serviceId) {
+		this.serviceId = serviceId;
 	}
 }

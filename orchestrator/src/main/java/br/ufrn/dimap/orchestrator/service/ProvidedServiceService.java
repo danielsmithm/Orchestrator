@@ -48,7 +48,7 @@ public class ProvidedServiceService {
     }
 
 
-    public ServiceParameter addParameter(String serviceId, String parameterName, ParameterType parameterType, String description) throws ServiceNotFoundException, ParameterNameAlreadyTaken, ProvidedServiceNotFoundException {
+    public ServiceParameter addParameter(Long serviceId, String parameterName, ParameterType parameterType, String description) throws ServiceNotFoundException, ParameterNameAlreadyTaken, ProvidedServiceNotFoundException {
 
     	ServiceParameter serviceParameter = factory.createServiceParameter(serviceId, parameterName, description, parameterType);
     	
