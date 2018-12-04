@@ -4,6 +4,7 @@ import br.ufrn.dimap.orchestrator.domain.application.ApplicationRepository;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
 import br.ufrn.dimap.orchestrator.domain.providedService.exceptions.ProvidedServiceNotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,6 +16,9 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.PathElement;
+import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 
 @Repository
 public class ProvidedServiceRepository {
@@ -52,8 +56,22 @@ public class ProvidedServiceRepository {
     }
 
     public List<ProvidedService> listByApplication(Appspot appspot){
-    	//TODO: implement
-    	return null;
+    	
+    	Query<Entity> query = Query.newEntityQueryBuilder()
+    		    .setKind(PROV_SERVICE_ENTITY_NAME)
+    		    .setFilter(PropertyFilter.hasAncestor(
+    		        datastore.newKeyFactory().setKind(ApplicationRepository.APPLICATION_ENTITY_NAME).newKey(appspot.getAppspotName())))
+    		    .build();
+    	
+    	QueryResults<Entity> servicesResults = datastore.run(query);
+    	
+    	List<ProvidedService> services = new ArrayList<>();
+    	
+    	while(servicesResults.hasNext()) {
+    		services.add(makeFromEntity(appspot, servicesResults.next()));
+    	}
+    	
+    	return services;
     }
 
     public ProvidedService save(ProvidedService providedService) {

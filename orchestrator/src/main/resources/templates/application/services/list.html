@@ -18,18 +18,17 @@
 	<thead>
 		<tr>
 			<th>Name</th>
+			<th>HTTP Verb</th>
 			<th>Route</th>
 			<th>Actions</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td>
-				Test
-			</td>
-			<td>
-				test/test/
-			</td>
+	
+		<tr th:each="service : ${services}">
+			<td th:text="${service.serviceName}"/>
+			<td th:text="${service.httpVerb}"/>
+			<td th:text="${service.accessPath}"></td>
 			<td>  
 				<a href="#"><span class="fa fa-pencil-alt"></span></a>
 				<a href="#"><span class="fa fa-trash"></span></a>
