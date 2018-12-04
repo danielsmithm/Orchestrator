@@ -74,11 +74,13 @@ public class ApplicationController {
     public String updateRegister(@Valid @ModelAttribute("app") ApplicationCreationForm form, Model model) throws ApplicationNotFoundException {
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	Application currentApp = ((ApplicationUserDetailsAdapter) auth.getPrincipal()).getApplication();
+        ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
+
+        Application currentApp = authenticationDetails.getApplication();
     	    	
     	Application application = applicationService.update(currentApp.getAppspot(), form.getOwnerName(), form.getPassword());
     	
-    	((ApplicationUserDetailsAdapter) auth.getPrincipal()).setApplication(application);
+    	authenticationDetails.setApplication(application);
     	
     	model.addAttribute("app", ApplicationCreationForm.from(application));
     	
