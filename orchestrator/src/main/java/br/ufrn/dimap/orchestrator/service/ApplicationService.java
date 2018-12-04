@@ -53,18 +53,4 @@ public class ApplicationService {
         return applicationRepository.findByAppspot(appspot);
     }
 
-    public Application addProvidedService(Appspot appspot, String serviceName, String serviceDescription) throws ApplicationNotFoundException {
-        Application application = applicationRepository.findByAppspot(appspot);
-
-        application.addProvidedService(serviceName, serviceDescription);
-
-        return applicationRepository.save(application);
-    }
-
-    public void removeProvidedService(Appspot appspot, int providedServiceId) throws ApplicationNotFoundException {
-        Application application = applicationRepository.findByAppspot(appspot);
-
-        applicationRepository.removeProvidedService(providedServiceId);
-    }
-
 }

@@ -1,4 +1,6 @@
-package br.ufrn.dimap.orchestrator.domain.application;
+package br.ufrn.dimap.orchestrator.domain.providedService;
+
+import br.ufrn.dimap.orchestrator.domain.providedService.ParameterType;
 
 public class ServiceParameter{
 

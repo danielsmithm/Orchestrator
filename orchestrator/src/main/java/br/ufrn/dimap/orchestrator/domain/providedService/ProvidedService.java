@@ -1,4 +1,6 @@
-package br.ufrn.dimap.orchestrator.domain.application;
+package br.ufrn.dimap.orchestrator.domain.providedService;
+
+import br.ufrn.dimap.orchestrator.domain.providedService.exceptions.ParameterNameAlreadyTaken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,6 @@ public class ProvidedService {
     private String serviceDescription;
     private String accessPath;
     private HTTPVerb httpVerb;
-
     private List<ServiceParameter> serviceParameters;
 
     public ProvidedService(String serviceName, String serviceDescription) {
@@ -19,7 +20,7 @@ public class ProvidedService {
         this.serviceParameters = new ArrayList<>();
     }
 
-    public void addParameter(String parameterName,ParameterType parameterType,String description) throws ParameterNameAlreadyTaken {
+    public void addParameter(String parameterName, ParameterType parameterType, String description) throws ParameterNameAlreadyTaken {
 
         if(serviceParameters.stream().anyMatch(serviceParameter -> serviceParameter.getParameterName().equals(parameterName))){
             throw new ParameterNameAlreadyTaken("This service already has a parameter with the provided name");
