@@ -18,7 +18,7 @@
 		<p>
 			<label for="httpVerb">Verb</label>
 			<select class="form-control" th:field="*{httpVerb}">
-				<option th:each="httpVerb : ${T(br.ufrn.dimap.orchestrator.domain.application.ProvidedService.HTTPVerb).values()}"
+				<option th:each="httpVerb : ${T(br.ufrn.dimap.orchestrator.domain.providedService.HTTPVerb).values()}"
 						th:value="${httpVerb}"
 						th:text="${httpVerb}">
 				</option>
