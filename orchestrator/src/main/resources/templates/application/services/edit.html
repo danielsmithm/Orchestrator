@@ -98,7 +98,12 @@
 				</p>
      		    <p>
 					<label for="parameterType">Type</label>
-					<input class="form-control" id="parameterType" type="text" th:field="*{type}" placeholder="int, string, etc"/>
+					<select class="form-control" id="parameterType" th:field="*{type}">
+						<option th:each="parameterType : ${T(br.ufrn.dimap.orchestrator.domain.application.ParameterType).values()}"
+								th:value="${parameterType}"
+								th:text="${parameterType}">
+						</option>
+					</select>
 				</p>
 	        </form>
 	        
