@@ -64,7 +64,6 @@ public class ProvidedServiceService {
     }
 
     public void removeProvidedService(Appspot appspot, Long serviceId) throws ProvidedServiceNotFoundException {
-        ProvidedService providedService = repository.findProvidedServiceById(appspot, serviceId);
         repository.remove(appspot, serviceId);
     }
 

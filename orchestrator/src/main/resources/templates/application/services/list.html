@@ -30,8 +30,12 @@
 			<td th:text="${service.httpVerb}"/>
 			<td th:text="${service.accessPath}"></td>
 			<td>  
-				<a href="#"><span class="fa fa-pencil-alt"></span></a>
-				<a href="#"><span class="fa fa-trash"></span></a>
+				<form style="float:left;margin-right:5px;" method="get" th:action="@{/services/{serviceId}(serviceId=${service.id})}">
+					<button class="btn btn-primary" type="submit"><span class="fa fa-pencil-alt"></span></button>
+				</form>
+				<form method="post" th:action="@{/services/{serviceId}/delete(serviceId=${service.id})}">
+					<button class="btn btn-primary" type="submit"><span class="fa fa-trash"></span></button>
+				</form>
 			</td>
 		</tr>	
 	</tbody>

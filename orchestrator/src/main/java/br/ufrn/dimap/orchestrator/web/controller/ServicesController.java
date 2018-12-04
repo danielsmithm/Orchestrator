@@ -126,14 +126,14 @@ public class ServicesController {
     }
     
     @PostMapping("{serviceId}/delete")
-    public String deleteService(@PathParam("serviceId") Long serviceId, Model model) throws ProvidedServiceNotFoundException {   
+    public String deleteService(@PathVariable("serviceId") Long serviceId, Model model) throws ProvidedServiceNotFoundException {   
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
 
     	this.providedServiceService.removeProvidedService(authenticationDetails.getApplication().getAppspot(), serviceId);
 
-    	return "application/services/edit";
+    	return "redirect:/services";
     }
     
     @PostMapping("{serviceId}/parameters/new")
