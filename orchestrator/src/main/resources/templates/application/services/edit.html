@@ -1,0 +1,123 @@
+<html xmlns:th="http://www.thymeleaf.org" th:include="fragments/layout :: page">
+
+<body>
+<div th:fragment="content">
+    
+    <ul class="nav nav-tabs" style="margin:0 0 10px 0;">
+    	<li class="nav-item">
+    		<a class="nav-link active"
+    			data-toggle="tab" href="#general" role="tab" 
+    			aria-controls="home" aria-selected="true">General</a>
+    	</li>
+ 	    <li class="nav-item">
+    		<a class="nav-link"
+    			data-toggle="tab" href="#parameters" role="tab" 
+    			aria-controls="parameters" aria-selected="false">Parameters</a>    	
+    	</li>
+    </ul>
+    
+    <div class="tab-content" id="serviceManagement">
+    
+  		<div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+  		
+ 		    <form method="POST" th:object="${service}">
+				<p>
+					<label for="serviceName">Name</label>
+					<input class="form-control" id="serviceName" type="text" th:field="*{serviceName}" placeholder="How do you call this service?"/>
+				</p>
+				<p>
+					<label for="serviceDescription">Description</label>
+					<textarea class="form-control" id="serviceDescription" type="text" th:field="*{serviceDescription}" placeholder="What is your service about?"></textarea>
+				</p>
+				<p>
+					<label for="accessPath">Access path</label>
+					<input class="form-control" id="accessPath" type="text" th:field="*{accessPath}" placeholder="e.g. /myservice/myaction/perform"/>
+				</p>
+				<p>
+					<label for="httpVerb">Verb</label>
+					<select class="form-control" th:field="*{httpVerb}">
+						<option th:each="httpVerb : ${T(br.ufrn.dimap.orchestrator.domain.application.ProvidedService.HTTPVerb).values()}"
+								th:value="${httpVerb}"
+								th:text="${httpVerb}">
+						</option>
+					</select>
+				</p>
+				
+				<button type="submit" class="btn btn-primary">Save</button>
+		    </form>
+  		
+  		</div>    
+  		
+  		<div class="tab-pane fade" id="parameters" role="tabpanel" aria-labelledby="parameters-tab">
+  		
+  			<ul style="margin:10px 0px;color:white" class="nav justify-content-end">
+  				<li class="nav-item">
+  					<a class="nav-link btn btn-primary" role="button" data-toggle="modal" data-target="#parameterEditModal">New parameter</a>
+  				</li>
+  			</ul>
+  		
+  			<table class="table">
+  				<thead>
+  					<tr>
+  						<th>Name</th>
+  						<th>Type</th>
+  						<th>Description</th>
+  					</tr>
+  				</thead>
+  				<tbody>
+  					<tr>
+  						<td>Sample</td>
+  						<td>int</td>
+  						<td>Description basic</td>
+  					</tr>
+  				</tbody>
+  			</table>
+  		
+  		</div>
+    </div>
+    
+    <div class="modal fade" tabindex="-1" role="dialog" id="parameterEditModal">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">New parameter</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        
+	        <form method="post" action="parameters/new" th:object="${parameter}">
+     		    <p>
+					<label for="parameterName">Name</label>
+					<input class="form-control" id="parameterName" type="text" th:field="*{name}" placeholder="e.g. size, name, age..."/>
+				</p>
+				<p>
+					<label for="parameterDescription">Description</label>
+					<textarea class="form-control" id="parameterDescription" type="text" th:field="*{description}" placeholder="What is your parameter about?"></textarea>
+				</p>
+     		    <p>
+					<label for="parameterType">Type</label>
+					<select class="form-control" id="parameterType" th:field="*{type}">
+						<option th:each="parameterType : ${T(br.ufrn.dimap.orchestrator.domain.application.ParameterType).values()}"
+								th:value="${parameterType}"
+								th:text="${parameterType}">
+						</option>
+					</select>
+				</p>
+	        </form>
+	        
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary">Save</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+    
+</div>
+
+</body>
+
+</html>

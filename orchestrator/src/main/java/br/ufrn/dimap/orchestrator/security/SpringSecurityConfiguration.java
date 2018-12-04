@@ -31,6 +31,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login.html").anonymous()
                 .antMatchers("/application/register").anonymous()
                 .antMatchers("/application").authenticated()
+                .antMatchers("/services").authenticated()
                 .antMatchers("/application/services/add").authenticated()
                 .antMatchers("/application/services/list").anonymous()
                 .and()
