@@ -2,6 +2,7 @@ package br.ufrn.dimap.orchestrator.domain.application;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.PasswordNotInformedException;
 
@@ -28,6 +29,28 @@ public class Application {
 		ProvidedService providedService = new ProvidedService(serviceName,serviceDescription);
 
 		providedServices.add(providedService);
+	}
+
+	public void addParameter(int serviceId, String parameterName,ParameterType parameterType,String description) throws ServiceNotFoundException, ParameterNameAlreadyTaken {
+		Optional<ProvidedService> serviceOptional = providedServices.stream()
+				.filter(providedService -> providedService.getId() == serviceId)
+				.findFirst();
+
+		if(!serviceOptional.isPresent()){
+			throw new ServiceNotFoundException("The provided service was not found for the application.");
+		}
+
+		ProvidedService providedService = serviceOptional.get();
+
+		providedService.addParameter(parameterName,parameterType,description);
+
+	}
+
+	public void update(String ownerName, String password) {
+		if (!ownerName.isEmpty())
+			this.ownerName = ownerName;
+		if (!password.isEmpty())
+			this.password = password;
 	}
 
 	//GETTERS AND SETTERS BELLOW THIS LINE
@@ -61,13 +84,6 @@ public class Application {
 
 	public void setProvidedServices(List<ProvidedService> providedServices) {
 		this.providedServices = providedServices;
-	}
-	
-	public void update(String ownerName, String password) {
-		if (!ownerName.isEmpty())
-			this.ownerName = ownerName;
-		if (!password.isEmpty())
-			this.password = password;
 	}
 
 }
