@@ -52,7 +52,11 @@ public class ProvidedServiceRepository {
     		    .addAncestors(PathElement.of(ApplicationRepository.APPLICATION_ENTITY_NAME, providedService.getAppspot().getAppspotName()))
     		    .setKind(PROV_SERVICE_ENTITY_NAME);
 
-    	Key key = datastore.allocateId(keyFactory.newKey());
+    	Key key = null;
+    	if(providedService.getId() == null)
+			key = datastore.allocateId(keyFactory.newKey());
+    	else
+    		key = keyFactory.newKey(providedService.getId());
     	
         Entity provService = Entity.newBuilder(key)
         		.set(PROVSERV_NAME_FIELD,providedService.getServiceName())
@@ -70,22 +74,22 @@ public class ProvidedServiceRepository {
 
     public ProvidedService findProvidedServiceById(Appspot appspot, Long serviceId) throws ProvidedServiceNotFoundException {
         
-    	Key key = keyFactory.setKind(PROV_SERVICE_ENTITY_NAME)
+    	Key key = keyFactory.reset().setKind(PROV_SERVICE_ENTITY_NAME)
     			.addAncestor(PathElement.of(ApplicationRepository.APPLICATION_ENTITY_NAME, appspot.getAppspotName()))
     			.newKey(serviceId);
     	Entity e = datastore.get(key);
     	
-        return makeFromEntity(e);
+        return makeFromEntity(appspot, e);
     }
     
-    public ProvidedService makeFromEntity(Entity e) {
+    public ProvidedService makeFromEntity(Appspot appspot, Entity e) {
     	ProvidedService ps = new ProvidedService();
     	ps.setId(e.getKey().getId());
+    	ps.setAppspot(appspot);
     	ps.setServiceName(e.getString("name"));
     	ps.setServiceDescription(e.getString("description"));
     	ps.setHttpVerb(HTTPVerb.valueOf(e.getString("verb")));
     	ps.setAccessPath(e.getString("path"));
-    	ps.setAppspot(new Appspot(e.getKey().getParent().getName()));
     	return ps;
     }
 

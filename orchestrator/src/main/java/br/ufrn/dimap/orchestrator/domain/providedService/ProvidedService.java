@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ProvidedService {
 
-    private long id;
+    private Long id;
     private Appspot appspot;
     private String serviceName;
     private String serviceDescription;
@@ -38,11 +38,11 @@ public class ProvidedService {
     public ProvidedService() {}
 
     
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -84,5 +84,13 @@ public class ProvidedService {
 
 	public void setAppspot(Appspot appspot) {
 		this.appspot = appspot;
+	}
+
+	public void update(String serviceName, String serviceDescription, String accessPath, HTTPVerb httpVerb) {
+		//TODO perform checks!
+		this.serviceName = serviceName;
+		this.serviceDescription = serviceDescription;
+		this.accessPath = accessPath;
+		this.httpVerb = httpVerb;
 	}
 }

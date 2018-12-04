@@ -90,9 +90,32 @@ public class ServicesController {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
   
-    	
     	ProvidedService provService = this.providedServiceService.findProvidedServiceById(
     			authenticationDetails.getApplication().getAppspot(), serviceId);
+    	
+    	model.addAttribute("service", ProvidedServiceCreationForm.from(provService));
+    	model.addAttribute("parameter", new ParameterCreationForm());
+    	
+    	return "application/services/edit";
+    }
+    
+    @PostMapping("{serviceId}")
+    public String editSubmitService(
+    		@PathVariable("serviceId") Long serviceId, 
+    		@Valid @ModelAttribute("service") ProvidedServiceCreationForm serviceForm,
+    		Model model) throws ProvidedServiceNotFoundException {
+    	
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
+  
+    	ProvidedService provService = 
+    			this.providedServiceService.update(
+    					authenticationDetails.getApplication().getAppspot(),
+    					serviceId,
+    					serviceForm.getServiceName(),
+    					serviceForm.getServiceDescription(),
+    					serviceForm.getAccessPath(),
+    					serviceForm.getHttpVerb());
     	
     	model.addAttribute("service", ProvidedServiceCreationForm.from(provService));
     	model.addAttribute("parameter", new ParameterCreationForm());

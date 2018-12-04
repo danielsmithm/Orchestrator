@@ -64,4 +64,24 @@ public class ProvidedServiceService {
         repository.remove(serviceId);
     }
 
+	public ProvidedService update(
+			Appspot appspot,
+			Long serviceId, 
+			String serviceName, 
+			String serviceDescription, 
+			String accessPath, 
+			HTTPVerb httpVerb) throws ProvidedServiceNotFoundException {
+		
+		ProvidedService provServ = findProvidedServiceById(appspot, serviceId);
+		
+		provServ.update(
+				serviceName, 
+				serviceDescription, 
+				accessPath, 
+				httpVerb);
+		
+		repository.save(provServ);
+		return provServ;
+	}
+
 }

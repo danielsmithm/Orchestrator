@@ -80,7 +80,7 @@ public class ApplicationRepository {
     }
 
     public Application save(Application application) {
-        Key key = keyFactory.newKey(application.getAppspot().getAppspotName());
+        Key key = keyFactory.reset().newKey(application.getAppspot().getAppspotName());
         Entity app = Entity.newBuilder(key)
                 .set(APPSPOT_FIELD, application.getAppspot().getAppspotName())
                 .set(OWNER_FIELD, application.getOwnerName())
