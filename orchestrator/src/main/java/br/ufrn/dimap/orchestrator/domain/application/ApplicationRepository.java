@@ -88,7 +88,6 @@ public class ApplicationRepository {
                 .build();
         // TODO add.html services etc
         Entity put = datastore.put(app);
-
         // TODO check how to retrieve app id
         return application;
     }

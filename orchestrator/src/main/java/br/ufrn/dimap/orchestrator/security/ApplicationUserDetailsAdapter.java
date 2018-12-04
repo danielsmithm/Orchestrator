@@ -62,4 +62,8 @@ public class ApplicationUserDetailsAdapter implements UserDetails {
         return application;
     }
 
+	public void setApplication(Application application2) {
+		this.application = application2;
+	}
+
 }

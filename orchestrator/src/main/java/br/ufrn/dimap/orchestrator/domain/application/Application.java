@@ -3,6 +3,8 @@ package br.ufrn.dimap.orchestrator.domain.application;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.ufrn.dimap.orchestrator.domain.application.exceptions.PasswordNotInformedException;
+
 public class Application {
 
 	private String ownerName;
@@ -59,6 +61,13 @@ public class Application {
 
 	public void setProvidedServices(List<ProvidedService> providedServices) {
 		this.providedServices = providedServices;
+	}
+	
+	public void update(String ownerName, String password) {
+		if (!ownerName.isEmpty())
+			this.ownerName = ownerName;
+		if (!password.isEmpty())
+			this.password = password;
 	}
 
 }

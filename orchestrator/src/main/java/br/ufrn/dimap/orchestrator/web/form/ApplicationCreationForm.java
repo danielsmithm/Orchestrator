@@ -45,6 +45,6 @@ public class ApplicationCreationForm {
 		ApplicationCreationForm appForm = new ApplicationCreationForm();
 		appForm.setAppspot(app.getAppspot().getAppspotName());
 		appForm.setOwnerName(app.getOwnerName());		
-		return null;
+		return appForm;
 	}
 }

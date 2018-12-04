@@ -3,13 +3,14 @@
 <body>
 <div th:fragment="content">
 	<form method="POST" th:object="${app}">
+	
 		<p>
 			<label for="personName">Your name</label>
 			<input class="form-control" id="personName" type="text" th:field="*{ownerName}" placeholder="Who are you?"/>
 		</p>
 		<p>
 			<label for="appspot">Appspot</label>
-			<input class="form-control" id="appspot" type="text" th:field="*{appspot}" placeholder="Your appspot from Google"/>
+			<input disabled class="form-control" id="appspot" type="text" th:field="*{appspot}" placeholder="Your appspot from Google"/>
 		</p>
 		<p>
 			<label for="password">Password</label>

@@ -36,6 +36,15 @@ public class ApplicationService {
         return applicationRepository.save(application);
     }
 
+    public Application update(Appspot appspot, String ownerName, String password) throws ApplicationNotFoundException{
+        
+    	Application app = findApplicationByAppspot(appspot);
+    	
+    	app.update(ownerName, password);
+    	
+    	return applicationRepository.save(app);
+    }
+    
     public void remove(Appspot appspot){
         applicationRepository.remove(appspot);
     }
