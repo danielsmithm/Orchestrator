@@ -55,7 +55,7 @@ public class ProvidedServiceRepository {
         return false;
     }
 
-    public List<ProvidedService> listByApplication(Appspot appspot){
+    public List<ProvidedService> listByApplication(Appspot appspot, boolean loadParameters){
     	
     	Query<Entity> query = Query.newEntityQueryBuilder()
     		    .setKind(PROV_SERVICE_ENTITY_NAME)
@@ -68,7 +68,15 @@ public class ProvidedServiceRepository {
     	List<ProvidedService> services = new ArrayList<>();
     	
     	while(servicesResults.hasNext()) {
-    		services.add(makeFromEntity(appspot, servicesResults.next()));
+    		
+    		ProvidedService serv = makeFromEntity(appspot, servicesResults.next());
+    		
+    		if (loadParameters) {
+	    		List<ServiceParameter> parameters = listServiceParametersByServiceId(serv.getId());
+	    		serv.setServiceParameters(parameters);
+    		}
+    		
+    		services.add(serv);
     	}
     	
     	return services;
@@ -145,6 +153,7 @@ public class ProvidedServiceRepository {
     	ps.setServiceDescription(e.getString("description"));
     	ps.setHttpVerb(HTTPVerb.valueOf(e.getString("verb")));
     	ps.setAccessPath(e.getString("path"));
+    	ps.setServiceParameters(new ArrayList<>());
     	return ps;
     }
 

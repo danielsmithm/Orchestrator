@@ -13,6 +13,8 @@ public class Application {
 	private String ownerName;
 	private Appspot appspot;
 	private String password;
+	private List<ProvidedService> services;
+	
 	public Application(Appspot appspot){
 		this.appspot = appspot;
 	}
@@ -50,6 +52,14 @@ public class Application {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<ProvidedService> getServices() {
+		return services;
+	}
+
+	public void setServices(List<ProvidedService> services) {
+		this.services = services;
 	}
 
 }

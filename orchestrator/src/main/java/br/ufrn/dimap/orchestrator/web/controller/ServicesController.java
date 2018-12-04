@@ -51,7 +51,7 @@ public class ServicesController {
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
  	
     	List<ProvidedService> services = this.providedServiceService
-    			.listByApplication(authenticationDetails.getApplication().getAppspot());
+    			.listByApplication(authenticationDetails.getApplication().getAppspot(), false);
     	
     	model.addAttribute("services", services);
     	

@@ -25,8 +25,8 @@ public class ProvidedServiceService {
         this.factory = factory;
     }
     
-    public List<ProvidedService> listByApplication(Appspot appspot) {
-    	return this.repository.listByApplication(appspot);
+    public List<ProvidedService> listByApplication(Appspot appspot, boolean loadParameters) {
+    	return this.repository.listByApplication(appspot, loadParameters);
     }
 
     public ProvidedService findProvidedServiceById(Appspot appspot, Long serviceId) throws ProvidedServiceNotFoundException {

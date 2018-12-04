@@ -1,0 +1,58 @@
+<html xmlns:th="http://www.thymeleaf.org" th:include="fragments/layout :: page">
+
+<body>
+<div th:fragment="content">
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4" th:text="${app.appspot.appspotName}"></h1>
+    <p class="lead">Description here</p>
+  </div>
+</div>
+
+<h2>Provided services</h2>
+
+<div id="accordion">
+  <div class="card" th:each="service : ${app.services}">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+      	<span class="badge badge-secondary" th:text="${service.httpVerb}"></span>
+        <button class="btn btn-link" data-toggle="collapse" 
+        th:attr="data-target='#service'+${service.id}" aria-expanded="true" >
+       	<span th:text="${service.serviceName}"></span>
+        </button>
+      </h5>
+    </div>
+    <div th:attr="id='service'+${service.id}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+      	<p th:text="${service.serviceDescription}"></p>
+      
+      	<h5>Parameters</h5>
+      	<p th:if="${#lists.size(service.serviceParameters) == 0}">No parameters are required.</p>
+      	<table class="table" th:if="${#lists.size(service.serviceParameters) > 0}">
+      		<thead>
+      			<tr>
+      				<th>Name</th>
+      				<th>Type</th>
+      				<th>Description</th>
+      			</tr>
+      		</thead>
+      		<tbody>
+      			<tr th:each="parameter : ${service.serviceParameters}">
+      				<td th:text="${parameter.parameterName}"/>
+ 				    <td th:text="${parameter.parameterType}"/>
+ 				    <td th:text="${parameter.description}"/>
+      			</tr>
+      		</tbody>
+      	</table>
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+</body>
+
+</html>
