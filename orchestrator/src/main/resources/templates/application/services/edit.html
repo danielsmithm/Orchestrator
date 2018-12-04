@@ -71,7 +71,9 @@
   						<td th:text="${parameter.parameterType}"/>
   						<td th:text="${parameter.description}"/>
   						<td>
-  							<a href="#"><span class="fas fa-trash"></span></a>
+  							<form method="post" th:action="@{/services/{serviceId}/parameters/{parameterId}/delete(serviceId=${service.serviceId},parameterId=${parameter.parameterId})}">
+  								<button class="btn btn-primary" type="submit"><span class="fas fa-trash"></span></button>
+  							</form>
   						</td>
   					</tr>
   				</tbody>

@@ -155,14 +155,14 @@ public class ServicesController {
     
     @PostMapping("{serviceId}/parameters/{parameterId}/delete")
     public String deleteParam(
-    		@PathParam("serviceId") String serviceId, 
-    		@PathParam("parameterId") String parameterId,
+    		@PathVariable("serviceId") Long serviceId, 
+    		@PathVariable("parameterId") Long parameterId,
     		Model model) 
     				throws ProvidedServiceNotFoundException {
     	
-    		this.providedServiceService.removeParameter(parameterId);
+    		this.providedServiceService.removeParameter(serviceId, parameterId);
     		
-    	return "application/services/edit";
+    	return "redirect:/services/"+serviceId;
     }
 	
 }

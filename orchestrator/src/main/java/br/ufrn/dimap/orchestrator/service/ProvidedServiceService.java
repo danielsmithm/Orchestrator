@@ -59,13 +59,13 @@ public class ProvidedServiceService {
         return repository.addParameter(serviceParameter);
     }
     
-    public void removeParameter(String parameterId) throws ProvidedServiceNotFoundException {
-    	repository.removeParameter(parameterId);
+    public void removeParameter(Long serviceId, Long parameterId) throws ProvidedServiceNotFoundException {
+    	repository.removeParameter(serviceId, parameterId);
     }
 
     public void removeProvidedService(Appspot appspot, Long serviceId) throws ProvidedServiceNotFoundException {
         ProvidedService providedService = repository.findProvidedServiceById(appspot, serviceId);
-        repository.remove(serviceId);
+        repository.remove(appspot, serviceId);
     }
 
 	public ProvidedService update(

@@ -148,8 +148,11 @@ public class ProvidedServiceRepository {
     	return ps;
     }
 
-    public void remove(Long serviceId) {
-        //TODO: Implement
+    public void remove(Appspot appspot, Long serviceId) {
+    	KeyFactory keyFactory = datastore.newKeyFactory()
+    		    .addAncestors(PathElement.of(ApplicationRepository.APPLICATION_ENTITY_NAME, appspot.getAppspotName()))
+    		    .setKind(PROV_SERVICE_ENTITY_NAME);
+    	datastore.delete(keyFactory.newKey(serviceId));
     }
     
     public ServiceParameter addParameter(ServiceParameter serviceParameter) {
@@ -171,8 +174,11 @@ public class ProvidedServiceRepository {
     	return serviceParameter;	
     }
 
-	public void removeParameter(String parameterId) {
-		// TODO implement
-		
+	public void removeParameter(Long serviceId, Long parameterId) {
+    	Key key = datastore.newKeyFactory()
+    		    .addAncestors(PathElement.of(PROV_SERVICE_ENTITY_NAME, serviceId))
+    		    .setKind(SERVICE_PARAM_ENTITY_NAME)
+    		    .newKey(parameterId);
+    	datastore.delete(key);
 	}
 }
