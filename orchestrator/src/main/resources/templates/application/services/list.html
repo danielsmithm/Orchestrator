@@ -3,7 +3,7 @@
 <body>
 <div th:fragment="content">
 
-<table>
+<table class="table">
 	<thead>
 		<tr>
 			<th>Name</th>
@@ -11,18 +11,21 @@
 			<th>Actions</th>
 		</tr>
 	</thead>
-		
-	<tr>
-		<td>
-			Test
-		</td>
-		<td>
-			test/test/
-		</td>
-		<td>
-			Test
-		</td>
-	</tr>
+	<tbody>
+		<tr>
+			<td>
+				Test
+			</td>
+			<td>
+				test/test/
+			</td>
+			<td>  
+				<a href="#">Edit</a>
+				<a href="#">Delete</a>
+			</td>
+		</tr>	
+	</tbody>
+
 
 </table>
 

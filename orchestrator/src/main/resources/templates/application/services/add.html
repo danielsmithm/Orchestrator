@@ -2,8 +2,31 @@
 
 <body>
 <div th:fragment="content">
-    <form method="POST">
-
+    <form method="POST" th:object="${service}">
+		<p>
+			<label for="serviceName">Name</label>
+			<input class="form-control" id="serviceName" type="text" th:field="*{serviceName}" placeholder="How do you call this service?"/>
+		</p>
+		<p>
+			<label for="serviceDescription">Description</label>
+			<textarea class="form-control" id="serviceDescription" type="text" th:field="*{serviceDescription}" placeholder="What is your service about?"></textarea>
+		</p>
+		<p>
+			<label for="accessPath">Access path</label>
+			<input class="form-control" id="accessPath" type="text" th:field="*{accessPath}" placeholder="e.g. /myservice/myaction/perform"/>
+		</p>
+		<p>
+			<label for="httpVerb">Verb</label>
+			<select class="form-control" th:field="*{httpVerb}">
+				<option th:each="httpVerb : ${T(br.ufrn.dimap.orchestrator.domain.application.ProvidedService.HTTPVerb).values()}"
+						th:value="${httpVerb}"
+						th:text="${httpVerb}">
+				</option>
+			</select>
+		</p>
+		
+		<button type="submit" class="btn btn-primary">Create and continue</button>
+		<button type="reset" class="btn btn-warning">Reset</button>
     </form>
 </div>
 

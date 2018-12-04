@@ -8,7 +8,7 @@ public class ProvidedService {
     private String accessPath;
     private HTTPVerb httpVerb;
     
-    enum HTTPVerb {
+    public enum HTTPVerb {
     	POST, GET, PUT, DELETE
     }
 
@@ -43,4 +43,20 @@ public class ProvidedService {
     public void setServiceDescription(String serviceDescription) {
         this.serviceDescription = serviceDescription;
     }
+
+	public String getAccessPath() {
+		return accessPath;
+	}
+
+	public void setAccessPath(String accessPath) {
+		this.accessPath = accessPath;
+	}
+
+	public HTTPVerb getHttpVerb() {
+		return httpVerb;
+	}
+
+	public void setHttpVerb(HTTPVerb httpVerb) {
+		this.httpVerb = httpVerb;
+	}
 }
