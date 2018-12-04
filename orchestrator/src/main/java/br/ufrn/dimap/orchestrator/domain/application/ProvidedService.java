@@ -1,5 +1,8 @@
 package br.ufrn.dimap.orchestrator.domain.application;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProvidedService {
 
     private int id;
@@ -12,9 +15,21 @@ public class ProvidedService {
     	POST, GET, PUT, DELETE
     }
 
+    private List<ServiceParameter> serviceParameters;
+
     public ProvidedService(String serviceName, String serviceDescription) {
         this.serviceName = serviceName;
         this.serviceDescription = serviceDescription;
+        this.serviceParameters = new ArrayList<>();
+    }
+
+    public void addParameter(String parameterName,ParameterType parameterType,String description) throws ParameterNameAlreadyTaken {
+
+        if(serviceParameters.stream().anyMatch(serviceParameter -> serviceParameter.getParameterName().equals(parameterName))){
+            throw new ParameterNameAlreadyTaken("This service already has a parameter with the provided name");
+        }
+
+        serviceParameters.add(new ServiceParameter(parameterName,parameterType,description));
     }
 
     //Persistence constructor. Should be used only by the persistence mechanism.
