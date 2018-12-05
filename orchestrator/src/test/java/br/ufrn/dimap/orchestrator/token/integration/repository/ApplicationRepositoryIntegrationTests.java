@@ -45,6 +45,8 @@ public class ApplicationRepositoryIntegrationTests {
         application.setAppspot(Appspot.from("Appspot test"));
         application.setOwnerName("Ownername test");
         application.setPassword("lalalalalalla");
+        application.setAppName("My Appspot test!");
+        application.setAppDescription("My description");
 
         Application applicationAfterSave = repository.save(application);
 
