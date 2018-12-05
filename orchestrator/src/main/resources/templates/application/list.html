@@ -11,7 +11,7 @@
     <!--  <img class="card-img-top" src="..." alt="Card image cap">-->
     <div class="card-body">
       <h5 class="card-title">
-      	<a th:href="@{/{appspot}(appspot=${app.appspot.appspotName})}" th:text="${app.appspot.appspotName}"></a>
+      	<a th:href="@{/services/{appspot}{appspot}(appspot=${app.appspot.appspotName})}" th:text="${app.appspot.appspotName}"></a>
       </h5>
       <p class="card-text" th:text="${app.ownerName}"></p>
       <p class="card-text"><small class="text-muted" th:text="${app.ownerName}"/></small></p>

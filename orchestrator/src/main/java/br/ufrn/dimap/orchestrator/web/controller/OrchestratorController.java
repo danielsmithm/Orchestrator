@@ -66,14 +66,12 @@ public class OrchestratorController {
     	return "login";
     }
     
-    @GetMapping("{appspot}")
+    @GetMapping("/services/{appspot}")
     public String listServices(@PathVariable("appspot") String appspot, Model model) throws ApplicationNotFoundException {
     	
     	Application app = applicationService.findApplicationByAppspot(new Appspot(appspot));
-    	
-    	List<ProvidedService> services = providedServiceService.listByApplication(app.getAppspot(), true);
-    	
-    	app.setServices(services);
+
+    	app.setServices(providedServiceService.listByApplication(app.getAppspot(), true));
     	
     	model.addAttribute("app", app);
     	
