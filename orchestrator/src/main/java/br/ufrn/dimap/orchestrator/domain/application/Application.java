@@ -12,6 +12,8 @@ public class Application {
 
 	private String ownerName;
 	private Appspot appspot;
+	private String appName;
+	private String appDescription;
 	private String password;
 	private List<ProvidedService> services;
 	
@@ -22,11 +24,15 @@ public class Application {
 	//Persistence constructor. Should be used only by the persistence mechanism.
 	public Application(){}
 
-	public void update(String ownerName, String password) {
+	public void update(String ownerName, String password, String appName, String appDescription) {
 		if (!ownerName.isEmpty())
 			this.ownerName = ownerName;
 		if (!password.isEmpty())
 			this.password = password;
+		if (!appName.isEmpty())
+			this.appName = appName;
+		if (!password.isEmpty())
+			this.appDescription = appDescription;
 	}
 
 	//GETTERS AND SETTERS BELLOW THIS LINE
@@ -62,4 +68,19 @@ public class Application {
 		this.services = services;
 	}
 
+	public String getAppName() {
+		return appName;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public String getAppDescription() {
+		return appDescription;
+	}
+
+	public void setAppDescription(String appDescription) {
+		this.appDescription = appDescription;
+	}
 }

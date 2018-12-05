@@ -26,21 +26,19 @@ public class ApplicationService {
         return applicationRepository.findAllApplications();
     }
 
-    public Application registerApplication(Appspot appspot, String ownerName, String password) throws ApplicationAlreadyRegisteredException, PasswordNotInformedException {
-        Application application = applicationFactory.createApplication(appspot,ownerName,password);
+    public Application registerApplication(Appspot appspot, String ownerName, String password,String appName, String appDescription)
+            throws ApplicationAlreadyRegisteredException, PasswordNotInformedException, AppNameNotInformedException {
+
+        Application application = applicationFactory.createApplication(appspot,ownerName,password,appName,appDescription);
 
         return applicationRepository.save(application);
     }
 
-    public Application update(Application application){
-        return applicationRepository.save(application);
-    }
-
-    public Application update(Appspot appspot, String ownerName, String password) throws ApplicationNotFoundException{
+    public Application update(Appspot appspot, String ownerName, String password, String appName, String appDescription) throws ApplicationNotFoundException{
         
     	Application app = findApplicationByAppspot(appspot);
     	
-    	app.update(ownerName, password);
+    	app.update(ownerName, password, appName, appDescription);
     	
     	return applicationRepository.save(app);
     }

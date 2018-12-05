@@ -1,5 +1,6 @@
 package br.ufrn.dimap.orchestrator.web.controller;
 
+import br.ufrn.dimap.orchestrator.domain.application.AppNameNotInformedException;
 import br.ufrn.dimap.orchestrator.service.ApplicationService;
 import br.ufrn.dimap.orchestrator.domain.application.Application;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
@@ -61,9 +62,13 @@ public class ApplicationController {
     }
 
     @PostMapping("/register")
-    public String submitRegister(@Valid @ModelAttribute("app") ApplicationCreationForm form, Model model) throws ApplicationAlreadyRegisteredException, PasswordNotInformedException {
+    public String submitRegister(@Valid @ModelAttribute("app") ApplicationCreationForm form, Model model) throws ApplicationAlreadyRegisteredException, PasswordNotInformedException, AppNameNotInformedException {
 
-        Application application = applicationService.registerApplication(Appspot.from(form.getAppspot()), form.getOwnerName(), passwordEncoder.encode(form.getPassword()));
+        Application application = applicationService.registerApplication(Appspot.from(form.getAppspot()),
+                                                                        form.getOwnerName(),
+                                                                        passwordEncoder.encode(form.getPassword()),
+                                                                        form.getAppName(),
+                                                                        form.getAppDescription());
 
         model.addAttribute("app", new ApplicationCreationForm());
 
@@ -78,7 +83,11 @@ public class ApplicationController {
 
         Application currentApp = authenticationDetails.getApplication();
     	    	
-    	Application application = applicationService.update(currentApp.getAppspot(), form.getOwnerName(), form.getPassword());
+    	Application application = applicationService.update(currentApp.getAppspot(),
+                                                            form.getOwnerName(),
+                                                            form.getPassword(),
+                                                            form.getAppName(),
+                                                            form.getAppDescription());
     	
     	authenticationDetails.setApplication(application);
     	

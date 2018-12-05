@@ -7,12 +7,20 @@
 
 	<form method="POST" th:object="${app}">
 		<p>
-			<label for="personName">Your name</label>
+			<label for="ownerName">Your name</label>
 			<input class="form-control" id="ownerName" type="text" th:field="*{ownerName}" placeholder="Who are you?"/>
 		</p>
 		<p>
 			<label for="appspot">Appspot</label>
 			<input class="form-control" id="appspot" type="text" th:field="*{appspot}" placeholder="Your appspot from Google"/>
+		</p>
+		<p>
+			<label for="appName">App name</label>
+			<input class="form-control" id="appName" type="text" th:field="*{appName}" placeholder="A name for your app"/>
+		</p>
+		<p>
+			<label for="description">Description</label>
+			<input class="form-control" id="description" type="text" th:field="*{appDescription}" placeholder="A short description for your app"/>
 		</p>
 		<p>
 			<label for="password">Password</label>

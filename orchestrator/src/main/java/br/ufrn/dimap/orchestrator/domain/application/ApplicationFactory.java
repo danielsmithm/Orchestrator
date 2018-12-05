@@ -11,7 +11,7 @@ public class ApplicationFactory{
     @Autowired
     private ApplicationRepository applicationRepository;
 
-    public Application createApplication(Appspot appspot, String ownerName,String password) throws ApplicationAlreadyRegisteredException, PasswordNotInformedException {
+    public Application createApplication(Appspot appspot, String ownerName,String password, String appName, String appDescription) throws ApplicationAlreadyRegisteredException, PasswordNotInformedException, AppNameNotInformedException {
 
         if(applicationRepository.existsApplicationWithAppspot(appspot)){
             throw new ApplicationAlreadyRegisteredException("The application was already registered.");
@@ -22,11 +22,17 @@ public class ApplicationFactory{
 
         }
 
+        if(appName == null || appName.isEmpty()){
+            throw new AppNameNotInformedException("The appname is required");
+        }
+
         Application application = new Application();
 
         application.setAppspot(appspot);
         application.setOwnerName(ownerName);
         application.setPassword(password);
+        application.setAppName(appName);
+        application.setAppDescription(appDescription);
 
         return application;
     }

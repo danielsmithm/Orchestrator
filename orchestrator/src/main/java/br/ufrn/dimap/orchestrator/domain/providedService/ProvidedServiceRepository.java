@@ -26,7 +26,6 @@ public class ProvidedServiceRepository {
 	public static final String PROV_SERVICE_ENTITY_NAME = "ProvidedService";
 	public static final String SERVICE_PARAM_ENTITY_NAME = "ServiceParameter";
 
-	
 	public static final String PROVSERV_NAME_FIELD = "name";
 	public static final String PROVSERV_DESC_FIELD = "description";
 	public static final String PROVSERV_PATH_FIELD = "path";

@@ -6,6 +6,8 @@ public class ApplicationCreationForm {
 	
 	private String appspot;
 	private String ownerName;
+	private String appName;
+	private String appDescription;
 	private String password;
 	private String passwordConfirmation;
 
@@ -23,6 +25,22 @@ public class ApplicationCreationForm {
 
 	public void setOwnerName(String ownerName) {
 		this.ownerName = ownerName;
+	}
+
+	public String getAppName() {
+		return appName;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public String getAppDescription() {
+		return appDescription;
+	}
+
+	public void setAppDescription(String appDescription) {
+		this.appDescription = appDescription;
 	}
 
 	public String getPassword() {
