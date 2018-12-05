@@ -31,7 +31,7 @@ public class Application {
 			this.password = password;
 		if (!appName.isEmpty())
 			this.appName = appName;
-		if (!password.isEmpty())
+		if (!appDescription.isEmpty())
 			this.appDescription = appDescription;
 	}
 

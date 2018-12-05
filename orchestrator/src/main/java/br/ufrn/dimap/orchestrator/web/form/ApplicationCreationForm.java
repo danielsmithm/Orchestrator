@@ -62,7 +62,9 @@ public class ApplicationCreationForm {
 	public static ApplicationCreationForm from(Application app) {
 		ApplicationCreationForm appForm = new ApplicationCreationForm();
 		appForm.setAppspot(app.getAppspot().getAppspotName());
-		appForm.setOwnerName(app.getOwnerName());		
+		appForm.setOwnerName(app.getOwnerName());
+		appForm.setAppName(app.getAppName());
+		appForm.setAppDescription(app.getAppDescription());
 		return appForm;
 	}
 }

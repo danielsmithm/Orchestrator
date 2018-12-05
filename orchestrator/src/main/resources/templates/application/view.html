@@ -5,8 +5,9 @@
 
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4" th:text="${app.appspot.appspotName}"></h1>
-    <p class="lead">Description here</p>
+    <h1 class="display-4" th:text="${app.appName}"></h1>
+    <p th:text="${app.appspot.appspotName}+'.appspot.com'"></p>
+    <p class="lead" th:text="${app.appDescription}"></p>
   </div>
 </div>
 

@@ -72,7 +72,7 @@ public class ApplicationController {
 
         model.addAttribute("app", new ApplicationCreationForm());
 
-        return "application/register";
+        return "redirect:/login";
     }
 
     @PostMapping("")

@@ -66,7 +66,7 @@ public class OrchestratorController {
     	return "login";
     }
     
-    @GetMapping("/services/{appspot}")
+    @GetMapping("/explore/{appspot}")
     public String listServices(@PathVariable("appspot") String appspot, Model model) throws ApplicationNotFoundException {
     	
     	Application app = applicationService.findApplicationByAppspot(new Appspot(appspot));
