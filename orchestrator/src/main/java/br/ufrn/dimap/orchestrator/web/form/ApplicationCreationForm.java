@@ -1,13 +1,26 @@
 package br.ufrn.dimap.orchestrator.web.form;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import br.ufrn.dimap.orchestrator.domain.application.Application;
 
 public class ApplicationCreationForm {
 	
+	@NotNull
+	@NotBlank
 	private String appspot;
+	
+	@NotNull
+	@NotBlank
 	private String ownerName;
+	
+	@NotNull
+	@NotBlank
 	private String appName;
+	
 	private String appDescription;
+	
 	private String password;
 	private String passwordConfirmation;
 
