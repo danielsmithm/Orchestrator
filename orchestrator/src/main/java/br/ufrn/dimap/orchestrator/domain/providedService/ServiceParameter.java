@@ -1,8 +1,10 @@
 package br.ufrn.dimap.orchestrator.domain.providedService;
 
+import java.io.Serializable;
+
 import br.ufrn.dimap.orchestrator.domain.providedService.ParameterType;
 
-public class ServiceParameter{
+public class ServiceParameter implements Serializable {
 
     private Long parameterId;
     private Long serviceId;

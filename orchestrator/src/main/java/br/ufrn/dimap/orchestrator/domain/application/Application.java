@@ -1,5 +1,6 @@
 package br.ufrn.dimap.orchestrator.domain.application;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,7 @@ import br.ufrn.dimap.orchestrator.domain.providedService.ParameterType;
 import br.ufrn.dimap.orchestrator.domain.providedService.ProvidedService;
 import br.ufrn.dimap.orchestrator.domain.providedService.exceptions.ServiceNotFoundException;
 
-public class Application {
+public class Application implements Serializable {
 
 	private String ownerName;
 	private Appspot appspot;

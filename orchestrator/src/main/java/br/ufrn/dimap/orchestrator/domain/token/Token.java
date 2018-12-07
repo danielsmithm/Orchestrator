@@ -4,6 +4,7 @@ import br.ufrn.dimap.orchestrator.domain.application.Appspot;
 import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidTokenException;
 import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenAlreadyValidatedException;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
  * @author danielsmith
  *
  */
-public class Token {
+public class Token implements Serializable {
 
     private UUID id;
     private Appspot clientAppspot;

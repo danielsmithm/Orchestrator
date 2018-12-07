@@ -3,10 +3,11 @@ package br.ufrn.dimap.orchestrator.domain.providedService;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
 import br.ufrn.dimap.orchestrator.domain.providedService.exceptions.ParameterNameAlreadyTaken;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProvidedService {
+public class ProvidedService implements Serializable {
 
     private Long id;
     private Appspot appspot;

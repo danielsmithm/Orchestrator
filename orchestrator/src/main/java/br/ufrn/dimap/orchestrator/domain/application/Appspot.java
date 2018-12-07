@@ -1,6 +1,8 @@
 package br.ufrn.dimap.orchestrator.domain.application;
 
-public class Appspot {
+import java.io.Serializable;
+
+public class Appspot implements Serializable {
 
     private String appspotName;
 
