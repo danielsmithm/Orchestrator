@@ -36,6 +36,7 @@
       			<tr>
       				<th>Name</th>
       				<th>Type</th>
+					<th>Scope</th>
       				<th>Description</th>
       			</tr>
       		</thead>
@@ -43,6 +44,7 @@
       			<tr th:each="parameter : ${service.serviceParameters}">
       				<td th:text="${parameter.parameterName}"/>
  				    <td th:text="${parameter.parameterType}"/>
+					<td th:text="${parameter.parameterScope}"/>
  				    <td th:text="${parameter.description}"/>
       			</tr>
       		</tbody>

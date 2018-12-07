@@ -52,9 +52,15 @@ public class ProvidedServiceService {
     }
 
 
-    public ServiceParameter addParameter(Long serviceId, String parameterName, ParameterType parameterType, String description) throws ServiceNotFoundException, ParameterNameAlreadyTaken, ProvidedServiceNotFoundException {
+    public ServiceParameter addParameter(Long serviceId, String parameterName, ParameterType parameterType, String description, ParameterScope parameterScope) throws ServiceNotFoundException, ParameterNameAlreadyTaken, ProvidedServiceNotFoundException {
 
-    	ServiceParameter serviceParameter = factory.createServiceParameter(serviceId, parameterName, description, parameterType);
+    	ServiceParameter serviceParameter = factory.createServiceParameter(
+    			serviceId,
+				parameterName,
+				description,
+				parameterType,
+				parameterScope
+		);
     	
         return repository.addParameter(serviceParameter);
     }

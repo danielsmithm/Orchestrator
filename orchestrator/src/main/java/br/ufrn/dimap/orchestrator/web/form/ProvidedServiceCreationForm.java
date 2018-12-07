@@ -6,7 +6,8 @@ import br.ufrn.dimap.orchestrator.domain.providedService.HTTPVerb;
 import br.ufrn.dimap.orchestrator.domain.providedService.ProvidedService;
 import br.ufrn.dimap.orchestrator.domain.providedService.ServiceParameter;
 
-public class ProvidedServiceCreationForm {
+public class
+ProvidedServiceCreationForm {
 
 	private Long serviceId;
     private String serviceName;

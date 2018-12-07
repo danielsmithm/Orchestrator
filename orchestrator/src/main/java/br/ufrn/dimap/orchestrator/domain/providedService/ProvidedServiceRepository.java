@@ -34,14 +34,13 @@ public class ProvidedServiceRepository {
 	public static final String SERVICE_PARAM_NAME_FIELD = "name";
 	public static final String SERVICE_PARAM_DESC_FIELD = "description";
 	public static final String SERVICE_PARAM_TYPE_FIELD = "type";
-	
+	private static final String SERVICE_PARAM_SCOPE_FIELD = "scope";
 	
     private final Datastore datastore;
     private final KeyFactory serviceKeyFactory;
     private final KeyFactory paramKeyFactory;
 
-
-    @Autowired
+	@Autowired
     public ProvidedServiceRepository(Datastore datastore) {
         this.datastore = Objects.requireNonNull(datastore, "The datastore object could not be null.");
         this.serviceKeyFactory = datastore.newKeyFactory().setKind(PROV_SERVICE_ENTITY_NAME);
@@ -140,6 +139,7 @@ public class ProvidedServiceRepository {
     	param.setParameterName(e.getString(SERVICE_PARAM_NAME_FIELD));
     	param.setDescription(e.getString(SERVICE_PARAM_DESC_FIELD));
     	param.setParameterType(ParameterType.valueOf(e.getString(SERVICE_PARAM_TYPE_FIELD)));
+		param.setParameterScope(ParameterScope.valueOf(e.getString(SERVICE_PARAM_SCOPE_FIELD)));
     	param.setServiceId(serviceId);
     	return param;
     }
@@ -173,6 +173,7 @@ public class ProvidedServiceRepository {
     			.set(SERVICE_PARAM_NAME_FIELD, serviceParameter.getParameterName())
     			.set(SERVICE_PARAM_DESC_FIELD, serviceParameter.getDescription())
     			.set(SERVICE_PARAM_TYPE_FIELD, serviceParameter.getParameterType().name())
+				.set(SERVICE_PARAM_SCOPE_FIELD, serviceParameter.getParameterScope().name())
     			.build();
     	
     	datastore.put(entity);

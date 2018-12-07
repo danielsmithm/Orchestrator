@@ -147,7 +147,8 @@ public class ServicesController {
     			serviceId,
     			parameter.getName(),
     			parameter.getType(),
-    			parameter.getDescription());
+    			parameter.getDescription(),
+				parameter.getScope());
     	
     	// TODO what to put in the model?
     	return "redirect:/services/"+serviceId;

@@ -25,15 +25,6 @@ public class ProvidedService {
         this.setServiceParameters(new ArrayList<>());
     }
 
-    public void addParameter(String parameterName, ParameterType parameterType, String description) throws ParameterNameAlreadyTaken {
-
-        if(getServiceParameters().stream().anyMatch(serviceParameter -> serviceParameter.getParameterName().equals(parameterName))){
-            throw new ParameterNameAlreadyTaken("This service already has a parameter with the provided name");
-        }
-
-        getServiceParameters().add(new ServiceParameter(id, parameterName,parameterType,description));
-    }
-
     //Persistence constructor. Should be used only by the persistence mechanism.
     public ProvidedService() {}
 

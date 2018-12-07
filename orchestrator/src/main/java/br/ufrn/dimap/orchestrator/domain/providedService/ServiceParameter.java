@@ -9,14 +9,16 @@ public class ServiceParameter{
     private String parameterName;
     private ParameterType parameterType;
     private String description;
+    private ParameterScope parameterScope;
 
     public ServiceParameter() {}
     
-    public ServiceParameter(Long serviceId, String parameterName, ParameterType parameterType, String description) {
+    public ServiceParameter(Long serviceId, String parameterName, ParameterType parameterType, String description,ParameterScope parameterScope) {
         this.parameterName = parameterName;
         this.parameterType = parameterType;
         this.description = description;
         this.serviceId = serviceId;
+        this.parameterScope = parameterScope;
     }
 
     public String getParameterName() {
@@ -58,4 +60,12 @@ public class ServiceParameter{
 	public void setParameterId(Long parameterId) {
 		this.parameterId = parameterId;
 	}
+
+    public ParameterScope getParameterScope() {
+        return parameterScope;
+    }
+
+    public void setParameterScope(ParameterScope parameterScope) {
+        this.parameterScope = parameterScope;
+    }
 }

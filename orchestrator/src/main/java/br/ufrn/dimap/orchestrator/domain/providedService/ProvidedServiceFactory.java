@@ -44,13 +44,14 @@ public class ProvidedServiceFactory {
     		Long serviceId,
     		String name,
     		String description,
-    		ParameterType type
+    		ParameterType type,
+            ParameterScope parameterScope
     		) {
     	
     	//TODO: check for nonexisting service
     	//TODO: check for already existing parameter
     	
-    	ServiceParameter parameter = new ServiceParameter(serviceId, name, type, description);
+    	ServiceParameter parameter = new ServiceParameter(serviceId, name, type, description,parameterScope);
 
     	return parameter;
     }

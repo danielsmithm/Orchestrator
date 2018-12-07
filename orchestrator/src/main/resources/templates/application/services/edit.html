@@ -64,6 +64,7 @@
   					<tr>
   						<th>Name</th>
   						<th>Type</th>
+						<th>Scope</th>
   						<th>Description</th>
   						<th>Actions</th>
   					</tr>
@@ -72,6 +73,7 @@
   					<tr th:each="parameter : ${service.serviceParameters}">
   						<td th:text="${parameter.parameterName}"/>
   						<td th:text="${parameter.parameterType}"/>
+						<td th:text="${parameter.parameterScope}"/>
   						<td th:text="${parameter.description}"/>
   						<td>
   							<form method="post" th:action="@{/services/{serviceId}/parameters/{parameterId}/delete(serviceId=${service.serviceId},parameterId=${parameter.parameterId})}">
@@ -103,7 +105,7 @@
 				</p>
 				<p>
 					<label for="parameterDescription">Description</label>
-					<textarea class="form-control" id="parameterDescription" type="text" th:field="*{description}" placeholder="What is your parameter about?"></textarea>
+					<textarea class="form-control" i	d="parameterDescription" type="text" th:field="*{description}" placeholder="What is your parameter about?"></textarea>
 				</p>
      		    <p>
 					<label for="parameterType">Type</label>
@@ -111,6 +113,16 @@
 						<option th:each="parameterType : ${T(br.ufrn.dimap.orchestrator.domain.providedService.ParameterType).values()}"
 								th:value="${parameterType}"
 								th:text="${parameterType}">
+						</option>
+					</select>
+				</p>
+
+				<p>
+					<label for="parameterType">Scope</label>
+					<select class="form-control" id="parameterScope" th:field="*{scope}">
+						<option th:each="parameterScope : ${T(br.ufrn.dimap.orchestrator.domain.providedService.ParameterScope).values()}"
+								th:value="${parameterScope}"
+								th:text="${parameterScope}">
 						</option>
 					</select>
 				</p>
