@@ -46,7 +46,7 @@ public class OrchestratorController {
         this.providedServiceService = providedServiceService;
     }
     
-    @GetMapping("")
+    @GetMapping("/")
     public String index() {
     	return "redirect:/explore";
     }
@@ -66,7 +66,7 @@ public class OrchestratorController {
     	return "login";
     }
     
-    @GetMapping("/explore/{appspot}")
+    @GetMapping("explore/{appspot}")
     public String listServices(@PathVariable("appspot") String appspot, Model model) throws ApplicationNotFoundException {
     	
     	Application app = applicationService.findApplicationByAppspot(new Appspot(appspot));
@@ -76,14 +76,6 @@ public class OrchestratorController {
     	model.addAttribute("app", app);
     	
     	return "application/view";
-    }
-    
-    @GetMapping("{appspot}/services/{serviceId}")
-    public String viewService(
-    		@PathParam("appspot") String appspot, 
-    		@PathParam("serviceId") String serviceId, 
-    		Model model) {
-    	return null;
     }
 
 }
