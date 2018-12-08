@@ -10,14 +10,20 @@
 			<label for="serviceName">Name</label>
 			<input class="form-control" id="serviceName" type="text" th:field="*{serviceName}" placeholder="How do you call this service?"/>
 		</p>
+        <div th:if="${#fields.hasErrors('serviceName')}" th:errors="*{serviceName}" class="alert alert-danger form-error"></div>
+		
 		<p>
 			<label for="serviceDescription">Description</label>
 			<textarea class="form-control" id="serviceDescription" type="text" th:field="*{serviceDescription}" placeholder="What is your service about?"></textarea>
 		</p>
+        <div th:if="${#fields.hasErrors('serviceDescription')}" th:errors="*{serviceDescription}" class="alert alert-danger form-error"></div>
+		
 		<p>
 			<label for="accessPath">Access path</label>
 			<input class="form-control" id="accessPath" type="text" th:field="*{accessPath}" placeholder="e.g. /myservice/myaction/perform"/>
 		</p>
+        <div th:if="${#fields.hasErrors('accessPath')}" th:errors="*{accessPath}" class="alert alert-danger form-error"></div>
+		
 		<p>
 			<label for="httpVerb">Verb</label>
 			<select class="form-control" th:field="*{httpVerb}">

@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,7 +70,11 @@ public class ServicesController extends BaseController {
     @PostMapping("new")
     public String submitNewService(
     		@Valid @ModelAttribute("service") ProvidedServiceCreationForm serviceForm,
+    		BindingResult bindingResult,
     		Model model) {
+    	
+    	if(bindingResult.hasErrors())
+    		return "application/services/add";
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
@@ -96,7 +101,10 @@ public class ServicesController extends BaseController {
     }
     
     @GetMapping("{serviceId}")
-    public String editService(@PathVariable("serviceId") Long serviceId, Model model)  {
+    public String editService(
+    		@PathVariable("serviceId") Long serviceId,
+    		Model model)  {
+    	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
 
@@ -118,9 +126,15 @@ public class ServicesController extends BaseController {
     
     @PostMapping("{serviceId}")
     public String editSubmitService(
-    		@PathVariable("serviceId") Long serviceId, 
     		@Valid @ModelAttribute("service") ProvidedServiceCreationForm serviceForm,
-    		Model model) {
+    		BindingResult bindingResultService,
+    		@Valid @ModelAttribute("parameter") ParameterCreationForm parameter,
+    		BindingResult bindingResultParameter,
+    		Model model,
+    		@PathVariable("serviceId") Long serviceId) {
+    	
+    	if(bindingResultService.hasErrors())
+    		return "application/services/edit";
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
@@ -163,10 +177,11 @@ public class ServicesController extends BaseController {
     
     @PostMapping("{serviceId}/parameters/new")
     public String createParam(
-    		@PathVariable("serviceId") Long serviceId, 
+    		@PathVariable("serviceId") Long serviceId,
     		@Valid @ModelAttribute("parameter") ParameterCreationForm parameter,
     		Model model) {
-
+    	
+    	
 		try {
 			this.providedServiceService.addParameter(
                     serviceId,
