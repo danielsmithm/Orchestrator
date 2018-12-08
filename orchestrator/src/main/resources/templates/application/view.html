@@ -42,6 +42,11 @@
 		    </div>
 		    <div th:attr="id='service'+${service.id}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
 		      <div class="card-body">
+		      	
+		      	<h5>Path</h5>
+	      		<p class="accessPath" style="font-family:'Courier new'" th:text="${service.accessPath}"></p>
+		      
+		      	<h5>Description</h5>
 		      	<p th:text="${service.serviceDescription}"></p>
 		      
 		      	<h5>Parameters</h5>
@@ -72,8 +77,21 @@
 	
 </div>
 
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$('.accessPath').each(function(i,t){
+		var content = $(t).html();
+		content=content.replace(/{(.*?)}/g, "<strong>{</strong><font color='green'>$1</font><strong>}</strong>");
+		$(t).html(content);
+	});
+});
+
+</script>
 
 </div>
+
+
 
 </body>
 

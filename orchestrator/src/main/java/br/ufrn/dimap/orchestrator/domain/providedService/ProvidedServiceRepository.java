@@ -112,6 +112,9 @@ public class ProvidedServiceRepository {
     			.newKey(serviceId);
     	Entity e = datastore.get(key);
     	
+    	if (e == null)
+    		throw new ProvidedServiceNotFoundException("Provided service not found");
+    	
 		return makeFromEntity(appspot, e);
     }
     
