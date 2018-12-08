@@ -17,6 +17,7 @@ public class Application implements Serializable {
 	private String appDescription;
 	private String password;
 	private List<ProvidedService> services;
+	private List<ServiceUse> googleServiceUse;
 	
 	public Application(Appspot appspot){
 		this.appspot = appspot;
@@ -83,5 +84,13 @@ public class Application implements Serializable {
 
 	public void setAppDescription(String appDescription) {
 		this.appDescription = appDescription;
+	}
+
+	public List<ServiceUse> getGoogleServiceUse() {
+		return googleServiceUse;
+	}
+
+	public void setGoogleServiceUse(List<ServiceUse> googleServiceUse) {
+		this.googleServiceUse = googleServiceUse;
 	}
 }

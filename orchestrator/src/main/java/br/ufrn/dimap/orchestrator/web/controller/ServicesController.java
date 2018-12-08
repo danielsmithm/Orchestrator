@@ -45,7 +45,7 @@ public class ServicesController {
     	this.providedServiceService = providedServiceService;
     }
     
-    @GetMapping("")
+    @GetMapping("m")
     public String listServices(Model model) {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
