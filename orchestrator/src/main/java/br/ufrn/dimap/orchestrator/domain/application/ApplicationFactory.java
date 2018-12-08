@@ -1,5 +1,6 @@
 package br.ufrn.dimap.orchestrator.domain.application;
 
+import br.ufrn.dimap.orchestrator.domain.application.exceptions.AppNameNotInformedException;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationAlreadyRegisteredException;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.PasswordNotInformedException;
 import org.springframework.beans.factory.annotation.Autowired;

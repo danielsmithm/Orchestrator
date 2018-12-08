@@ -1,6 +1,7 @@
 package br.ufrn.dimap.orchestrator.service;
 
 import br.ufrn.dimap.orchestrator.domain.application.*;
+import br.ufrn.dimap.orchestrator.domain.application.exceptions.AppNameNotInformedException;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationAlreadyRegisteredException;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.PasswordNotInformedException;

@@ -1,14 +1,13 @@
 package br.ufrn.dimap.orchestrator.web.controller;
 
-import br.ufrn.dimap.orchestrator.domain.application.AppNameNotInformedException;
 import br.ufrn.dimap.orchestrator.service.ApplicationService;
 import br.ufrn.dimap.orchestrator.domain.application.Application;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
-import br.ufrn.dimap.orchestrator.domain.application.exceptions.PasswordNotInformedException;
 import br.ufrn.dimap.orchestrator.security.ApplicationUserDetailsAdapter;
-import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationAlreadyRegisteredException;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
 
+import br.ufrn.dimap.orchestrator.shared.exception.ValidationException;
+import br.ufrn.dimap.orchestrator.web.utils.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,15 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.ufrn.dimap.orchestrator.web.form.ApplicationCreationForm;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -36,17 +32,17 @@ import javax.validation.Valid;
  */
 @Controller
 @RequestMapping("/application")
-public class ApplicationController {
+public class ApplicationController extends BaseController {
 
     private final ApplicationService applicationService;
 
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
+	@Autowired
     public ApplicationController(ApplicationService applicationService, PasswordEncoder passwordEncoder) {
-        this.applicationService = applicationService;
+		this.applicationService = applicationService;
         this.passwordEncoder = passwordEncoder;
-    }
+	}
     
     @GetMapping("")
     public String index(Model model){
@@ -63,7 +59,7 @@ public class ApplicationController {
     }
 
     @PostMapping("/register")
-    public String submitRegister(@ModelAttribute("app") @Valid ApplicationCreationForm app, BindingResult bindingResult, Model model) throws ApplicationAlreadyRegisteredException, PasswordNotInformedException, AppNameNotInformedException {
+    public String submitRegister(@ModelAttribute("app") @Valid ApplicationCreationForm app, BindingResult bindingResult, Model model)  {
 
     	model.addAttribute("app", app);
     	
@@ -78,18 +74,23 @@ public class ApplicationController {
     	
     	if (bindingResult.hasErrors())
     		return "application/register";
-    	
-        Application application = applicationService.registerApplication(Appspot.from(app.getAppspot()),
-                                                                        app.getOwnerName(),
-                                                                        passwordEncoder.encode(app.getPassword()),
-                                                                        app.getAppName(),
-                                                                        app.getAppDescription());
-        
-        return "redirect:/login";
+
+		try {
+			Application application = applicationService.registerApplication(Appspot.from(app.getAppspot()),
+                                                                            app.getOwnerName(),
+                                                                            passwordEncoder.encode(app.getPassword()),
+                                                                            app.getAppName(),
+                                                                            app.getAppDescription());
+		} catch (ValidationException ex){
+			messageUtils.addModelError(model,ex);
+			return "application/register";
+		}
+
+		return "redirect:/login";
     }
 
     @PostMapping("")
-    public String updateRegister(@Valid @ModelAttribute("app") ApplicationCreationForm app, BindingResult bindingResult, Model model) throws ApplicationNotFoundException {
+    public String updateRegister(@Valid @ModelAttribute("app") ApplicationCreationForm app, BindingResult bindingResult, Model model) {
     	
     	if (app.getPasswordConfirmation() != null && !app.getPasswordConfirmation().equals("") &&
     			app.getPassword() != null && !app.getPassword().equals("") 
@@ -103,18 +104,23 @@ public class ApplicationController {
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
 
         Application currentApp = authenticationDetails.getApplication();
-    	    	
-    	Application application = applicationService.update(currentApp.getAppspot(),
-                                                            app.getOwnerName(),
-                                                            app.getPassword(),
-                                                            app.getAppName(),
-                                                            app.getAppDescription());
-    	
-    	authenticationDetails.setApplication(application);
-    	
-    	model.addAttribute("app", ApplicationCreationForm.from(application));
-    	
-    	return "application/edit";
+
+		try {
+			Application application = applicationService.update(currentApp.getAppspot(),
+                                                                app.getOwnerName(),
+                                                                app.getPassword(),
+                                                                app.getAppName(),
+                                                                app.getAppDescription());
+
+			authenticationDetails.setApplication(application);
+
+			model.addAttribute("app", ApplicationCreationForm.from(application));
+
+			return "application/edit";
+		} catch (ApplicationNotFoundException e) {
+			messageUtils.addModelError(model,e);
+			return "application/edit";
+		}
     }
 
 }

@@ -1,6 +1,8 @@
 package br.ufrn.dimap.orchestrator.domain.token.exceptions;
 
-public class TokenNotFoundException extends Exception {
+import br.ufrn.dimap.orchestrator.shared.exception.ValidationException;
+
+public class TokenNotFoundException extends ValidationException {
     public TokenNotFoundException(String message) {
         super(message);
     }

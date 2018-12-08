@@ -1,6 +1,8 @@
 package br.ufrn.dimap.orchestrator.domain.token.exceptions;
 
-public class InvalidTokenException extends Exception{
+import br.ufrn.dimap.orchestrator.shared.exception.ValidationException;
+
+public class InvalidTokenException extends ValidationException {
     public InvalidTokenException(String message) {
         super(message);
     }
