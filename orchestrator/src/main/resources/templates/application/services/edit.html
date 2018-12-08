@@ -5,7 +5,6 @@
     
    	<h3 class="page-title">Manage service</h3>
     
-    
     <ul class="nav nav-tabs" style="margin:0 0 10px 0;">
     	<li class="nav-item">
     		<a class="nav-link active"
@@ -76,8 +75,8 @@
 						<td th:text="${parameter.parameterScope}"/>
   						<td th:text="${parameter.description}"/>
   						<td>
-  							<form method="post" th:action="@{/services/{serviceId}/parameters/{parameterId}/delete(serviceId=${service.serviceId},parameterId=${parameter.parameterId})}">
-  								<button class="btn btn-primary" type="submit"><span class="fas fa-trash"></span></button>
+  							<form th:id="@{paramdelete{parameterId}(parameterId=${parameter.parameterId})}" method="post" th:action="@{/services/{serviceId}/parameters/{parameterId}/delete(serviceId=${service.serviceId},parameterId=${parameter.parameterId})}">
+  								<button class="btn btn-primary btnDelete" type="button" data-toggle="modal" data-target="#deleteConfirmModal"><span class="fas fa-trash"></span></button>
   							</form>
   						</td>
   					</tr>
@@ -105,7 +104,7 @@
 				</p>
 				<p>
 					<label for="parameterDescription">Description</label>
-					<textarea class="form-control" i	d="parameterDescription" type="text" th:field="*{description}" placeholder="What is your parameter about?"></textarea>
+					<textarea class="form-control" id="parameterDescription" type="text" th:field="*{description}" placeholder="What is your parameter about?"></textarea>
 				</p>
      		    <p>
 					<label for="parameterType">Type</label>
@@ -138,6 +137,8 @@
 	    </div>
 	  </div>
 	</div>
+    
+    <div th:insert="fragments/confirm_submit_dialog.html :: confirm-dialog-form"></div>
     
 </div>
 
