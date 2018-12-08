@@ -8,6 +8,8 @@
     <h1 class="display-4" th:text="${app.appName}"></h1>
     <p th:text="${app.appspot.appspotName}+'.appspot.com'"></p>
     <p class="lead" th:text="${app.appDescription}"></p>
+    
+    <p>by <span th:text="${app.ownerName}"></span></p>
   </div>
 </div>
 

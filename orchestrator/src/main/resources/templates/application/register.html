@@ -41,14 +41,14 @@
 		</p>
         <div th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}" class="alert alert-danger form-error"></div>
 		
-    <div>
-			<label for="googleServices">Google Services used</label>
+		<label for="googleServices">Google Services used</label>
+    	<div class="scrollable">
 			<p th:each="gservice : ${T(br.ufrn.dimap.orchestrator.domain.application.GoogleCloudService).values()}">
 				<input th:field="*{googleServices}" type="checkbox" th:value="${gservice}" th:text=${(gservice).description()}/>
 			</p>
 		</div>
 
-		<p>
+		<p class="button-area">
 			<input class="btn btn-primary" type="submit" value="Register"/>
 			<button type="reset" class="btn btn-warning">Reset</button>
 		</p>
