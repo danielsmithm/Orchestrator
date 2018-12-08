@@ -2,6 +2,9 @@ package br.ufrn.dimap.orchestrator.web.form;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import br.ufrn.dimap.orchestrator.domain.providedService.HTTPVerb;
 import br.ufrn.dimap.orchestrator.domain.providedService.ProvidedService;
 import br.ufrn.dimap.orchestrator.domain.providedService.ServiceParameter;
@@ -10,8 +13,17 @@ public class
 ProvidedServiceCreationForm {
 
 	private Long serviceId;
+	
+	@NotBlank
+	@NotNull
     private String serviceName;
+	
+	@NotBlank
+	@NotNull
     private String serviceDescription;
+	
+	@NotBlank
+	@NotNull
     private String accessPath;
     private HTTPVerb httpVerb;
     private List<ServiceParameter> serviceParameters;

@@ -1,0 +1,17 @@
+<html xmlns:th="http://www.thymeleaf.org" th:include="fragments/layout :: page">
+
+<body>
+<div th:fragment="content">
+
+
+<div style="padding-top:2em" class="container-fluid text-center">
+  <span style="font-size:10em" class="far fa-dizzy"></span>
+  <h1 style="font-size:10em" th:text="${errorCode != null ? errorCode : '404'}" ></h1>
+  <p style="font-size:2em" th:text="${errorText != null ? errorText : 'Not found'}"></p>
+</div>
+
+
+</div>
+</body>
+
+</html>

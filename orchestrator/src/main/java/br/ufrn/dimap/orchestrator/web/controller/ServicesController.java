@@ -5,11 +5,14 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
+import br.ufrn.dimap.orchestrator.shared.exception.ValidationException;
+import br.ufrn.dimap.orchestrator.web.utils.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +35,7 @@ import br.ufrn.dimap.orchestrator.web.form.ProvidedServiceCreationForm;
 
 @Controller
 @RequestMapping("/services")
-public class ServicesController {
+public class ServicesController extends BaseController {
 
     private final ApplicationService applicationService;
     private final ProvidedServiceService providedServiceService;
@@ -67,33 +70,53 @@ public class ServicesController {
     @PostMapping("new")
     public String submitNewService(
     		@Valid @ModelAttribute("service") ProvidedServiceCreationForm serviceForm,
-    		Model model) throws ApplicationNotFoundException, ServiceNameAlreadyTaken {
+    		BindingResult bindingResult,
+    		Model model) {
+    	
+    	if(bindingResult.hasErrors())
+    		return "application/services/add";
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
-    	
-    	ProvidedService newProvService = this.providedServiceService.createProvidedService(
-    			authenticationDetails.getApplication().getAppspot(), 
-    			serviceForm.getServiceName(), 
-    			serviceForm.getServiceDescription(),
-    			serviceForm.getAccessPath(),
-    			serviceForm.getHttpVerb());
-    	
-    	model.addAttribute("service", serviceForm);
-    	model.addAttribute("parameter", new ParameterCreationForm());
-    	
-    	return "redirect:/services/"+newProvService.getId();
+
+
+		ProvidedService newProvService = null;
+		try {
+			newProvService = this.providedServiceService.createProvidedService(
+                    authenticationDetails.getApplication().getAppspot(),
+                    serviceForm.getServiceName(),
+                    serviceForm.getServiceDescription(),
+                    serviceForm.getAccessPath(),
+                    serviceForm.getHttpVerb());
+
+			model.addAttribute("service", serviceForm);
+			model.addAttribute("parameter", new ParameterCreationForm());
+
+			return "redirect:/services/"+newProvService.getId();
+		} catch (ValidationException ex) {
+			messageUtils.addModelError(model,ex);
+			return "application/services/add";
+		}
+
     }
     
     @GetMapping("{serviceId}")
-    public String editService(@PathVariable("serviceId") Long serviceId, Model model) throws ProvidedServiceNotFoundException {
+    public String editService(
+    		@PathVariable("serviceId") Long serviceId,
+    		Model model)  {
+    	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
-  
-    	ProvidedService provService = this.providedServiceService.findProvidedServiceById(
-    			authenticationDetails.getApplication().getAppspot(), serviceId);
 
-    	provService.setServiceParameters(this.providedServiceService.listServiceParameterByServiceId(serviceId));
+		ProvidedService provService = null;
+		try {
+			provService = this.providedServiceService.findProvidedServiceById(
+                    authenticationDetails.getApplication().getAppspot(), serviceId);
+		} catch (ProvidedServiceNotFoundException e) {
+			//TODO: handle error 404
+		}
+
+		provService.setServiceParameters(this.providedServiceService.listServiceParameterByServiceId(serviceId));
     	
     	model.addAttribute("service", ProvidedServiceCreationForm.from(provService));
     	model.addAttribute("parameter", new ParameterCreationForm());
@@ -103,55 +126,79 @@ public class ServicesController {
     
     @PostMapping("{serviceId}")
     public String editSubmitService(
-    		@PathVariable("serviceId") Long serviceId, 
     		@Valid @ModelAttribute("service") ProvidedServiceCreationForm serviceForm,
-    		Model model) throws ProvidedServiceNotFoundException {
+    		BindingResult bindingResultService,
+    		@Valid @ModelAttribute("parameter") ParameterCreationForm parameter,
+    		BindingResult bindingResultParameter,
+    		Model model,
+    		@PathVariable("serviceId") Long serviceId) {
+    	
+    	if(bindingResultService.hasErrors())
+    		return "application/services/edit";
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
-  
-    	ProvidedService provService = 
-    			this.providedServiceService.update(
-    					authenticationDetails.getApplication().getAppspot(),
-    					serviceId,
-    					serviceForm.getServiceName(),
-    					serviceForm.getServiceDescription(),
-    					serviceForm.getAccessPath(),
-    					serviceForm.getHttpVerb());
-    	
-    	model.addAttribute("service", ProvidedServiceCreationForm.from(provService));
-    	model.addAttribute("parameter", new ParameterCreationForm());
-    	
-    	return "redirect:/services/"+serviceId;
+
+
+		try {
+			ProvidedService provService = this.providedServiceService.update(
+                    authenticationDetails.getApplication().getAppspot(),
+                    serviceId,
+                    serviceForm.getServiceName(),
+                    serviceForm.getServiceDescription(),
+                    serviceForm.getAccessPath(),
+                    serviceForm.getHttpVerb());
+
+			model.addAttribute("service", ProvidedServiceCreationForm.from(provService));
+			model.addAttribute("parameter", new ParameterCreationForm());
+
+			return "redirect:/services";
+		} catch (ProvidedServiceNotFoundException e) {
+			messageUtils.addModelError(model,e);
+			return "application/services/edit";
+		}
+
     }
     
     @PostMapping("{serviceId}/delete")
-    public String deleteService(@PathVariable("serviceId") Long serviceId, Model model) throws ProvidedServiceNotFoundException {   
+    public String deleteService(@PathVariable("serviceId") Long serviceId, Model model) {
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
 
-    	this.providedServiceService.removeProvidedService(authenticationDetails.getApplication().getAppspot(), serviceId);
+		try {
+			this.providedServiceService.removeProvidedService(authenticationDetails.getApplication().getAppspot(), serviceId);
+		} catch (ProvidedServiceNotFoundException e) {
+			//TODO: handle error 404
+		}
 
-    	return "redirect:/services";
+		return "redirect:/services";
     }
     
     @PostMapping("{serviceId}/parameters/new")
     public String createParam(
-    		@PathVariable("serviceId") Long serviceId, 
+    		@PathVariable("serviceId") Long serviceId,
     		@Valid @ModelAttribute("parameter") ParameterCreationForm parameter,
-    		Model model) 
-    				throws ServiceNotFoundException, ParameterNameAlreadyTaken, ProvidedServiceNotFoundException {
-    	    	
-    	this.providedServiceService.addParameter(
-    			serviceId,
-    			parameter.getName(),
-    			parameter.getType(),
-    			parameter.getDescription(),
-				parameter.getScope());
+    		Model model) {
     	
-    	// TODO what to put in the model?
-    	return "redirect:/services/"+serviceId;
+    	
+		try {
+			this.providedServiceService.addParameter(
+                    serviceId,
+                    parameter.getName(),
+                    parameter.getType(),
+                    parameter.getDescription(),
+                    parameter.getScope());
+
+			// TODO what to put in the model?
+			return "redirect:/services/"+serviceId;
+		} catch (ServiceNotFoundException | ProvidedServiceNotFoundException e) {
+			//TODO: handle error 404
+			return null;
+		} catch (ParameterNameAlreadyTaken parameterNameAlreadyTaken) {
+			return "redirect:/services/"+serviceId;
+		}
+
     }
     
     @PostMapping("{serviceId}/parameters/{parameterId}/delete")

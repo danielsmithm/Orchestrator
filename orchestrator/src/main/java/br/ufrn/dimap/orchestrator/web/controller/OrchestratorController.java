@@ -9,6 +9,7 @@ import br.ufrn.dimap.orchestrator.domain.providedService.ProvidedService;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationAlreadyRegisteredException;
 import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
 
+import br.ufrn.dimap.orchestrator.web.utils.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,7 @@ import javax.websocket.server.PathParam;
  */
 @Controller
 @RequestMapping("/")
-public class OrchestratorController {
+public class OrchestratorController extends BaseController {
 
     private final ApplicationService applicationService;
     
@@ -77,5 +78,5 @@ public class OrchestratorController {
     	
     	return "application/view";
     }
-
+    
 }

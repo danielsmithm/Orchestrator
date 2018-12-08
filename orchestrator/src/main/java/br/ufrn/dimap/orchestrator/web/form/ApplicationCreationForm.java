@@ -1,17 +1,28 @@
 package br.ufrn.dimap.orchestrator.web.form;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import br.ufrn.dimap.orchestrator.domain.application.Application;
 import br.ufrn.dimap.orchestrator.domain.application.GoogleCloudService;
 
 public class ApplicationCreationForm {
 	
+	@NotNull
+	@NotBlank
 	private String appspot;
+	
+	@NotNull
+	@NotBlank
 	private String ownerName;
+	
+	@NotNull
+	@NotBlank
 	private String appName;
+	
 	private String appDescription;
+	
 	private String password;
 	private String passwordConfirmation;
 	private List<GoogleCloudService> googleServices;

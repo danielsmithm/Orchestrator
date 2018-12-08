@@ -22,19 +22,25 @@
     
   		<div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
   		
- 		    <form method="POST" th:object="${service}">
+ 		    <form th:action="@{/services/{serviceId}(serviceId=${service.serviceId})}" method="POST" th:object="${service}">
 				<p>
 					<label for="serviceName">Name</label>
 					<input class="form-control" id="serviceName" type="text" th:field="*{serviceName}" placeholder="How do you call this service?"/>
 				</p>
+		        <div th:if="${#fields.hasErrors('serviceName')}" th:errors="*{serviceName}" class="alert alert-danger form-error"></div>
+				
 				<p>
 					<label for="serviceDescription">Description</label>
 					<textarea class="form-control" id="serviceDescription" type="text" th:field="*{serviceDescription}" placeholder="What is your service about?"></textarea>
 				</p>
+		        <div th:if="${#fields.hasErrors('serviceDescription')}" th:errors="*{serviceDescription}" class="alert alert-danger form-error"></div>
+				
 				<p>
 					<label for="accessPath">Access path</label>
 					<input class="form-control" id="accessPath" type="text" th:field="*{accessPath}" placeholder="e.g. /myservice/myaction/perform"/>
 				</p>
+		        <div th:if="${#fields.hasErrors('accessPath')}" th:errors="*{accessPath}" class="alert alert-danger form-error"></div>
+				
 				<p>
 					<label for="httpVerb">Verb</label>
 					<select class="form-control" th:field="*{httpVerb}">
@@ -100,12 +106,17 @@
 	        <form method="post" th:action="@{/services/{serviceId}/parameters/new(serviceId=${service.serviceId})}" th:object="${parameter}">
      		    <p>
 					<label for="parameterName">Name</label>
-					<input class="form-control" id="parameterName" type="text" th:field="*{name}" placeholder="e.g. size, name, age..."/>
+					<input required class="form-control" id="parameterName" type="text" th:field="*{name}" placeholder="e.g. size, name, age..."/>
 				</p>
+		        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger form-error"></div>
+				
 				<p>
 					<label for="parameterDescription">Description</label>
-					<textarea class="form-control" id="parameterDescription" type="text" th:field="*{description}" placeholder="What is your parameter about?"></textarea>
+					<textarea required class="form-control" id="parameterDescription" type="text" th:field="*{description}" placeholder="What is your parameter about?"></textarea>
 				</p>
+		        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="alert alert-danger form-error"></div>
+				
+				
      		    <p>
 					<label for="parameterType">Type</label>
 					<select class="form-control" id="parameterType" th:field="*{type}">
