@@ -48,7 +48,7 @@ public class ServicesController extends BaseController {
     	this.providedServiceService = providedServiceService;
     }
     
-    @GetMapping("")
+    @GetMapping("/")
     public String listServices(Model model) {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
@@ -61,13 +61,13 @@ public class ServicesController extends BaseController {
     	return "application/services/list";
     }
     
-    @GetMapping("new")
+    @GetMapping("/new")
     public String createService(Model model) {
     	model.addAttribute("service", new ProvidedServiceCreationForm());
     	return "application/services/add";
     }
     
-    @PostMapping("new")
+    @PostMapping("/new")
     public String submitNewService(
     		@Valid @ModelAttribute("service") ProvidedServiceCreationForm serviceForm,
     		BindingResult bindingResult,
@@ -100,7 +100,7 @@ public class ServicesController extends BaseController {
 
     }
     
-    @GetMapping("{serviceId}")
+    @GetMapping("/{serviceId}")
     public String editService(
     		@PathVariable("serviceId") Long serviceId,
     		Model model)  {
@@ -124,7 +124,7 @@ public class ServicesController extends BaseController {
     	return "application/services/edit";
     }
     
-    @PostMapping("{serviceId}")
+    @PostMapping("/{serviceId}")
     public String editSubmitService(
     		@Valid @ModelAttribute("service") ProvidedServiceCreationForm serviceForm,
     		BindingResult bindingResultService,
@@ -152,7 +152,7 @@ public class ServicesController extends BaseController {
 			model.addAttribute("service", ProvidedServiceCreationForm.from(provService));
 			model.addAttribute("parameter", new ParameterCreationForm());
 
-			return "redirect:/services";
+			return "redirect:/services/";
 		} catch (ProvidedServiceNotFoundException e) {
 			messageUtils.addModelError(model,e);
 			return "application/services/edit";
@@ -160,7 +160,7 @@ public class ServicesController extends BaseController {
 
     }
     
-    @PostMapping("{serviceId}/delete")
+    @PostMapping("/{serviceId}/delete")
     public String deleteService(@PathVariable("serviceId") Long serviceId, Model model) {
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -172,10 +172,10 @@ public class ServicesController extends BaseController {
 			//TODO: handle error 404
 		}
 
-		return "redirect:/services";
+		return "redirect:/services/";
     }
     
-    @PostMapping("{serviceId}/parameters/new")
+    @PostMapping("/{serviceId}/parameters/new")
     public String createParam(
     		@PathVariable("serviceId") Long serviceId,
     		@Valid @ModelAttribute("parameter") ParameterCreationForm parameter,
@@ -201,7 +201,7 @@ public class ServicesController extends BaseController {
 
     }
     
-    @PostMapping("{serviceId}/parameters/{parameterId}/delete")
+    @PostMapping("/{serviceId}/parameters/{parameterId}/delete")
     public String deleteParam(
     		@PathVariable("serviceId") Long serviceId, 
     		@PathVariable("parameterId") Long parameterId,

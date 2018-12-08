@@ -53,7 +53,7 @@ public class OrchestratorController extends BaseController {
     	return "redirect:/explore";
     }
     
-    @GetMapping("explore")
+    @GetMapping("/explore")
     public String list(Model model) {
     	
     	List<Application> apps = applicationService.findAllApplications();
@@ -63,7 +63,7 @@ public class OrchestratorController extends BaseController {
     	return "application/list";
     }
     
-    @GetMapping(value="explore", params= {"search"})
+    @GetMapping(value="/explore", params= {"search"})
     public String list(Model model,
     		@RequestParam("search") String search) {
     	
@@ -74,12 +74,12 @@ public class OrchestratorController extends BaseController {
     	return "application/list";
     }
     
-    @GetMapping("login")
+    @GetMapping("/login")
     public String login() {
     	return "login";
     }
     
-    @GetMapping("explore/{appspot}")
+    @GetMapping("/explore/{appspot}")
     public String listServices(@PathVariable("appspot") String appspot, Model model) throws ApplicationNotFoundException {
     	
     	Application app = applicationService.findApplicationByAppspot(new Appspot(appspot));

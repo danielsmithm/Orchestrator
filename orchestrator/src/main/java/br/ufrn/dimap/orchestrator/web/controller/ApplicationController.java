@@ -44,7 +44,7 @@ public class ApplicationController extends BaseController {
         this.passwordEncoder = passwordEncoder;
 	}
     
-    @GetMapping("")
+    @GetMapping("/")
     public String index(Model model){
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	ApplicationUserDetailsAdapter userDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
@@ -90,7 +90,7 @@ public class ApplicationController extends BaseController {
 		return "redirect:/login";
     }
 
-    @PostMapping("")
+    @PostMapping("/")
     public String updateRegister(@Valid @ModelAttribute("app") ApplicationCreationForm app, BindingResult bindingResult, Model model) {
     	
     	if (app.getPassword() != null && !app.getPassword().equals("")
