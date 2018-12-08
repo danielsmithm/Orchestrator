@@ -115,10 +115,16 @@ public class ApplicationController extends BaseController {
 
         Application currentApp = authenticationDetails.getApplication();
         
+        String passwordAfterUpdate = 
+        		app.getPassword().equals("") ? 
+        				currentApp.getPassword()
+        				: passwordEncoder.encode(app.getPassword());
+        	
+        
         try {
           Application application = applicationService.update(currentApp.getAppspot(),
                                                                     app.getOwnerName(),
-                                                                    passwordEncoder.encode(app.getPassword()),
+                                                                    passwordAfterUpdate,
                                                                     app.getAppName(),
                                                                     app.getAppDescription(),
                                                                     app.getGoogleServices());
