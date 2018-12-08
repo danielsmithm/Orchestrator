@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.ufrn.dimap.orchestrator.web.form.ApplicationCreationForm;
 
@@ -56,6 +57,17 @@ public class OrchestratorController extends BaseController {
     public String list(Model model) {
     	
     	List<Application> apps = applicationService.findAllApplications();
+    	
+    	model.addAttribute("apps", apps);
+    	
+    	return "application/list";
+    }
+    
+    @GetMapping(value="explore", params= {"search"})
+    public String list(Model model,
+    		@RequestParam("search") String search) {
+    	
+    	List<Application> apps  = applicationService.search(search);
     	
     	model.addAttribute("apps", apps);
     	

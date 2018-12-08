@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.EntityQuery;
+import com.google.cloud.datastore.EntityQuery.Builder;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Query;
@@ -13,6 +15,7 @@ import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StringValue;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -38,6 +41,35 @@ public class ApplicationRepository {
         this.keyFactory = datastore.newKeyFactory().setKind(APPLICATION_ENTITY_NAME);
     }
 
+    public List<Application> search(String search){
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind(APPLICATION_ENTITY_NAME)
+                .build();
+        QueryResults<Entity> result = datastore.run(query);
+
+        List<Application> apps = new ArrayList<>();
+        
+        while(result.hasNext()) {
+        	Entity e = result.next();
+        	Application app = convertToApplication(e);
+        	
+        	if (search != null) {
+        		
+        		search = search.toLowerCase();
+        		
+        		if (app.getAppName().toLowerCase().contains(search)
+        		   || app.getAppDescription().toLowerCase().contains(search)
+        		   || app.getAppspot().getAppspotName().toLowerCase().contains(search)
+        		   || app.getOwnerName().toLowerCase().contains(search))
+        			apps.add(app);
+        	} else {
+        		apps.add(app);
+        	}
+        }
+    	
+    	return apps;
+    }
+    
     public Application findByAppspot(Appspot serverAppspot) throws ApplicationNotFoundException {
 
         Query<Entity> query = Query.newEntityQueryBuilder()

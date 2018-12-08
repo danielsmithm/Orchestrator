@@ -58,4 +58,8 @@ public class ApplicationService {
         return applicationRepository.findByAppspot(appspot);
     }
 
+	public List<Application> search(String search) {
+		return applicationRepository.search(search);
+	}
+
 }
