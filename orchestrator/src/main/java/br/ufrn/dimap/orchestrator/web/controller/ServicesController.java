@@ -152,7 +152,7 @@ public class ServicesController extends BaseController {
 			model.addAttribute("service", ProvidedServiceCreationForm.from(provService));
 			model.addAttribute("parameter", new ParameterCreationForm());
 
-			return "redirect:/services/"+serviceId;
+			return "redirect:/services";
 		} catch (ProvidedServiceNotFoundException e) {
 			messageUtils.addModelError(model,e);
 			return "application/services/edit";
