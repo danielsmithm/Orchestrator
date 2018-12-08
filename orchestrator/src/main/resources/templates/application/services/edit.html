@@ -36,7 +36,11 @@
 		        <div th:if="${#fields.hasErrors('serviceDescription')}" th:errors="*{serviceDescription}" class="alert alert-danger form-error"></div>
 				
 				<p>
-					<label for="accessPath">Access path</label>
+					<label for="accessPath">Access path
+					<i data-toggle="tooltip" 
+					data-placement="right" title="White a word in {...} to indicate a path param, e.g. /users/{userId}/edit"
+					style="margin-left:5px; color:orange" class="fas fa-lightbulb"></i>
+					</label>
 					<input class="form-control" id="accessPath" type="text" th:field="*{accessPath}" placeholder="e.g. /myservice/myaction/perform"/>
 				</p>
 		        <div th:if="${#fields.hasErrors('accessPath')}" th:errors="*{accessPath}" class="alert alert-danger form-error"></div>
@@ -150,6 +154,12 @@
 	</div>
     
     <div th:insert="fragments/confirm_submit_dialog.html :: confirm-dialog-form"></div>
+    
+    <script type="text/javascript">
+	    $(function () {
+	    	  $('[data-toggle="tooltip"]').tooltip()
+	   	})
+    </script>
     
 </div>
 
