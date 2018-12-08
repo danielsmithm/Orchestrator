@@ -68,8 +68,11 @@ public class ApplicationController {
                                                                         form.getOwnerName(),
                                                                         passwordEncoder.encode(form.getPassword()),
                                                                         form.getAppName(),
-                                                                        form.getAppDescription());
+                                                                        form.getAppDescription(),
+                                                                        form.getGoogleServices());
 
+        
+        
         model.addAttribute("app", new ApplicationCreationForm());
 
         return "redirect:/login";
@@ -87,7 +90,8 @@ public class ApplicationController {
                                                             form.getOwnerName(),
                                                             form.getPassword(),
                                                             form.getAppName(),
-                                                            form.getAppDescription());
+                                                            form.getAppDescription(),
+                                                            form.getGoogleServices());
     	
     	authenticationDetails.setApplication(application);
     	

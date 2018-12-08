@@ -1,6 +1,10 @@
 package br.ufrn.dimap.orchestrator.web.form;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import br.ufrn.dimap.orchestrator.domain.application.Application;
+import br.ufrn.dimap.orchestrator.domain.application.GoogleCloudService;
 
 public class ApplicationCreationForm {
 	
@@ -10,6 +14,7 @@ public class ApplicationCreationForm {
 	private String appDescription;
 	private String password;
 	private String passwordConfirmation;
+	private List<GoogleCloudService> googleServices;
 
 	public String getAppspot() {
 		return appspot;
@@ -65,6 +70,20 @@ public class ApplicationCreationForm {
 		appForm.setOwnerName(app.getOwnerName());
 		appForm.setAppName(app.getAppName());
 		appForm.setAppDescription(app.getAppDescription());
+		appForm.setGoogleServices(
+				app
+				.getGoogleServiceUse()
+				.stream()
+				.map(s -> s.getGoogleService())
+				.collect(Collectors.toList()));
 		return appForm;
+	}
+
+	public List<GoogleCloudService> getGoogleServices() {
+		return googleServices;
+	}
+
+	public void setGoogleServices(List<GoogleCloudService> googleServices) {
+		this.googleServices = googleServices;
 	}
 }
