@@ -15,14 +15,6 @@
 			<input class="form-control" id="appspot" type="text" th:field="*{appspot}" placeholder="Your appspot from Google"/>
 		</p>
 		<p>
-			<label for="appName">App name</label>
-			<input class="form-control" id="appName" type="text" th:field="*{appName}" placeholder="A name for your app"/>
-		</p>
-		<p>
-			<label for="description">Description</label>
-			<textarea class="form-control" id="description" type="text" th:field="*{appDescription}" placeholder="A short description for your app"></textarea>
-		</p>
-		<p>
 			<label for="password">Password</label>
 			<input class="form-control" id="password" type="password" th:field="*{password}" placeholder="Password to access your app info"/>
 		</p>
@@ -30,6 +22,23 @@
 			<label for="password">Password confirmation</label>
 			<input class="form-control" id="passwordConfirmation" type="password" th:field="*{passwordConfirmation}" placeholder="Confirm your password"/>
 		</p>
+		
+		<p>
+			<label for="appName">App name</label>
+			<input class="form-control" id="appName" type="text" th:field="*{appName}" placeholder="A name for your app"/>
+		</p>
+		<p>
+			<label for="description">Description</label>
+			<textarea class="form-control" id="description" type="text" th:field="*{appDescription}" placeholder="A short description for your app"></textarea>
+		</p>
+		
+		<div>
+			<label for="googleServices">Google Services used</label>
+			<p th:each="gservice : ${T(br.ufrn.dimap.orchestrator.domain.application.GoogleCloudService).values()}">
+				<input th:field="*{googleServices}" type="checkbox" th:value="${gservice}" th:text=${(gservice).description()}/>
+			</p>
+		</div>
+
 		<p>
 			<input class="btn btn-primary" type="submit" value="Register"/>
 			<button type="reset" class="btn btn-warning">Reset</button>

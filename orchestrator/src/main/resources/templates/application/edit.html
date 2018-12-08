@@ -30,6 +30,15 @@
 			<label for="password">Password confirmation</label>
 			<input class="form-control" id="passwordConfirmation" type="password" th:field="*{passwordConfirmation}" placeholder="Confirm your password"/>
 		</p>
+		
+		<div>
+			<label for="googleServices">Google Services used</label>
+			<p th:each="gservice : ${T(br.ufrn.dimap.orchestrator.domain.application.GoogleCloudService).values()}">
+				<input th:field="*{googleServices}" type="checkbox" th:value="${gservice}" th:text=${(gservice).description()}/>
+			</p>
+		</div>
+		
+		
 		<p>
 			<input class="btn btn-primary" type="submit" value="Register"/>
 			<button type="reset" class="btn btn-warning">Reset</button>

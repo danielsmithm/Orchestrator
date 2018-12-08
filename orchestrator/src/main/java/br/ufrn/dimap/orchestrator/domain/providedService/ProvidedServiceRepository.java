@@ -112,7 +112,7 @@ public class ProvidedServiceRepository {
     			.newKey(serviceId);
     	Entity e = datastore.get(key);
     	
-        return makeFromEntity(appspot, e);
+		return makeFromEntity(appspot, e);
     }
     
     public List<ServiceParameter> listServiceParametersByServiceId(Long serviceId) {
