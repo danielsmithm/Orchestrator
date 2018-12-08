@@ -80,7 +80,8 @@ public class ApplicationController extends BaseController {
                                                                             app.getOwnerName(),
                                                                             passwordEncoder.encode(app.getPassword()),
                                                                             app.getAppName(),
-                                                                            app.getAppDescription());
+                                                                            app.getAppDescription(),
+                                                                            app.getGoogleServices());
 		} catch (ValidationException ex){
 			messageUtils.addModelError(model,ex);
 			return "application/register";
@@ -92,24 +93,35 @@ public class ApplicationController extends BaseController {
     @PostMapping("")
     public String updateRegister(@Valid @ModelAttribute("app") ApplicationCreationForm app, BindingResult bindingResult, Model model) {
     	
+    	if (app.getPassword() != null && !app.getPassword().equals("")
+    			&& app.getPasswordConfirmation() != null && app.getPasswordConfirmation().equals(""))
+    		bindingResult.rejectValue("passwordConfirmation", "error.passwordConfirmation", "Provide a password confirmation");
+    
+    	if (app.getPassword() != null && app.getPassword().equals("")
+    			&& app.getPasswordConfirmation() != null && !app.getPasswordConfirmation().equals(""))
+    		bindingResult.rejectValue("password", "error.password", "Provide a password");
+    	
     	if (app.getPasswordConfirmation() != null && !app.getPasswordConfirmation().equals("") &&
     			app.getPassword() != null && !app.getPassword().equals("") 
     			&& !app.getPasswordConfirmation().equals(app.getPassword()))
     		bindingResult.rejectValue("passwordConfirmation", "error.passwordConfirmation", "Password and confirmation do not match");
     	
+    	
     	if (bindingResult.hasErrors())
     		return "application/edit";
     	
-    	  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
 
         Application currentApp = authenticationDetails.getApplication();
+        
         try {
           Application application = applicationService.update(currentApp.getAppspot(),
                                                                     app.getOwnerName(),
-                                                                    app.getPassword(),
+                                                                    passwordEncoder.encode(app.getPassword()),
                                                                     app.getAppName(),
-                                                                    app.getAppDescription());
+                                                                    app.getAppDescription(),
+                                                                    app.getGoogleServices());
 
           authenticationDetails.setApplication(application);
 
