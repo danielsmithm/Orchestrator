@@ -27,19 +27,25 @@ public class ApplicationService {
         return applicationRepository.findAllApplications();
     }
 
-    public Application registerApplication(Appspot appspot, String ownerName, String password,String appName, String appDescription)
-            throws ApplicationAlreadyRegisteredException, PasswordNotInformedException, AppNameNotInformedException {
+    public Application registerApplication(
+    		Appspot appspot, 
+    		String ownerName, 
+    		String password,
+    		String appName, 
+    		String appDescription, 
+    		List<GoogleCloudService> googleServices)
+    				throws ApplicationAlreadyRegisteredException, PasswordNotInformedException, AppNameNotInformedException {
 
-        Application application = applicationFactory.createApplication(appspot,ownerName,password,appName,appDescription);
+        Application application = applicationFactory.createApplication(appspot,ownerName,password,appName,appDescription, googleServices);
 
         return applicationRepository.save(application);
     }
 
-    public Application update(Appspot appspot, String ownerName, String password, String appName, String appDescription) throws ApplicationNotFoundException{
+    public Application update(Appspot appspot, String ownerName, String password, String appName, String appDescription, List<GoogleCloudService> googleServices) throws ApplicationNotFoundException{
         
     	Application app = findApplicationByAppspot(appspot);
     	
-    	app.update(ownerName, password, appName, appDescription);
+    	app.update(ownerName, password, appName, appDescription, googleServices);
     	
     	return applicationRepository.save(app);
     }

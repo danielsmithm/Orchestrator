@@ -100,27 +100,26 @@ public class ApplicationController extends BaseController {
     	if (bindingResult.hasErrors())
     		return "application/edit";
     	
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
 
         Application currentApp = authenticationDetails.getApplication();
+        try {
+          Application application = applicationService.update(currentApp.getAppspot(),
+                                                                    app.getOwnerName(),
+                                                                    app.getPassword(),
+                                                                    app.getAppName(),
+                                                                    app.getAppDescription());
 
-		try {
-			Application application = applicationService.update(currentApp.getAppspot(),
-                                                                app.getOwnerName(),
-                                                                app.getPassword(),
-                                                                app.getAppName(),
-                                                                app.getAppDescription());
+          authenticationDetails.setApplication(application);
 
-			authenticationDetails.setApplication(application);
+          model.addAttribute("app", ApplicationCreationForm.from(application));
 
-			model.addAttribute("app", ApplicationCreationForm.from(application));
-
-			return "application/edit";
-		} catch (ApplicationNotFoundException e) {
-			messageUtils.addModelError(model,e);
-			return "application/edit";
-		}
+          return "application/edit";
+        } catch (ApplicationNotFoundException e) {
+          messageUtils.addModelError(model,e);
+          return "application/edit";
+        }
     }
 
 }

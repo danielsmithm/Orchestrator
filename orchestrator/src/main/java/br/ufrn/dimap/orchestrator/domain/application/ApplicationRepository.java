@@ -10,11 +10,13 @@ import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.StringValue;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 @Repository
 public class ApplicationRepository {
@@ -24,6 +26,7 @@ public class ApplicationRepository {
     public static final String APPLICATION_ENTITY_NAME = "Application";
     private static final String PASSWORD_FIELD = "password";
     private static final String APPNAME_FIELD = "appname";
+    private static final String GOOGLE_SERVICES_FIELD = "googleservices";
     private static final String APPDESCRIPTION_FIELD = "appdescription";
 
     private final Datastore datastore;
@@ -66,6 +69,14 @@ public class ApplicationRepository {
         application.setPassword(entity.getString(PASSWORD_FIELD));
         application.setAppName(entity.getString(APPNAME_FIELD));
         application.setAppDescription(entity.getString(APPDESCRIPTION_FIELD));
+        application.setGoogleServiceUse(
+        		entity
+        		.getList(GOOGLE_SERVICES_FIELD)
+        		.stream()
+        		.map(s -> new ServiceUse(application, GoogleCloudService.valueOf(s.get().toString())))
+        		.collect(Collectors.toList())
+        		);
+        
 
         return application;
     }
@@ -92,6 +103,12 @@ public class ApplicationRepository {
                 .set(PASSWORD_FIELD,application.getPassword())
                 .set(APPNAME_FIELD,application.getAppName())
                 .set(APPDESCRIPTION_FIELD, application.getAppDescription())
+                .set(GOOGLE_SERVICES_FIELD, 
+                		application
+                		.getGoogleServiceUse()
+                		.stream()
+                		.map(u -> StringValue.of(u.getGoogleService().name()))
+                		.collect(Collectors.toList()))
                 .build();
         // TODO add.html services etc
         Entity put = datastore.put(app);
