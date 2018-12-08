@@ -36,6 +36,7 @@ public class TokenDTOAssembler{
 
         tokenDTO.setServiceName(token.getServiceName());
         tokenDTO.setGenerationDate(token.getGenerationDate());
+        tokenDTO.setValidationDate(token.getValidationDate());
 
         Appspot clientAppspot = token.getClientAppspot();
         if(clientAppspot != null){

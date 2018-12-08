@@ -49,8 +49,18 @@ public class ProvidedServiceRepository {
 	
 	
     public boolean hasProvidedService(Appspot appspot, String serviceName) {
-        //TODO: Implement
-        return false;
+
+		List<ProvidedService> providedServices = listByApplication(appspot, true);
+
+		if (providedServices == null) {
+			return false;
+		}
+
+		return providedServices.stream().filter(providedService -> providedService.getServiceName() != null)
+				.map(providedService -> providedService.getServiceName())
+				.map(name -> name.trim())
+				.anyMatch(trimedName -> trimedName.equalsIgnoreCase(serviceName.trim()));
+
     }
 
     public List<ProvidedService> listByApplication(Appspot appspot, boolean loadParameters){

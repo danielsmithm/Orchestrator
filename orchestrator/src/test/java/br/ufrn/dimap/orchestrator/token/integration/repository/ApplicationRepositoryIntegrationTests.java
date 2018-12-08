@@ -15,6 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertNotNull;
@@ -22,7 +23,7 @@ import static junit.framework.TestCase.assertNotSame;
 
 @WebAppConfiguration
 @RunWith(SpringRunner.class)
-@TestPropertySource(locations="classpath:application.properties")
+@TestPropertySource(locations = "classpath:application.properties")
 @ContextConfiguration(classes = {OrchestratorApplication.class})
 public class ApplicationRepositoryIntegrationTests {
 
@@ -30,14 +31,14 @@ public class ApplicationRepositoryIntegrationTests {
     private ApplicationRepository repository;
 
     @Test
-    public void testFindAllApplications(){
+    public void testFindAllApplications() {
         List<Application> allApplications = repository.findAllApplications();
 
         assertNotNull(allApplications);
     }
 
     @Test
-    public void testSaveApplication(){
+    public void testSaveApplication() {
 
         //Using the persistence constructor to initialize the application just for database integration purposes.
         Application application = new Application();
@@ -47,6 +48,8 @@ public class ApplicationRepositoryIntegrationTests {
         application.setPassword("lalalalalalla");
         application.setAppName("My Appspot test!");
         application.setAppDescription("My description");
+
+        application.setGoogleServiceUse(new ArrayList<>());
 
         Application applicationAfterSave = repository.save(application);
 

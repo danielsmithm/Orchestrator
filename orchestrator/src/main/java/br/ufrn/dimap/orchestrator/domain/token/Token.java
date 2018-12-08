@@ -24,16 +24,15 @@ public class Token implements Serializable {
     private Date generationDate;
     private Date validationDate;
 
-    public Token(Appspot clientAppspot, Appspot serverAppspot, String serviceName) {
+    public Token(Appspot clientAppspot, Appspot serverAppspot, String serviceName, Date generationDate){
         this.clientAppspot = clientAppspot;
         this.serverAppspot = serverAppspot;
         this.serviceName = serviceName;
+        this.generationDate = generationDate;
     }
 
     //Default constructor, should be used only by the persistence mechanism.
-    public Token(){
-
-    }
+    public Token(){}
 
     public void validate(Appspot clientAppspot, Appspot serverAppspot, String serviceName) throws TokenAlreadyValidatedException, InvalidTokenException {
 
@@ -58,7 +57,7 @@ public class Token implements Serializable {
     }
 
     public boolean hasValidation(){
-        return validationDate != null;
+        return validationDate != null && !validationDate.equals(new Date(0));
     }
 
     //Getters and setters below this line.

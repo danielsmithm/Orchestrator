@@ -1,8 +1,6 @@
 package br.ufrn.dimap.orchestrator.domain.token;
 
-import br.ufrn.dimap.orchestrator.domain.application.Application;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
-import br.ufrn.dimap.orchestrator.domain.application.exceptions.ApplicationNotFoundException;
 import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenNotFoundException;
 import com.google.cloud.datastore.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +26,26 @@ public class TokenRepository {
     }
 
     public Token save(Token generatedToken) {
+        Date validationDate = generatedToken.getValidationDate();
+
+        long validationTime = 0;
+        if(validationDate != null) {
+            validationTime = generatedToken.getValidationDate().getTime();
+        }
+
+        if(generatedToken.getId() == null){
+            generatedToken.setId(UUID.randomUUID());
+        }
+
         Key key = keyFactory.newKey(generatedToken.getId().toString());
         Entity app = Entity.newBuilder(key)
                 .set(TOKENID_FIELD, generatedToken.getId().toString())
                 .set("client_appspot", generatedToken.getClientAppspot().getAppspotName())
                 .set("server_appspot", generatedToken.getServerAppspot().getAppspotName())
-                .set("service_name",generatedToken.getServiceName())
-                .set("generation_date",generatedToken.getGenerationDate().getTime())
-                .set("validation_date", generatedToken.getValidationDate().getTime())
+                .set("service_name", generatedToken.getServiceName())
+                .set("generation_date", generatedToken.getGenerationDate().getTime())
+                .set("validation_date", validationTime)
                 .build();
-
         // TODO add.html services etc
 
         Entity entityAfterPersisted = datastore.put(app);

@@ -9,6 +9,8 @@ import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidServiceExceptio
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * Factory that creates a token and guarantee the consistent creation of it. 
  * 
@@ -66,6 +68,6 @@ public class TokenFactory {
         	throw new InvalidServiceException("The server application doesn't provide a service with this name.");
         }
         
-        return new Token(clientAppspot,serverAppspot,serviceName);
+        return new Token(clientAppspot,serverAppspot,serviceName,new Date());
     }
 }

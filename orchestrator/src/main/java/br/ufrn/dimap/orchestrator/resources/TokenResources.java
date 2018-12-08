@@ -72,7 +72,13 @@ public class TokenResources {
      */
     @RequestMapping(value = "/validate",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     private TokenDTO validateToken(@RequestBody TokenValidationDTO tokenValidationDTO) throws TokenAlreadyValidatedException, InvalidTokenException, TokenNotFoundException {
-        Token token = tokenService.validate(UUID.fromString(tokenValidationDTO.getTokenId()), Appspot.from(tokenValidationDTO.getClientAppspot()),Appspot.from(tokenValidationDTO.getServerAppspot()),tokenValidationDTO.getServiceName());
+        String tokenId = tokenValidationDTO.getTokenId();
+
+        if(tokenId == null){
+            throw new InvalidTokenException("The token-id is required.");
+        }
+
+        Token token = tokenService.validate(UUID.fromString(tokenId), Appspot.from(tokenValidationDTO.getClientAppspot()),Appspot.from(tokenValidationDTO.getServerAppspot()),tokenValidationDTO.getServiceName());
 
         return TokenDTOAssembler.fromToken(token);
     }

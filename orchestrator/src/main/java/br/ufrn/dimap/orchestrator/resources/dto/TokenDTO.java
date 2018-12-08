@@ -43,6 +43,9 @@ public class TokenDTO {
 	@JsonProperty("service-name")
     private String serviceName;
 
+    @JsonProperty("validation-date")
+	private Date validationDate;
+
 	//Getters and setters below this line
     public String getTokenUUID() {
         return tokenUUID;
@@ -82,5 +85,13 @@ public class TokenDTO {
 
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
+    }
+
+    public Date getValidationDate() {
+        return validationDate;
+    }
+
+    public void setValidationDate(Date validationDate) {
+        this.validationDate = validationDate;
     }
 }
