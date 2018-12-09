@@ -13,14 +13,22 @@
         <div th:if="${#fields.hasErrors('ownerName')}" th:errors="*{ownerName}" class="alert alert-danger form-error"></div>
 		
 		<p>
-			<label for="appspot">Appspot</label>
+			<label for="appspot">Appspot (Project ID)
+			<i data-toggle="tooltip" 
+			data-placement="right" title="If your app's URL is http://ID.appspot.com, write ID in this field"
+			style="margin-left:5px; color:orange" class="fas fa-exclamation-circle"></i>
+			<i data-toggle="tooltip" 
+			data-placement="right" title="You won't be able to change this value anymore, so take care!"
+			style="margin-left:5px; color:red" class="fas fa-exclamation-circle"></i>
+			</label>
 			<input class="form-control" id="appspot" type="text" th:field="*{appspot}" placeholder="Your appspot from Google"/>
 		</p>
         <div th:if="${#fields.hasErrors('appspot')}" th:errors="*{appspot}" class="alert alert-danger form-error"></div>
 		
 		<p>
 			<label for="appName">App name</label>
-			<input class="form-control" id="appName" type="text" th:field="*{appName}" placeholder="A name for your app"/>
+			<input class="form-control" id="appName" type="text" th:field="*{appName}" 
+			placeholder="A name for your app"/>
 		</p>
         <div th:if="${#fields.hasErrors('appName')}" th:errors="*{appName}" class="alert alert-danger form-error"></div>		
 		
@@ -53,6 +61,14 @@
 			<button type="reset" class="btn btn-warning">Reset</button>
 		</p>
 	</form>
+	
+    <script type="text/javascript">
+	    $(function () {
+	    	  $('[data-toggle="tooltip"]').tooltip()
+	   	})
+    </script>
+    
+	
 </div>
 
 </body>
