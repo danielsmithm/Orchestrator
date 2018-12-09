@@ -50,6 +50,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/perform_logout")
                 .deleteCookies("JSESSIONID")
+                .and()
+                .rememberMe()
                 ;
     }
 
