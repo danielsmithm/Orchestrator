@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org" th:include="fragments/layout :: page">
+
+<body>
+<div th:fragment="content">
+
+	<h3 class="page-title">App configuration</h3>
+
+	<form method="POST" th:object="${app}">
+		<p>
+			<label for="personName">Your name</label>
+			<input class="form-control" id="personName" type="text" th:field="*{ownerName}" placeholder="Who are you?"/>
+		</p>
+        <div th:if="${#fields.hasErrors('ownerName')}" th:errors="*{ownerName}" class="alert alert-danger form-error"></div>
+		
+		<p>
+			<label for="appspot">Appspot</label>
+			<input readonly class="form-control" id="appspot" type="text" th:field="*{appspot}" placeholder="Your appspot from Google"/>
+		</p>
+        <div th:if="${#fields.hasErrors('appspot')}" th:errors="*{appspot}" class="alert alert-danger form-error"></div>
+		
+		<p>
+			<label for="appName">App name</label>
+			<input class="form-control" id="appName" type="text" th:field="*{appName}" placeholder="A name for your app"/>
+		</p>
+        <div th:if="${#fields.hasErrors('appName')}" th:errors="*{appName}" class="alert alert-danger form-error"></div>		
+		
+		<p>
+			<label for="description">Description</label>
+			<textarea class="form-control" id="description" th:field="*{appDescription}" placeholder="Your appspot from Google"></textarea>
+		</p>
+		
+		<p>
+			<label for="password">Password</label>
+			<input class="form-control" id="password" type="password" th:field="*{password}" placeholder="Password to access your app info"/>
+		</p>
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger form-error"></div>
+		
+		<p>
+			<label for="password">Password confirmation</label>
+			<input class="form-control" id="passwordConfirmation" type="password" th:field="*{passwordConfirmation}" placeholder="Confirm your password"/>
+		</p>
+        <div th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}" class="alert alert-danger form-error"></div>
+		
+		<label for="googleServices">Google Services used</label>
+		<div class="scrollable">
+			<p th:each="gservice : ${T(br.ufrn.dimap.orchestrator.domain.application.GoogleCloudService).values()}">
+				<input th:field="*{googleServices}" type="checkbox" th:value="${gservice}" th:text=${(gservice).description()}/>
+			</p>
+		</div>
+		
+		<p class="button-area">
+			<input class="btn btn-primary" type="submit" value="Save"/>
+			<button type="reset" class="btn btn-warning">Reset</button>
+		</p>
+	</form>
+</div>
+
+</body>
+
+</html>

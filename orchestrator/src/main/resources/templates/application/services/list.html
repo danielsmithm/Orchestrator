@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org" th:include="fragments/layout :: page">
+
+<body>
+<div th:fragment="content">
+
+<h3 class="page-title">Your services</h3>
+
+
+<ul style="margin:10px 0px;color:white" class="nav justify-content-end">
+	<li class="nav-item">
+		<a class="nav-link btn btn-primary" role="button" 
+		href="/services/new">
+			New service
+		</a>
+	</li>
+</ul>
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>HTTP Verb</th>
+			<th>Route</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="service : ${services}">
+			<td th:text="${service.serviceName}"/>
+			<td th:text="${service.httpVerb}"/>
+			<td th:text="${service.accessPath}"></td>
+			<td>  
+				<form style="float:left;margin-right:5px;" method="get" th:action="@{/services/{serviceId}(serviceId=${service.id})}">
+					<button class="btn btn-primary" type="submit"><span class="fa fa-pencil-alt"></span></button>
+				</form>
+				<form th:id="@{formdelete{serviceId}(serviceId=${service.id})}" method="post" th:action="@{/services/{serviceId}/delete(serviceId=${service.id})}">
+					<button class="btn btn-primary btnDelete" type="button" data-toggle="modal" data-target="#deleteConfirmModal"><span class="fa fa-trash"></span></button>
+				</form>
+			</td>
+		</tr>	
+	</tbody>
+</table>
+
+<div th:insert="fragments/confirm_submit_dialog.html :: confirm-dialog-form"></div>
+
+</div>
+
+</body>
+
+</html>

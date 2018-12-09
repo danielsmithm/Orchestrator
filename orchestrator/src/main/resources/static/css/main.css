@@ -1,0 +1,13 @@
+.form-error {
+	font-size:.8em;
+}
+
+.scrollable {
+	height:200px;
+	overflow-y:scroll;
+	
+}
+
+.button-area{
+	padding-top:20px;
+}

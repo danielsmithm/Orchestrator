@@ -1,0 +1,168 @@
+<html xmlns:th="http://www.thymeleaf.org" th:include="fragments/layout :: page">
+
+<body>
+<div th:fragment="content">
+    
+   	<h3 class="page-title">Manage service</h3>
+    
+    <ul class="nav nav-tabs" style="margin:0 0 10px 0;">
+    	<li class="nav-item">
+    		<a class="nav-link active"
+    			data-toggle="tab" href="#general" role="tab" 
+    			aria-controls="home" aria-selected="true">General</a>
+    	</li>
+ 	    <li class="nav-item">
+    		<a class="nav-link"
+    			data-toggle="tab" href="#parameters" role="tab" 
+    			aria-controls="parameters" aria-selected="false">Parameters</a>    	
+    	</li>
+    </ul>
+    
+    <div class="tab-content" id="serviceManagement">
+    
+  		<div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+  		
+ 		    <form th:action="@{/services/{serviceId}(serviceId=${service.serviceId})}" method="POST" th:object="${service}">
+				<p>
+					<label for="serviceName">Name</label>
+					<input class="form-control" id="serviceName" type="text" th:field="*{serviceName}" placeholder="How do you call this service?"/>
+				</p>
+		        <div th:if="${#fields.hasErrors('serviceName')}" th:errors="*{serviceName}" class="alert alert-danger form-error"></div>
+				
+				<p>
+					<label for="serviceDescription">Description</label>
+					<textarea class="form-control" id="serviceDescription" type="text" th:field="*{serviceDescription}" placeholder="What is your service about?"></textarea>
+				</p>
+		        <div th:if="${#fields.hasErrors('serviceDescription')}" th:errors="*{serviceDescription}" class="alert alert-danger form-error"></div>
+				
+				<p>
+					<label for="accessPath">Access path
+					<i data-toggle="tooltip" 
+					data-placement="right" title="White a word in {...} to indicate a path param, e.g. /users/{userId}/edit"
+					style="margin-left:5px; color:orange" class="fas fa-lightbulb"></i>
+					</label>
+					<input class="form-control" id="accessPath" type="text" th:field="*{accessPath}" placeholder="e.g. /myservice/myaction/perform"/>
+				</p>
+		        <div th:if="${#fields.hasErrors('accessPath')}" th:errors="*{accessPath}" class="alert alert-danger form-error"></div>
+				
+				<p>
+					<label for="httpVerb">Verb</label>
+					<select class="form-control" th:field="*{httpVerb}">
+						<option th:each="httpVerb : ${T(br.ufrn.dimap.orchestrator.domain.providedService.HTTPVerb).values()}"
+								th:value="${httpVerb}"
+								th:text="${httpVerb}">
+						</option>
+					</select>
+				</p>
+				
+				<button type="submit" class="btn btn-primary">Save</button>
+		    </form>
+  		
+  		</div>    
+  		
+  		<div class="tab-pane fade" id="parameters" role="tabpanel" aria-labelledby="parameters-tab">
+  		
+  			<ul style="margin:10px 0px;color:white" class="nav justify-content-end">
+  				<li class="nav-item">
+  					<a class="nav-link btn btn-primary" role="button" data-toggle="modal" data-target="#parameterEditModal">New parameter</a>
+  				</li>
+  			</ul>
+  		
+  			<table class="table">
+  				<thead>
+  					<tr>
+  						<th>Name</th>
+  						<th>Type</th>
+						<th>Scope</th>
+  						<th>Description</th>
+  						<th>Actions</th>
+  					</tr>
+  				</thead>
+  				<tbody>
+  					<tr th:each="parameter : ${service.serviceParameters}">
+  						<td th:text="${parameter.parameterName}"/>
+  						<td th:text="${parameter.parameterType}"/>
+						<td th:text="${parameter.parameterScope}"/>
+  						<td th:text="${parameter.description}"/>
+  						<td>
+  							<form th:id="@{paramdelete{parameterId}(parameterId=${parameter.parameterId})}" method="post" th:action="@{/services/{serviceId}/parameters/{parameterId}/delete(serviceId=${service.serviceId},parameterId=${parameter.parameterId})}">
+  								<button class="btn btn-primary btnDelete" type="button" data-toggle="modal" data-target="#deleteConfirmModal"><span class="fas fa-trash"></span></button>
+  							</form>
+  						</td>
+  					</tr>
+  				</tbody>
+  			</table>
+  		
+  		</div>
+    </div>
+    
+    <div class="modal fade" tabindex="-1" role="dialog" id="parameterEditModal">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">New parameter</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        
+	        <form method="post" th:action="@{/services/{serviceId}/parameters/new(serviceId=${service.serviceId})}" th:object="${parameter}">
+     		    <p>
+					<label for="parameterName">Name</label>
+					<input required class="form-control" id="parameterName" type="text" th:field="*{name}" placeholder="e.g. size, name, age..."/>
+				</p>
+		        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger form-error"></div>
+				
+				<p>
+					<label for="parameterDescription">Description</label>
+					<textarea required class="form-control" id="parameterDescription" type="text" th:field="*{description}" placeholder="What is your parameter about?"></textarea>
+				</p>
+		        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="alert alert-danger form-error"></div>
+				
+				
+     		    <p>
+					<label for="parameterType">Type</label>
+					<select class="form-control" id="parameterType" th:field="*{type}">
+						<option th:each="parameterType : ${T(br.ufrn.dimap.orchestrator.domain.providedService.ParameterType).values()}"
+								th:value="${parameterType}"
+								th:text="${parameterType}">
+						</option>
+					</select>
+				</p>
+
+				<p>
+					<label for="parameterType">Scope</label>
+					<select class="form-control" id="parameterScope" th:field="*{scope}">
+						<option th:each="parameterScope : ${T(br.ufrn.dimap.orchestrator.domain.providedService.ParameterScope).values()}"
+								th:value="${parameterScope}"
+								th:text="${parameterScope}">
+						</option>
+					</select>
+				</p>
+				
+		      	<div class="modal-footer">
+	        		<button type="submit" class="btn btn-primary">Save</button>
+	        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      		</div>
+	        </form>
+	        
+	      </div>
+
+	    </div>
+	  </div>
+	</div>
+    
+    <div th:insert="fragments/confirm_submit_dialog.html :: confirm-dialog-form"></div>
+    
+    <script type="text/javascript">
+	    $(function () {
+	    	  $('[data-toggle="tooltip"]').tooltip()
+	   	})
+    </script>
+    
+</div>
+
+</body>
+
+</html>
