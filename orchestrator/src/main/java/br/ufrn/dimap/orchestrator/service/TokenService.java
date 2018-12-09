@@ -8,6 +8,7 @@ import br.ufrn.dimap.orchestrator.domain.token.exceptions.InvalidTokenException;
 import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenAlreadyValidatedException;
 import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -19,10 +20,13 @@ public class TokenService {
 
     private final TokenRepository tokenRepository;
 
+    private final ApplicationEventPublisher eventPublisher;
+
     @Autowired
-    public TokenService(TokenFactory tokenFactory, TokenRepository tokenRepository) {
+    public TokenService(TokenFactory tokenFactory, TokenRepository tokenRepository, ApplicationEventPublisher eventPublisher) {
         this.tokenFactory = tokenFactory;
         this.tokenRepository = tokenRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     public Token validate(UUID tokenUUID, Appspot clientAppspot, Appspot serverAppspot, String serviceName)
@@ -36,7 +40,11 @@ public class TokenService {
 
         tokenToValidate.validate(clientAppspot,serverAppspot,serviceName);
 
-        return tokenRepository.save(tokenToValidate);
+        Token save = tokenRepository.save(tokenToValidate);
+
+        eventPublisher.publishEvent(new TokenValidatedEvent(save.getId().toString(),save.getValidationDate()));
+
+        return save;
     }
 
     public Token generateToken(Appspot clientAppspot, Appspot serverAppspot, String serviceName)
