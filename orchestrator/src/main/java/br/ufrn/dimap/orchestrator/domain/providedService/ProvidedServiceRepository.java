@@ -80,7 +80,7 @@ public class ProvidedServiceRepository {
     		ProvidedService serv = makeFromEntity(appspot, servicesResults.next());
     		
     		if (loadParameters) {
-	    		List<ServiceParameter> parameters = listServiceParametersByServiceId(serv.getId());
+	    		List<ServiceParameter> parameters = listServiceParametersByServiceId(appspot, serv.getId());
 	    		serv.setServiceParameters(parameters);
     		}
     		
@@ -128,11 +128,14 @@ public class ProvidedServiceRepository {
 		return makeFromEntity(appspot, e);
     }
     
-    public List<ServiceParameter> listServiceParametersByServiceId(Long serviceId) {
+    public List<ServiceParameter> listServiceParametersByServiceId(Appspot appspot, Long serviceId) {
     	Query<Entity> query = Query.newEntityQueryBuilder()
     		    .setKind(SERVICE_PARAM_ENTITY_NAME)
-    		    .setFilter(PropertyFilter.hasAncestor(
-    		        datastore.newKeyFactory().setKind(PROV_SERVICE_ENTITY_NAME).newKey(serviceId)))
+    		    .setFilter(
+    		    		PropertyFilter.hasAncestor(
+		    				datastore.newKeyFactory().setKind(PROV_SERVICE_ENTITY_NAME)
+		    						.addAncestor(PathElement.of(ApplicationRepository.APPLICATION_ENTITY_NAME, appspot.getAppspotName()))
+		    						.newKey(serviceId)))
     		    .build();
     	
     	QueryResults<Entity> parameterResults = datastore.run(query);
@@ -140,14 +143,15 @@ public class ProvidedServiceRepository {
     	List<ServiceParameter> parameters = new ArrayList<>();
     	
     	while(parameterResults.hasNext()) {
-    		parameters.add(makeParameterFromEntity(serviceId, parameterResults.next()));
+    		parameters.add(makeParameterFromEntity(appspot, serviceId, parameterResults.next()));
     	}
     	
     	return parameters;
     }
     
-    public ServiceParameter makeParameterFromEntity(Long serviceId, Entity e) {
+    public ServiceParameter makeParameterFromEntity(Appspot appspot, Long serviceId, Entity e) {
     	ServiceParameter param = new ServiceParameter();
+    	param.setAppspot(appspot);
     	param.setParameterId(e.getKey().getId());
     	param.setParameterName(e.getString(SERVICE_PARAM_NAME_FIELD));
     	param.setDescription(e.getString(SERVICE_PARAM_DESC_FIELD));
@@ -178,7 +182,9 @@ public class ProvidedServiceRepository {
     
     public ServiceParameter addParameter(ServiceParameter serviceParameter) {
     	KeyFactory keyFactory = paramKeyFactory.reset()
-    			.addAncestor(PathElement.of(PROV_SERVICE_ENTITY_NAME, serviceParameter.getServiceId()))
+    			.addAncestors(
+    					PathElement.of(ApplicationRepository.APPLICATION_ENTITY_NAME, serviceParameter.getAppspot().getAppspotName()),
+    					PathElement.of(PROV_SERVICE_ENTITY_NAME, serviceParameter.getServiceId()))
     			.setKind(SERVICE_PARAM_ENTITY_NAME);
     	Key key = datastore.allocateId(keyFactory.newKey());
     	
@@ -196,9 +202,11 @@ public class ProvidedServiceRepository {
     	return serviceParameter;	
     }
 
-	public void removeParameter(Long serviceId, Long parameterId) {
+	public void removeParameter(Appspot appspot, Long serviceId, Long parameterId) {
     	Key key = datastore.newKeyFactory()
-    		    .addAncestors(PathElement.of(PROV_SERVICE_ENTITY_NAME, serviceId))
+    		    .addAncestors(
+    					PathElement.of(ApplicationRepository.APPLICATION_ENTITY_NAME, appspot.getAppspotName()),
+    		    		PathElement.of(PROV_SERVICE_ENTITY_NAME, serviceId))
     		    .setKind(SERVICE_PARAM_ENTITY_NAME)
     		    .newKey(parameterId);
     	datastore.delete(key);

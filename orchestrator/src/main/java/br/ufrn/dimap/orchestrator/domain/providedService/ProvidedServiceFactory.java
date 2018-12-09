@@ -41,6 +41,7 @@ public class ProvidedServiceFactory {
     }
     
     public ServiceParameter createServiceParameter(
+    		Appspot appspot,
     		Long serviceId,
     		String name,
     		String description,
@@ -51,7 +52,7 @@ public class ProvidedServiceFactory {
     	//TODO: check for nonexisting service
     	//TODO: check for already existing parameter
     	
-    	ServiceParameter parameter = new ServiceParameter(serviceId, name, type, description,parameterScope);
+    	ServiceParameter parameter = new ServiceParameter(appspot, serviceId, name, type, description, parameterScope);
 
     	return parameter;
     }
