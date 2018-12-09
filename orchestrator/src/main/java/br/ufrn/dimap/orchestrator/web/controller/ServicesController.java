@@ -116,7 +116,9 @@ public class ServicesController extends BaseController {
 			//TODO: handle error 404
 		}
 
-		provService.setServiceParameters(this.providedServiceService.listServiceParameterByServiceId(serviceId));
+		provService.setServiceParameters(this.providedServiceService.listServiceParameterByServiceId(
+				authenticationDetails.getApplication().getAppspot(), 
+				serviceId));
     	
     	model.addAttribute("service", ProvidedServiceCreationForm.from(provService));
     	model.addAttribute("parameter", new ParameterCreationForm());
@@ -181,9 +183,12 @@ public class ServicesController extends BaseController {
     		@Valid @ModelAttribute("parameter") ParameterCreationForm parameter,
     		Model model) {
     	
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
     	
 		try {
 			this.providedServiceService.addParameter(
+					authenticationDetails.getApplication().getAppspot(),
                     serviceId,
                     parameter.getName(),
                     parameter.getType(),
@@ -208,7 +213,10 @@ public class ServicesController extends BaseController {
     		Model model) 
     				throws ProvidedServiceNotFoundException {
     	
-    		this.providedServiceService.removeParameter(serviceId, parameterId);
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        ApplicationUserDetailsAdapter authenticationDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
+ 	
+		this.providedServiceService.removeParameter(authenticationDetails.getApplication().getAppspot(), serviceId, parameterId);
     		
     	return "redirect:/services/"+serviceId;
     }
