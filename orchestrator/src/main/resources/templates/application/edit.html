@@ -42,7 +42,7 @@
         <div th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}" class="alert alert-danger form-error"></div>
 		
 		<label for="googleServices">Google Services used</label>
-		<div class="scrollable">
+		<div class="scrollable shadowed-box">
 			<p th:each="gservice : ${T(br.ufrn.dimap.orchestrator.domain.application.GoogleCloudService).values()}">
 				<input th:field="*{googleServices}" type="checkbox" th:value="${gservice}" th:text=${(gservice).description()}/>
 			</p>
@@ -53,6 +53,16 @@
 			<button type="reset" class="btn btn-warning">Reset</button>
 		</p>
 	</form>
+	
+	<div class="container-fluid" style="text-align:right">				
+		<form id="unregisterForm" method="POST" th:action="@{/application/unregister}">
+			<button  type="button" class="btnDelete btn btn-danger" 
+			data-toggle="modal" data-target="#deleteConfirmModal">Delete application</button>
+		</form>
+	</div>	
+	
+    <div th:insert="fragments/confirm_submit_dialog.html :: confirm-dialog-form"></div>
+	
 </div>
 
 </body>
