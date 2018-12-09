@@ -3,6 +3,71 @@
 <body>
 <div th:fragment="content">
 
+<form method="GET">
+
+	<div class="form-row align-items-center">
+
+		<div class="col-auto">
+			<label for="since">Since</label>
+		</div>
+
+		<div class="col-auto">
+			<div class="input-group mb-2">
+				<input class="form-control" id="since" type="datetime-local" name="since"/>
+			</div>
+		</div>
+		
+		<div class="col-auto">
+			<button class="btn btn-primary mb-2" type="submit">Filter</button>
+		</div>
+		
+	</div>
+</form>
+
+<div class="table-responsive">
+		<table class="table ranking">
+			
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>App name</th>
+					<th>Owner</th>
+					<th>Score</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>App test 1</td>
+					<td>João</td>
+					<td>5.0</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>App test 2</td>
+					<td>João</td>
+					<td>5.0</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>App test 3</td>
+					<td>João</td>
+					<td>5.0</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>App test 4</td>
+					<td>João</td>
+					<td>5.0</td>
+				</tr>
+			</tbody>
+		
+		</table>
+	</div>
+
+
+
     <script>
         var evtSource = new EventSource("/ranking/realTime");
 
