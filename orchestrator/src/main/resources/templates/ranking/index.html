@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org" th:include="fragments/layout :: page">
+
+<body>
+<div th:fragment="content">
+
+    <script>
+        var evtSource = new EventSource("/ranking/realTime");
+
+        evtSource.onmessage = function(e) {
+            alert(e.data);
+        }
+
+    </script>
+
+</div>
+</body>
+
+</html>
