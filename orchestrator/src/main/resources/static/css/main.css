@@ -19,27 +19,43 @@
 
 table.ranking {
 	text-align:center;
-	
 }
 
 table.ranking tbody tr:nth-child(1) td {
-	background:#090;
 	padding-top:40px;
 	padding-bottom:40px;
-	color:#FFF;
 	font-size:2em;
 }
+
+table.ranking tbody tr:nth-child(1) td.position span {
+	background:#090;
+	color:#FFF;
+	padding:10px;
+	border-radius:10px;
+}
+
 table.ranking tbody tr:nth-child(2) {
-	background:#0066cc;
 	padding-top:30px;
 	padding-bottom:30px;
-	color:#FFF;
 	font-size:1.8em;
 }
+
+table.ranking tbody tr:nth-child(2) td.position span {
+	background:#0066cc;
+	color:#FFF;
+	padding:8px;
+	border-radius:10px;
+}
+
 table.ranking tbody tr:nth-child(3) {
-	background:#ff9900;
 	padding-top:20px;
 	padding-bottom:20px;
-	color:#FFF;
 	font-size:1.5em;
+}
+
+table.ranking tbody tr:nth-child(3) td.position span {
+	background:#ff9900;
+	color:#FFF;
+	padding:5px;
+	border-radius:10px;
 }
