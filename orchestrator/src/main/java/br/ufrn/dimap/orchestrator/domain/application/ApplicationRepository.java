@@ -31,6 +31,7 @@ public class ApplicationRepository {
     private static final String APPNAME_FIELD = "appname";
     private static final String GOOGLE_SERVICES_FIELD = "googleservices";
     private static final String APPDESCRIPTION_FIELD = "appdescription";
+    private static final String FIWAREUSAGES_FIELD = "fiwarecount";
 
     private final Datastore datastore;
     private final KeyFactory keyFactory;
@@ -101,6 +102,12 @@ public class ApplicationRepository {
         application.setPassword(entity.getString(PASSWORD_FIELD));
         application.setAppName(entity.getString(APPNAME_FIELD));
         application.setAppDescription(entity.getString(APPDESCRIPTION_FIELD));
+        
+        if (entity.contains(FIWAREUSAGES_FIELD))
+        	application.setFiwareUsesCount(entity.getLong(FIWAREUSAGES_FIELD));
+        else
+        	application.setFiwareUsesCount(0L);
+        
         application.setGoogleServiceUse(
         		entity
         		.getList(GOOGLE_SERVICES_FIELD)
@@ -135,6 +142,7 @@ public class ApplicationRepository {
                 .set(PASSWORD_FIELD,application.getPassword())
                 .set(APPNAME_FIELD,application.getAppName())
                 .set(APPDESCRIPTION_FIELD, application.getAppDescription())
+                .set(FIWAREUSAGES_FIELD, application.getFiwareUsesCount())
                 .set(GOOGLE_SERVICES_FIELD, 
                 		application
                 		.getGoogleServiceUse()

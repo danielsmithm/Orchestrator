@@ -40,6 +40,7 @@ public class ApplicationFactory{
 
         Application application = new Application();
 
+        application.setFiwareUsesCount(0L);
         application.setAppspot(appspot);
         application.setOwnerName(ownerName);
         application.setPassword(password);

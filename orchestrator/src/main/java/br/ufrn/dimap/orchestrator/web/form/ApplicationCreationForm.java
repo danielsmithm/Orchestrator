@@ -21,6 +21,9 @@ public class ApplicationCreationForm {
 	@NotBlank
 	private String appName;
 	
+	@NotNull
+	private Long fiwareUsesCount;
+	
 	private String appDescription;
 	
 	private String password;
@@ -77,6 +80,7 @@ public class ApplicationCreationForm {
 	
 	public static ApplicationCreationForm from(Application app) {
 		ApplicationCreationForm appForm = new ApplicationCreationForm();
+		appForm.setFiwareUsesCount(app.getFiwareUsesCount());
 		appForm.setAppspot(app.getAppspot().getAppspotName());
 		appForm.setOwnerName(app.getOwnerName());
 		appForm.setAppName(app.getAppName());
@@ -96,5 +100,13 @@ public class ApplicationCreationForm {
 
 	public void setGoogleServices(List<GoogleCloudService> googleServices) {
 		this.googleServices = googleServices;
+	}
+
+	public Long getFiwareUsesCount() {
+		return fiwareUsesCount;
+	}
+
+	public void setFiwareUsesCount(Long fiwareUsesCount) {
+		this.fiwareUsesCount = fiwareUsesCount;
 	}
 }
