@@ -34,8 +34,8 @@ public class ProvidedServiceService {
     	return repository.findProvidedServiceById(appspot, serviceId);
     }
     
-    public List<ServiceParameter> listServiceParameterByServiceId(Long serviceId) {
-    	return repository.listServiceParametersByServiceId(serviceId);
+    public List<ServiceParameter> listServiceParameterByServiceId(Appspot appspot, Long serviceId) {
+    	return repository.listServiceParametersByServiceId(appspot, serviceId);
     }
     
     public ProvidedService createProvidedService(
@@ -52,9 +52,10 @@ public class ProvidedServiceService {
     }
 
 
-    public ServiceParameter addParameter(Long serviceId, String parameterName, ParameterType parameterType, String description, ParameterScope parameterScope) throws ServiceNotFoundException, ParameterNameAlreadyTaken, ProvidedServiceNotFoundException {
+    public ServiceParameter addParameter(Appspot appspot, Long serviceId, String parameterName, ParameterType parameterType, String description, ParameterScope parameterScope) throws ServiceNotFoundException, ParameterNameAlreadyTaken, ProvidedServiceNotFoundException {
 
     	ServiceParameter serviceParameter = factory.createServiceParameter(
+    			appspot,
     			serviceId,
 				parameterName,
 				description,
@@ -65,8 +66,8 @@ public class ProvidedServiceService {
         return repository.addParameter(serviceParameter);
     }
     
-    public void removeParameter(Long serviceId, Long parameterId) throws ProvidedServiceNotFoundException {
-    	repository.removeParameter(serviceId, parameterId);
+    public void removeParameter(Appspot appspot, Long serviceId, Long parameterId) throws ProvidedServiceNotFoundException {
+    	repository.removeParameter(appspot, serviceId, parameterId);
     }
 
     public void removeProvidedService(Appspot appspot, Long serviceId) throws ProvidedServiceNotFoundException {

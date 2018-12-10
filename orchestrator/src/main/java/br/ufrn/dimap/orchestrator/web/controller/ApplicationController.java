@@ -58,6 +58,17 @@ public class ApplicationController extends BaseController {
         return "application/register";
     }
 
+    @PostMapping("/unregister")
+    public String delete(Model model) {
+    	
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	ApplicationUserDetailsAdapter userDetails = (ApplicationUserDetailsAdapter) auth.getPrincipal();
+    	
+    	applicationService.remove(userDetails.getApplication().getAppspot());
+    	
+    	return "redirect:/perform_logout";
+    }
+    
     @PostMapping("/register")
     public String submitRegister(@ModelAttribute("app") @Valid ApplicationCreationForm app, BindingResult bindingResult, Model model)  {
 
@@ -127,7 +138,8 @@ public class ApplicationController extends BaseController {
                                                                     passwordAfterUpdate,
                                                                     app.getAppName(),
                                                                     app.getAppDescription(),
-                                                                    app.getGoogleServices());
+                                                                    app.getGoogleServices(),
+                                                                    app.getFiwareUsesCount());
 
           authenticationDetails.setApplication(application);
 
