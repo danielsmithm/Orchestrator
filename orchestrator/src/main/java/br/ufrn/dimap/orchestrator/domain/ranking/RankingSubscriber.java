@@ -12,6 +12,8 @@ public class RankingSubscriber {
     }
 
     public boolean isInterstedInTopic(TokenValidatedEvent tokenValidatedEvent){
+
+
         return true;
     }
 

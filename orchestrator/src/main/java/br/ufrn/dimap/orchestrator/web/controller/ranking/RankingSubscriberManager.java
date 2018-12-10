@@ -42,7 +42,7 @@ public class RankingSubscriberManager {
     private void notifySubscriber(RankingSubscriber rankingSubscriber) {
 
         try {
-            emitterStore.notifyEmmiter(rankingService,rankingSubscriber.getSessionId());
+            emitterStore.notifyEmmiter(rankingService.generateRanking(),rankingSubscriber.getSessionId());
         } catch (EmmiterNotFoundException e) {
             rankingSubscribers.remove(rankingSubscriber);
         }

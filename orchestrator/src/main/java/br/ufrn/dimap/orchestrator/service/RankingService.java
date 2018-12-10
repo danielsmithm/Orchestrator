@@ -15,10 +15,10 @@ public class RankingService {
     public Ranking generateRanking(){
         Ranking ranking = new Ranking();
 
-        ranking.setData("Testando");
+        ranking.addRankedApplication(1,"", "Orchestradeiro",5.0,1,1,2);
+        ranking.addRankedApplication(2,"", "Orchestradeiro",5.0,1,1,2);
 
         return ranking;
     }
-
 
 }

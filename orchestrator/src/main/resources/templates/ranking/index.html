@@ -72,10 +72,16 @@
         var evtSource = new EventSource("/ranking/realTime");
 
         evtSource.onmessage = function(e) {
-            alert(e.data);
+            var element = document.getElementById("tabela");
+
+            element.innerHTML = element.innerHTML + e.data;
         }
 
     </script>
+
+    <div id="tabela">
+
+    </div>
 
 </div>
 </body>

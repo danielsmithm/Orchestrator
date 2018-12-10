@@ -40,7 +40,7 @@ public class EmitterStore {
 
         try {
             emitter.send(message);
-        } catch (Exception e) {
+        }catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error on notifying client using SseEmitter", e);
         }
 
