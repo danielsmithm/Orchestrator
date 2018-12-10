@@ -53,6 +53,14 @@ table.ranking tbody tr:nth-child(3) {
 	font-size:1.5em;
 }
 
+table#ranking tbody span.positive {
+	color:#090;
+}
+
+table#ranking tbody span.negative {
+	color:red;
+}
+
 table.ranking tbody tr:nth-child(3) td.position span {
 	background:#ff9900;
 	color:#FFF;
