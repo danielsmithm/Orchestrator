@@ -138,7 +138,8 @@ public class ApplicationController extends BaseController {
                                                                     passwordAfterUpdate,
                                                                     app.getAppName(),
                                                                     app.getAppDescription(),
-                                                                    app.getGoogleServices());
+                                                                    app.getGoogleServices(),
+                                                                    app.getFiwareUsesCount());
 
           authenticationDetails.setApplication(application);
 

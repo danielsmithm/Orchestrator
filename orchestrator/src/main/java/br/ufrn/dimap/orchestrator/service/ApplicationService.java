@@ -41,11 +41,11 @@ public class ApplicationService {
         return applicationRepository.save(application);
     }
 
-    public Application update(Appspot appspot, String ownerName, String password, String appName, String appDescription, List<GoogleCloudService> googleServices) throws ApplicationNotFoundException{
+    public Application update(Appspot appspot, String ownerName, String password, String appName, String appDescription, List<GoogleCloudService> googleServices, Long fiwareUsesCount) throws ApplicationNotFoundException{
         
     	Application app = findApplicationByAppspot(appspot);
     	
-    	app.update(ownerName, password, appName, appDescription, googleServices);
+    	app.update(ownerName, password, appName, appDescription, googleServices, fiwareUsesCount);
     	
     	return applicationRepository.save(app);
     }

@@ -16,7 +16,7 @@
 <div class="row">
 	
 	<div class="col-sm-3">
-		<h4>Google Services used</h4>
+		<h4>Google Services used <span class="badge badge-secondary" th:text="${#lists.size(app.googleServiceUse)}"></span></h4>
 		<p th:if="${#lists.size(app.googleServiceUse) == 0}">No Google Services used.</p>
 		
 		<ul th:if="${#lists.size(app.googleServiceUse) > 0}">
@@ -25,6 +25,9 @@
 				th:text="${(gservuse.googleService).description()}"
 				></li>
 		</ul>
+		
+		<h4>Fiware usages: <span class="badge badge-secondary" th:text="${app.fiwareUsesCount}"></span></h4>
+		
 		
 	</div>
 	
@@ -35,7 +38,7 @@
 		  <div class="card" th:each="service : ${app.services}">
 		    <div class="card-header" id="headingOne">
 		      <h5 class="mb-0">
-		      	<span class="badge badge-secondary" th:text="${service.httpVerb}"></span>
+		      	<span class="badge badge-primary" th:text="${service.httpVerb}"></span>
 		        <button class="btn btn-link" data-toggle="collapse" 
 		        th:attr="data-target='#service'+${service.id}" aria-expanded="true" >
 		       	<span th:text="${service.serviceName}"></span>
