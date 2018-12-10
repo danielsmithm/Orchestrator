@@ -74,11 +74,6 @@
         var previousRanking = {};
         
         evtSource.onmessage = function(e) {
-        	
-      		/* FOR DEBUG only --*/
-            var element = document.getElementById("ranking");
-            element.innerHTML = element.innerHTML + e.data;
-            /*------------------*/
             
             var tableJSON = $.parseJSON(e.data);
             

@@ -27,7 +27,7 @@ public class RankingController {
     @RequestMapping("/realTime")
     public SseEmitter registerRealtimeUpdate(HttpSession httpSession){
         String sessionId = httpSession.getId();
-
+        
         return rankingSubscriberManager.registerSubscriber(sessionId);
     }
 

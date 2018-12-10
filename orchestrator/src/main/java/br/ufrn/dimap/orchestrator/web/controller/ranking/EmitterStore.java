@@ -25,7 +25,7 @@ public class EmitterStore {
         emitter.onTimeout(() -> this.registeredEmitters.remove(emitter));
 
         this.registeredEmitters.put(sessionId, emitter);
-
+        
         return emitter;
     }
 

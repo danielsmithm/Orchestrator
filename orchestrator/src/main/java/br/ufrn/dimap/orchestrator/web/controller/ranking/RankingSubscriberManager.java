@@ -11,6 +11,8 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
@@ -21,13 +23,13 @@ public class RankingSubscriberManager {
 
     private final RankingService rankingService;
 
-    private List<RankingSubscriber> rankingSubscribers;
+    private Set<RankingSubscriber> rankingSubscribers;
 
     @Autowired
     public RankingSubscriberManager(EmitterStore emitterStore, RankingService rankingService) {
         this.emitterStore = emitterStore;
         this.rankingService = rankingService;
-        this.rankingSubscribers = new CopyOnWriteArrayList<>();
+        this.rankingSubscribers = ConcurrentHashMap.newKeySet();
     }
 
     @EventListener(TokenValidatedEvent.class)
@@ -55,7 +57,7 @@ public class RankingSubscriberManager {
 
         SseEmitter emmiter = emitterStore.createEmitterForSessionId(sessionId);
         rankingSubscribers.add(rankingSubscriber);
-
+        
         return emmiter;
 
     }
