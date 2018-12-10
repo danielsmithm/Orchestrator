@@ -3,7 +3,7 @@
 <body>
 <div th:fragment="content">
 
-<form method="GET">
+<form id="rankingSince" method="GET">
 
 	<div class="form-row align-items-center">
 
@@ -18,7 +18,7 @@
 		</div>
 		
 		<div class="col-auto">
-			<button class="btn btn-primary mb-2" type="submit">Filter</button>
+			<button id="btnSubmitSince" class="btn btn-primary mb-2" type="button">Filter</button>
 		</div>
 		
 	</div>
@@ -26,7 +26,7 @@
 
 <div class="table-responsive">
 		<table class="table ranking" id="ranking">
-			
+	
 			<thead>
 				<tr>
 					<th>#</th>
@@ -66,11 +66,16 @@
 		</table>
 	</div>
 
-
-
     <script>
-        var evtSource = new EventSource("/ranking/realTime");
-
+    
+    	var evtSource = new EventSource("/ranking/realTime");
+    
+    	$('#btnSubmitSince').click(function(){
+    		var datetime = $("#since").val();
+    		var path = "/ranking/realTime?since="+datetime;
+    		evtSource = new EventSource(path);
+    	});
+    
         var previousRanking = {};
         
         evtSource.onmessage = function(e) {
