@@ -25,14 +25,18 @@
 </form>
 
 <div class="table-responsive">
-		<table class="table ranking">
+		<table class="table ranking" id="ranking">
 			
 			<thead>
 				<tr>
 					<th>#</th>
 					<th>App name</th>
 					<th>Owner</th>
+					<th>GS</th>
+					<th>As server</th>
+					<th>As client</th>
 					<th>Score</th>
+					<th>&Delta;</th>
 				</tr>
 			</thead>
 			
@@ -41,25 +45,21 @@
 					<td class="position"><span>1</span></td>
 					<td>App test 1</td>
 					<td>João</td>
+					<td>2</td>
+					<td>0</td>
+					<td>1</td>
 					<td>5.0</td>
+					<td><span class="positive">+1</span></td>
 				</tr>
 				<tr>
 					<td class="position"><span>2</span></td>
 					<td>App test 2</td>
-					<td>João</td>
-					<td>5.0</td>
-				</tr>
-				<tr>
-					<td class="position"><span>3</span></td>
-					<td>App test 3</td>
-					<td>João</td>
-					<td>5.0</td>
-				</tr>
-				<tr>
-					<td class="position"><span>4</span></td>
-					<td>App test 4</td>
-					<td>João</td>
-					<td>5.0</td>
+					<td>João2</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					<td>4.0</td>
+					<td><span class="negative">-2</span></td>
 				</tr>
 			</tbody>
 		
@@ -71,17 +71,65 @@
     <script>
         var evtSource = new EventSource("/ranking/realTime");
 
+        var previousRanking = {};
+        
         evtSource.onmessage = function(e) {
-            var element = document.getElementById("tabela");
-
+        	
+      		/* FOR DEBUG only --*/
+            var element = document.getElementById("ranking");
             element.innerHTML = element.innerHTML + e.data;
-        }
+            /*------------------*/
+            
+            var tableJSON = $.parseJSON(e.data);
+            
+            // gather
+            var table = $("#ranking tbody");
+            
+            // clear
+            table.find("tr").remove();
+            
+            // fill
+            $.each(tableJSON.rankedApplications, function(index, element){
+            	var position = element.rankPosition;
+            	var appspot = element.appspot;
+            	var appName = element.appName;
+            	var ownerName = element.ownerName;
+            	var gscount = element.usedGoogleServicesCount;
+            	var intAsClient = element.integrationCountAsClient;
+            	var intAsServer = element.integrationCountAsServer;
+            	var score = element.score;
+            	
+            	if (!(appspot in previousRanking))
+            		previousRanking[appspot] = position;
+            		
+            	var markup = 
+            		"<tr>"+
+            			"<td class='position'><span>" + position + "</span></td>"+
+            			"<td>" + appName + "</td>"+
+            			"<td>" + ownerName + "</td>"+
+            			"<td>" + gscount + "</td>"+
+            			"<td>" + intAsClient + "</td>"+
+            			"<td>" + intAsServer + "</td>"+
+            			"<td>" + score + "</td>";
+            	
+            	var delta = (previousRanking[appspot] - position);
+            	
+            	if (delta > 0)
+            		markup += "<td>" + "<span class='positive'>+" + delta + "</span></td>";
+           		else if (delta < 0)
+            		markup += "<td><span class='negative'>" + delta + "</span></td>";
+            	else 
+             		markup += "<td>_</td>";
 
+            	markup += "</tr>";
+            		
+            	table.append(markup);
+            	
+            	previousRanking[appspot] = position; 
+            });            
+        }        
+        
     </script>
-
-    <div id="tabela">
-
-    </div>
 
 </div>
 </body>

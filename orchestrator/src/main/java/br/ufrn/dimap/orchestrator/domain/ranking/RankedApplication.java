@@ -3,6 +3,7 @@ package br.ufrn.dimap.orchestrator.domain.ranking;
 public class RankedApplication {
 
     private int rankPosition;
+    private String appspot;
     private String appName;
     private String ownerName;
     private double score;
@@ -13,9 +14,10 @@ public class RankedApplication {
     public RankedApplication() {
     }
 
-    public RankedApplication(int rankPosition, String appName, String ownerName, double score, int usedGoogleServicesCount, int integrationCountAsClient, int integrationCountAsServer) {
+    public RankedApplication(int rankPosition, String appspot, String appName, String ownerName, double score, int usedGoogleServicesCount, int integrationCountAsClient, int integrationCountAsServer) {
         this.rankPosition = rankPosition;
-        this.appName = appName;
+        this.setAppspot(appspot);
+        this.setAppName(appName);
         this.ownerName = ownerName;
         this.score = score;
         this.usedGoogleServicesCount = usedGoogleServicesCount;
@@ -50,4 +52,16 @@ public class RankedApplication {
     public int getIntegrationCountAsServer() {
         return integrationCountAsServer;
     }
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public String getAppspot() {
+		return appspot;
+	}
+
+	public void setAppspot(String appspot) {
+		this.appspot = appspot;
+	}
 }
