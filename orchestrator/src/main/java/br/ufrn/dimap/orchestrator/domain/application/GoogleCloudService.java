@@ -43,7 +43,8 @@ public enum GoogleCloudService {
 	MAIL_GAE("Mail API GAE"),
 	STACKDRIVER_ERROR("Stackdriver Error Reporting"),
 	MAPS_JAVASCRIPT("Maps Javascript API"),
-	BLOBSTORE("Blobstore")
+	BLOBSTORE("Blobstore"),
+	GOOGLE_CLOUD_PUB_SUB("Google cloud publish/subscribe")
 	;
 	
 	private final String description;

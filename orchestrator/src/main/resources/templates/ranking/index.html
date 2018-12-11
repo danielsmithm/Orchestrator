@@ -1,0 +1,95 @@
+<html xmlns:th="http://www.thymeleaf.org" th:include="fragments/layout :: page">
+
+<body>
+<div th:fragment="content">
+
+<div class="table-responsive">
+		<table class="table ranking" id="ranking">
+	
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>App name</th>
+					<th>Owner</th>
+					<th>GS</th>
+					<th>As server</th>
+					<th>As client</th>
+					<th>Score</th>
+					<th>&Delta;</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+
+			</tbody>
+		
+		</table>
+	</div>
+
+    <script>
+    
+    	var evtSource = new EventSource("/ranking/realTime");
+
+        var previousRanking = {};
+
+        function createCallback() {
+            evtSource.onmessage = function (e) {
+
+                var tableJSON = $.parseJSON(e.data);
+
+                // gather
+                var table = $("#ranking tbody");
+
+                // clear
+                table.find("tr").remove();
+
+                // fill
+                $.each(tableJSON.rankedApplications, function (index, element) {
+                    var position = element.rankPosition;
+                    var appspot = element.appspot;
+                    var appName = element.appName;
+                    var ownerName = element.ownerName;
+                    var gscount = element.usedGoogleServicesCount;
+                    var intAsClient = element.integrationCountAsClient;
+                    var intAsServer = element.integrationCountAsServer;
+                    var score = element.score;
+
+                    if (!(appspot in previousRanking))
+                        previousRanking[appspot] = position;
+
+                    var markup =
+                        "<tr>" +
+                        "<td class='position'><span>" + position + "</span></td>" +
+                        "<td>" + appName + "</td>" +
+                        "<td>" + ownerName + "</td>" +
+                        "<td>" + gscount + "</td>" +
+                        "<td>" + intAsServer + "</td>" +
+                        "<td>" + intAsClient + "</td>" +
+                        "<td>" + score + "</td>";
+
+                    var delta = (previousRanking[appspot] - position);
+
+                    if (delta > 0)
+                        markup += "<td>" + "<span class='positive'>+" + delta + "</span></td>";
+                    else if (delta < 0)
+                        markup += "<td><span class='negative'>" + delta + "</span></td>";
+                    else
+                        markup += "<td>_</td>";
+
+                    markup += "</tr>";
+
+                    table.append(markup);
+
+                    previousRanking[appspot] = position;
+                });
+            }
+        }
+
+        createCallback();
+        
+    </script>
+
+</div>
+</body>
+
+</html>
