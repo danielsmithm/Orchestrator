@@ -73,6 +73,8 @@
     	$('#btnSubmitSince').click(function(){
     		var datetime = $("#since").val();
     		var path = "/ranking/realTime?since="+datetime;
+    		evtSource.close();
+
     		evtSource = new EventSource(path);
     	});
     
