@@ -19,7 +19,7 @@ public class RankedApplication {
         this.setRankPosition(rankPosition);
         this.setAppspot(appspot);
         this.setAppName(appName);
-        this.ownerName = ownerName;
+        this.setOwnerName(ownerName);
         this.setScore(score);
         this.setUsedGoogleServicesCount(usedGoogleServicesCount);
         this.setIntegrationCountAsClient(integrationCountAsClient);
@@ -93,5 +93,9 @@ public class RankedApplication {
 
 	public void setRankPosition(int rankPosition) {
 		this.rankPosition = rankPosition;
+	}
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 }

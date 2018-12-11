@@ -12,7 +12,7 @@ public class Ranking {
     }
 
     public Ranking(List<RankedApplication> rankedApplications) {
-        this.rankedApplications = new ArrayList<>();
+        this.rankedApplications = rankedApplications;
     }
     
     public Ranking() {

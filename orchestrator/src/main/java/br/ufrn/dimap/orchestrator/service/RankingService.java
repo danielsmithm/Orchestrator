@@ -50,6 +50,11 @@ public class RankingService {
 
     	// Compute as service and as client
     	for (Token token : allTokens) {
+    		
+    		// Allow only validated tokens
+    		if (token.getValidationDate() == null)
+    			continue;
+    		
     		String appspotServer = token.getServerAppspot().getAppspotName();
     		String appspotClient = token.getClientAppspot().getAppspotName();
     		
@@ -83,6 +88,7 @@ public class RankingService {
     		else
     			rankedApplication.setIntegrationCountAsServer(0);
     		
+    		rankedApplication.setOwnerName(app.getOwnerName());
     		rankedApplication.setUsedGoogleServicesCount(app.getGoogleServiceUse().size());
     		rankedApplication.setIntegrationFiwareCount(app.getFiwareUsesCount());
     		rankedApplication.setAppName(app.getAppName());
@@ -95,7 +101,7 @@ public class RankingService {
     		maxScore = Math.max(score, maxScore);
     		
     		rankedApps.put(app.getAppspot().getAppspotName(), rankedApplication);
-    	}
+    	}    	
     	
     	// Rescale values
     	for (RankedApplication rankedApp : rankedApps.values()) {
@@ -106,7 +112,7 @@ public class RankingService {
     	// List of ranked apps
     	List<RankedApplication> rankedAppsList = new ArrayList<>();
     	rankedAppsList.addAll(rankedApps.values());
-    	rankedAppsList.sort((o1,o2) -> o1.getScore().compareTo(o2.getScore()));
+    	rankedAppsList.sort((o1,o2) -> o2.getScore().compareTo(o1.getScore()));
     	
     	// Fill position attribute
     	for (int i = 0; i < rankedAppsList.size(); ++i) {
