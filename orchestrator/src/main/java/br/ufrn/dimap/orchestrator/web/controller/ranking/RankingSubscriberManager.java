@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.annotation.PostConstruct;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,19 +46,26 @@ public class RankingSubscriberManager {
     private void notifySubscriber(RankingSubscriber rankingSubscriber) {
 
         try {
-            emitterStore.notifyEmmiter(rankingService.generateRanking(),rankingSubscriber.getSessionId());
+            emitterStore.notifyEmmiter(rankingService.generateRanking(rankingSubscriber.getSinceDateRanking()),rankingSubscriber.getSessionId());
         } catch (EmmiterNotFoundException e) {
             rankingSubscribers.remove(rankingSubscriber);
         }
 
     }
 
-    public SseEmitter registerSubscriber(String sessionId){
+    public SseEmitter registerSubscriber(String sessionId, LocalDateTime sinceDateRanking){
 
-        RankingSubscriber rankingSubscriber = new RankingSubscriber(sessionId);
+        RankingSubscriber rankingSubscriber = new RankingSubscriber(sessionId, sinceDateRanking);
 
+        if (rankingSubscriber.getSinceDateRanking() != null)
+        	System.out.println(rankingSubscriber.getSinceDateRanking().toString());
+        
         SseEmitter emmiter = emitterStore.createEmitterForSessionId(sessionId);
-        rankingSubscribers.add(rankingSubscriber);
+        
+        if (!rankingSubscribers.add(rankingSubscriber)) {
+        	rankingSubscribers.remove(rankingSubscriber);
+        	rankingSubscribers.add(rankingSubscriber);        
+        }
         
         return emmiter;
 

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,7 +39,7 @@ public class RankingService {
 	private final Double MAX_SCORE = 5.0;
 
 	
-    public Ranking generateRanking(){
+    public Ranking generateRanking(LocalDateTime sinceDateRanking){
     	    	
     	List<Token> allTokens = tokenService.listAllTokens();
     	
@@ -47,13 +49,26 @@ public class RankingService {
     	
     	Map<String, Set<String>> asServer = new HashMap<>();
     	Map<String, Set<String>> asClient = new HashMap<>();
-
+    	
+    	Date sinceDate = null;
+    	
+    	if (sinceDateRanking != null) {
+    		sinceDate = java.util.Date.from(sinceDateRanking.atZone(ZoneId.systemDefault())
+    		    	      .toInstant());
+    	}
+    	
     	// Compute as service and as client
     	for (Token token : allTokens) {
     		
     		// Allow only validated tokens
     		if (token.getValidationDate() == null)
     			continue;
+    		
+    		if (sinceDate != null) {
+    			if (token.getValidationDate().before(sinceDate)) {
+    				continue;
+    			}
+    		}
     		
     		String appspotServer = token.getServerAppspot().getAppspotName();
     		String appspotClient = token.getClientAppspot().getAppspotName();

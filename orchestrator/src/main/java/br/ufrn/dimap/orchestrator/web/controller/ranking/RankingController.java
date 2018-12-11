@@ -44,7 +44,7 @@ public class RankingController {
         	// use this date for report gen
         }
 
-        return rankingSubscriberManager.registerSubscriber(sessionId);
+        return rankingSubscriberManager.registerSubscriber(sessionId, since);
     }
 
 }

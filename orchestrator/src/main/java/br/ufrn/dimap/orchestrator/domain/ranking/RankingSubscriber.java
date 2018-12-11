@@ -1,14 +1,19 @@
 package br.ufrn.dimap.orchestrator.domain.ranking;
 
+import java.time.LocalDateTime;
+
 import br.ufrn.dimap.orchestrator.domain.ranking.Ranking;
 import br.ufrn.dimap.orchestrator.domain.token.TokenValidatedEvent;
 
 public class RankingSubscriber {
 
     private String sessionId;
+    
+    private LocalDateTime sinceDateRanking;
 
-    public RankingSubscriber(String sessionId) {
+    public RankingSubscriber(String sessionId, LocalDateTime sinceDateRanking) {
         this.sessionId = sessionId;
+        this.sinceDateRanking = sinceDateRanking;
     }
 
     public boolean isInterstedInTopic(TokenValidatedEvent tokenValidatedEvent){
@@ -44,6 +49,14 @@ public class RankingSubscriber {
 		} else if (!sessionId.equals(other.sessionId))
 			return false;
 		return true;
+	}
+
+	public LocalDateTime getSinceDateRanking() {
+		return sinceDateRanking;
+	}
+
+	public void setSinceDateRanking(LocalDateTime sinceDateRanking) {
+		this.sinceDateRanking = sinceDateRanking;
 	}
     
     
