@@ -56,7 +56,11 @@ public class RankingSubscriberManager {
     }
 
     public SseEmitter registerSubscriber(String sessionId, LocalDateTime sinceDateTime){
-        Date initialDate = Date.from(sinceDateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+        Date initialDate = null;
+        if(sinceDateTime != null) {
+            initialDate = Date.from(sinceDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        }
 
         RankingSubscriber rankingSubscriber = new RankingSubscriber(sessionId,initialDate);
 
