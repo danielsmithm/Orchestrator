@@ -30,6 +30,10 @@ public class ApplicationCreationForm {
 	private String passwordConfirmation;
 	private List<GoogleCloudService> googleServices;
 
+	public ApplicationCreationForm(){
+		this.fiwareUsesCount = 0l;
+	}
+
 	public String getAppspot() {
 		return appspot;
 	}
