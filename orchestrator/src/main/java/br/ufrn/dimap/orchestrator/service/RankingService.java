@@ -84,8 +84,11 @@ public class RankingService {
     		asServer.get(appspotServer).add(appspotClient);
     		asClient.get(appspotClient).add(appspotServer);
     	}
-    	
-    	Double maxScore = 0.0;
+    	    	
+    	int maxGServices = 0;
+    	int maxAsClient = 0;
+    	int maxAsServer = 0;
+    	int maxFiware = 0;
     	
     	// Generate ranked application
     	for (Application app : allApplications) {
@@ -98,30 +101,33 @@ public class RankingService {
     		else
     			rankedApplication.setIntegrationCountAsClient(0);
     		
+    		maxAsClient = Math.max(rankedApplication.getIntegrationCountAsClient(), maxAsClient);
+    		
     		if (asServer.containsKey(appspot))
     			rankedApplication.setIntegrationCountAsServer(asServer.get(appspot).size());
     		else
     			rankedApplication.setIntegrationCountAsServer(0);
     		
+    		maxAsServer = Math.max(rankedApplication.getIntegrationCountAsServer(), maxAsServer);
+    		
     		rankedApplication.setOwnerName(app.getOwnerName());
     		rankedApplication.setUsedGoogleServicesCount(app.getGoogleServiceUse().size());
+    		
+    		maxGServices = Math.max(maxGServices, rankedApplication.getUsedGoogleServicesCount());
+    		
     		rankedApplication.setIntegrationFiwareCount(app.getFiwareUsesCount());
+    		
+    		maxFiware = (int) Math.max(maxFiware, rankedApplication.getIntegrationFiwareCount());
+    		
     		rankedApplication.setAppName(app.getAppName());
     		rankedApplication.setAppspot(app.getAppspot().getAppspotName());
-    		
-    		Double score = computeScore(rankedApplication);
-    		rankedApplication.setScore(computeScore(rankedApplication));
-    		
-    		//set max score
-    		maxScore = Math.max(score, maxScore);
-    		
+    		    		
     		rankedApps.put(app.getAppspot().getAppspotName(), rankedApplication);
     	}    	
     	
-    	// Rescale values
+    	// Compute scores
     	for (RankedApplication rankedApp : rankedApps.values()) {
-    		Double score = rankedApp.getScore();
-    		rankedApp.setScore(rescale(score, BASE_SCORE, maxScore, BASE_SCORE, MAX_SCORE));
+    		rankedApp.setScore(computeScore(rankedApp, maxGServices, maxFiware, maxAsClient, maxAsServer));
     	}
     	
     	// List of ranked apps
@@ -146,7 +152,7 @@ public class RankingService {
     	return newValue;
     }
     
-    private Double computeScore(RankedApplication rankedApp) {
+    private Double computeScore(RankedApplication rankedApp, int maxGS, int maxFiware, int maxAsClient, int maxAsServer) {
     	
     	int googleServices = rankedApp.getUsedGoogleServicesCount();
     	Long integrationFiware = rankedApp.getIntegrationFiwareCount();
@@ -155,8 +161,17 @@ public class RankingService {
     	
     	double wGS = 0.4, wFiware = 0.1, wAsServer=0.3, wAsClient=0.2;
     	
-    	return BASE_SCORE + wGS*googleServices + wFiware*integrationFiware + wAsClient*asClient
-    			+ wAsServer*asServer;
+    	double weightedScore = MAX_SCORE - BASE_SCORE;
+    	double maxGradeGServicesScore = wGS*weightedScore;
+    	double maxGradeAsServerScore = wAsServer*weightedScore;
+    	double maxGradeAsClientScore = wAsClient*weightedScore;
+    	double maxGradeFiwareScore = wFiware*weightedScore;
+     	
+    	return BASE_SCORE + 
+    			rescale((double) googleServices, 0.0, (double) maxGS, 0.0, maxGradeGServicesScore) +
+    			rescale((double) integrationFiware, 0.0, (double) maxFiware, 0.0, maxGradeFiwareScore) +
+    			rescale((double) asClient, 0.0, (double) maxAsClient, 0.0, maxGradeAsClientScore)+
+    			rescale((double) asServer, 0.0, (double) maxAsServer, 0.0, maxGradeAsServerScore);
     }
 
 }
