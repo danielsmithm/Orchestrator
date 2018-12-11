@@ -12,10 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
@@ -45,12 +42,18 @@ public class RankingSubscriberManager {
         subscribersToNotify.forEach(rankingSubscriber -> notifySubscriber(rankingSubscriber));
     }
 
-    private void notifySubscriber(RankingSubscriber rankingSubscriber) {
+    public void notifySubscriber(RankingSubscriber rankingSubscriber) {
 
         try {
             emitterStore.notifyEmmiter(rankingService.generateRanking(rankingSubscriber.getInitialDate()),rankingSubscriber.getSessionId());
         } catch (EmmiterNotFoundException e) {
-            rankingSubscribers.remove(rankingSubscriber);
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+
         }
 
     }
@@ -67,12 +70,26 @@ public class RankingSubscriberManager {
         SseEmitter emmiter = emitterStore.createEmitterForSessionId(sessionId);
 
         if (!rankingSubscribers.add(rankingSubscriber)) {
+            emitterStore.unregisterEmmiter(sessionId);
         	rankingSubscribers.remove(rankingSubscriber);
         	rankingSubscribers.add(rankingSubscriber);
         }
-        
+
         return emmiter;
 
     }
+
+    public void notifySubscriber(String sessionId){
+        RankingSubscriber subscriber = rankingSubscribers.stream()
+                .filter(rankingSubscriber -> rankingSubscriber.getSessionId()
+                        .equals(sessionId))
+                        .findFirst()
+                        .get();
+
+        notifySubscriber(subscriber);
+
+    }
+
+
 
 }
