@@ -63,6 +63,9 @@ public class RankingService {
     		if (token.getValidationDate() == null)
     			continue;
 
+    		if(token.getServerAppspot().equals(token.getClientAppspot()))
+    			continue;
+
     		String appspotServer = token.getServerAppspot().getAppspotName();
     		String appspotClient = token.getClientAppspot().getAppspotName();
     		
