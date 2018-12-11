@@ -6,24 +6,24 @@ public class RankedApplication {
     private String appspot;
     private String appName;
     private String ownerName;
-    private double score;
+    private Double score;
     private int usedGoogleServicesCount;
     private int integrationCountAsClient;
     private int integrationCountAsServer;
-    private int integrationFiwareCount;
+    private Long integrationFiwareCount;
 
     public RankedApplication() {
     }
 
-    public RankedApplication(int rankPosition, String appspot, String appName, String ownerName, double score, int usedGoogleServicesCount, int integrationCountAsClient, int integrationCountAsServer, int integrationFiwareCount) {
-        this.rankPosition = rankPosition;
+    public RankedApplication(int rankPosition, String appspot, String appName, String ownerName, double score, int usedGoogleServicesCount, int integrationCountAsClient, int integrationCountAsServer, Long integrationFiwareCount) {
+        this.setRankPosition(rankPosition);
         this.setAppspot(appspot);
         this.setAppName(appName);
         this.ownerName = ownerName;
-        this.score = score;
-        this.usedGoogleServicesCount = usedGoogleServicesCount;
-        this.integrationCountAsClient = integrationCountAsClient;
-        this.integrationCountAsServer = integrationCountAsServer;
+        this.setScore(score);
+        this.setUsedGoogleServicesCount(usedGoogleServicesCount);
+        this.setIntegrationCountAsClient(integrationCountAsClient);
+        this.setIntegrationCountAsServer(integrationCountAsServer);
         this.integrationFiwareCount = integrationFiwareCount;
     }
 
@@ -39,7 +39,7 @@ public class RankedApplication {
         return ownerName;
     }
 
-    public double getScore() {
+    public Double getScore() {
         return score;
     }
 
@@ -67,11 +67,31 @@ public class RankedApplication {
 		this.appspot = appspot;
 	}
 
-	public int getIntegrationFiwareCount() {
+	public Long getIntegrationFiwareCount() {
 		return integrationFiwareCount;
 	}
 
-	public void setIntegrationFiwareCount(int integrationFiwareCount) {
+	public void setIntegrationFiwareCount(Long integrationFiwareCount) {
 		this.integrationFiwareCount = integrationFiwareCount;
+	}
+
+	public void setUsedGoogleServicesCount(int usedGoogleServicesCount) {
+		this.usedGoogleServicesCount = usedGoogleServicesCount;
+	}
+
+	public void setIntegrationCountAsClient(int integrationCountAsClient) {
+		this.integrationCountAsClient = integrationCountAsClient;
+	}
+
+	public void setIntegrationCountAsServer(int integrationCountAsServer) {
+		this.integrationCountAsServer = integrationCountAsServer;
+	}
+
+	public void setScore(Double score) {
+		this.score = score;
+	}
+
+	public void setRankPosition(int rankPosition) {
+		this.rankPosition = rankPosition;
 	}
 }
