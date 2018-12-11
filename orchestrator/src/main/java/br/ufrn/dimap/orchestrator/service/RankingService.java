@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class RankingService {
@@ -39,37 +38,31 @@ public class RankingService {
 	private final Double MAX_SCORE = 5.0;
 
 	
-    public Ranking generateRanking(LocalDateTime sinceDateRanking){
-    	    	
+    public Ranking generateRanking(Date initialDate){
+
     	List<Token> allTokens = tokenService.listAllTokens();
-    	
+
+		if(initialDate != null && allTokens != null && !allTokens.isEmpty()){
+			allTokens = allTokens.stream()
+					.filter(token -> token.getValidationDate() != null)
+					.filter(token -> token.getValidationDate().after(initialDate))
+					.collect(Collectors.toList());
+		}
+
     	List<Application> allApplications = applicationService.findAllApplications();
     	
     	Map<String, RankedApplication> rankedApps = new HashMap<>();
     	
     	Map<String, Set<String>> asServer = new HashMap<>();
     	Map<String, Set<String>> asClient = new HashMap<>();
-    	
-    	Date sinceDate = null;
-    	
-    	if (sinceDateRanking != null) {
-    		sinceDate = java.util.Date.from(sinceDateRanking.atZone(ZoneId.systemDefault())
-    		    	      .toInstant());
-    	}
-    	
+
     	// Compute as service and as client
     	for (Token token : allTokens) {
     		
     		// Allow only validated tokens
     		if (token.getValidationDate() == null)
     			continue;
-    		
-    		if (sinceDate != null) {
-    			if (token.getValidationDate().before(sinceDate)) {
-    				continue;
-    			}
-    		}
-    		
+
     		String appspotServer = token.getServerAppspot().getAppspotName();
     		String appspotClient = token.getClientAppspot().getAppspotName();
     		
