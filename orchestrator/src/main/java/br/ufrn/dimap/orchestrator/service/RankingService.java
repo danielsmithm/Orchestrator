@@ -1,6 +1,9 @@
 package br.ufrn.dimap.orchestrator.service;
 
+import br.ufrn.dimap.orchestrator.domain.application.Application;
+import br.ufrn.dimap.orchestrator.domain.ranking.RankedApplication;
 import br.ufrn.dimap.orchestrator.domain.ranking.Ranking;
+import br.ufrn.dimap.orchestrator.domain.token.Token;
 import br.ufrn.dimap.orchestrator.domain.token.TokenValidatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -8,35 +11,42 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class RankingService {
 	
+	@Autowired
+	private TokenService tokenService;
+	
+	@Autowired
+	private ApplicationService applicationService;
+	
+	public RankingService(TokenService tokenService, ApplicationService applicationService) {
+		this.tokenService = tokenService;
+		this.applicationService = applicationService;
+	}
+	
+	
     public Ranking generateRanking(){
+    	    	
+    	Ranking ranking = new Ranking();
     	
-    	int c = (int) Math.round(Math.random() * 3);
+    	List<Token> allTokens = tokenService.listAllTokens();
     	
-    	Ranking ranking = null;
+    	List<Application> allApplications = applicationService.findAllApplications();
     	
-    	if (c % 3 == 0) { 
-    		ranking = new Ranking();
-	        ranking.addRankedApplication(1,"app1","app1", "Orchestradeiro1",5.0,1,1,2);
-	        ranking.addRankedApplication(2,"app2","app2", "Orchestradeiro2",3.0,1,1,0);
-	        ranking.addRankedApplication(3,"app3","app3", "Orchestradeiro3",3.0,2,1,0);
-    	}
+    	Map<String, RankedApplication> rankedApps = new HashMap<>();
     	
-    	if (c % 3 == 1) { 
-    		ranking = new Ranking();
-	        ranking.addRankedApplication(1,"app2","app2", "Orchestradeiro2",5.0,1,1,2);
-	        ranking.addRankedApplication(2,"app1","app1", "Orchestradeiro1",3.0,1,1,0);
-	        ranking.addRankedApplication(3,"app3","app3", "Orchestradeiro3",3.0,2,1,0);
-    	}
-    	
-    	if (c % 3 == 2) { 
-    		ranking = new Ranking();
-	        ranking.addRankedApplication(1,"app3","app3", "Orchestradeiro3",5.0,1,1,2);
-	        ranking.addRankedApplication(2,"app1","app1", "Orchestradeiro1",3.0,1,1,0);
-	        ranking.addRankedApplication(3,"app2","app2", "Orchestradeiro2",3.0,2,1,0);
+    	for (Application app : allApplications) {
+    		RankedApplication rankedApplication = new RankedApplication();
+    		
+    		
+    		rankedApplication.setAppName(app.getAppName());
+    		rankedApplication.setAppspot(app.getAppspot().getAppspotName());
+    		rankedApps.put(app.getAppspot().getAppspotName(), rankedApplication);
     	}
     	
         return ranking;

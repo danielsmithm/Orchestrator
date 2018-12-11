@@ -10,11 +10,12 @@ public class RankedApplication {
     private int usedGoogleServicesCount;
     private int integrationCountAsClient;
     private int integrationCountAsServer;
+    private int integrationFiwareCount;
 
     public RankedApplication() {
     }
 
-    public RankedApplication(int rankPosition, String appspot, String appName, String ownerName, double score, int usedGoogleServicesCount, int integrationCountAsClient, int integrationCountAsServer) {
+    public RankedApplication(int rankPosition, String appspot, String appName, String ownerName, double score, int usedGoogleServicesCount, int integrationCountAsClient, int integrationCountAsServer, int integrationFiwareCount) {
         this.rankPosition = rankPosition;
         this.setAppspot(appspot);
         this.setAppName(appName);
@@ -23,6 +24,7 @@ public class RankedApplication {
         this.usedGoogleServicesCount = usedGoogleServicesCount;
         this.integrationCountAsClient = integrationCountAsClient;
         this.integrationCountAsServer = integrationCountAsServer;
+        this.integrationFiwareCount = integrationFiwareCount;
     }
 
     public int getRankPosition() {
@@ -63,5 +65,13 @@ public class RankedApplication {
 
 	public void setAppspot(String appspot) {
 		this.appspot = appspot;
+	}
+
+	public int getIntegrationFiwareCount() {
+		return integrationFiwareCount;
+	}
+
+	public void setIntegrationFiwareCount(int integrationFiwareCount) {
+		this.integrationFiwareCount = integrationFiwareCount;
 	}
 }

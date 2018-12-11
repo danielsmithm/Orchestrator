@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -52,6 +53,10 @@ public class TokenService {
         Token generatedToken = tokenFactory.generateToken(clientAppspot,serverAppspot,serviceName);
 
         return tokenRepository.save(generatedToken);
+    }
+    
+    public List<Token> listAllTokens(){
+    	return tokenRepository.listAllTokens();
     }
 
 }

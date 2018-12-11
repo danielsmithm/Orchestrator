@@ -1,5 +1,6 @@
 package br.ufrn.dimap.orchestrator.domain.token;
 
+import br.ufrn.dimap.orchestrator.domain.application.Application;
 import br.ufrn.dimap.orchestrator.domain.application.Appspot;
 import br.ufrn.dimap.orchestrator.domain.token.exceptions.TokenNotFoundException;
 import com.google.cloud.datastore.*;
@@ -7,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Repository
 public class TokenRepository {
@@ -72,6 +75,19 @@ public class TokenRepository {
         }
 
         return token;
+    }
+    
+    public List<Token> listAllTokens() {
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind(TOKEN_ENTITY_NAME)
+                .build();
+
+        QueryResults<Entity> result = datastore.run(query);
+
+        List<Token> apps = new CopyOnWriteArrayList<>();
+        result.forEachRemaining(entity -> apps.add(convertToApplication(entity)));
+
+        return apps;
     }
 
     public Token findTokenById(UUID tokenUUID) throws TokenNotFoundException {

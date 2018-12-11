@@ -7,8 +7,8 @@ public class Ranking {
 
     private List<RankedApplication> rankedApplications;
 
-    public void addRankedApplication(int rankPosition, String appspot, String appName, String ownerName, double score, int usedGoogleServicesCount, int integrationCountAsClient, int integrationCountAsServer){
-        rankedApplications.add(new RankedApplication(rankPosition, appspot, appName,ownerName,score,usedGoogleServicesCount,integrationCountAsClient,integrationCountAsServer));
+    public void addRankedApplication(int rankPosition, String appspot, String appName, String ownerName, double score, int usedGoogleServicesCount, int integrationCountAsClient, int integrationCountAsServer, int integrationFiwareCount){
+        rankedApplications.add(new RankedApplication(rankPosition, appspot, appName,ownerName,score,usedGoogleServicesCount,integrationCountAsClient,integrationCountAsServer, integrationFiwareCount));
     }
 
     public Ranking() {

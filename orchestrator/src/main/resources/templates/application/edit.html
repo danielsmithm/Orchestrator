@@ -41,6 +41,12 @@
 		</p>
         <div th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}" class="alert alert-danger form-error"></div>
 		
+		<p>
+			<label for="fiwareUsesCount">Fiware usages</label>
+			<input class="form-control" id="fiwareUsesCount" type="number" th:field="*{fiwareUsesCount}" placeholder="Fiware usages per service"/>
+		</p>
+        <div th:if="${#fields.hasErrors('fiwareUsesCount')}" th:errors="*{fiwareUsesCount}" class="alert alert-danger form-error"></div>
+		
 		<label for="googleServices">Google Services used</label>
 		<div class="scrollable shadowed-box">
 			<p th:each="gservice : ${T(br.ufrn.dimap.orchestrator.domain.application.GoogleCloudService).values()}">
