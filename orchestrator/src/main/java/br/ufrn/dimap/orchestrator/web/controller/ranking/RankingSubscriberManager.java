@@ -48,12 +48,6 @@ public class RankingSubscriberManager {
             emitterStore.notifyEmmiter(rankingService.generateRanking(rankingSubscriber.getInitialDate()),rankingSubscriber.getSessionId());
         } catch (EmmiterNotFoundException e) {
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
-
         }
 
     }

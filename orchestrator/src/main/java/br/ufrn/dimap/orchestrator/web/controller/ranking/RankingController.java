@@ -46,17 +46,11 @@ public class RankingController {
         	// use this date for report gen
         }
 
-
         try{
             return rankingSubscriberManager.registerSubscriber(sessionId, since);
         }finally {
             CompletableFuture.runAsync(() -> {
-                try {
-                    Thread.sleep(1000);
-                    rankingSubscriberManager.notifySubscriber(sessionId);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                rankingSubscriberManager.notifySubscriber(sessionId);
             });
         }
 
