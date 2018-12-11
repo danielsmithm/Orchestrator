@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.annotation.PostConstruct;
-
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,25 +48,27 @@ public class RankingSubscriberManager {
     private void notifySubscriber(RankingSubscriber rankingSubscriber) {
 
         try {
-            emitterStore.notifyEmmiter(rankingService.generateRanking(rankingSubscriber.getSinceDateRanking()),rankingSubscriber.getSessionId());
+            emitterStore.notifyEmmiter(rankingService.generateRanking(rankingSubscriber.getInitialDate()),rankingSubscriber.getSessionId());
         } catch (EmmiterNotFoundException e) {
             rankingSubscribers.remove(rankingSubscriber);
         }
 
     }
 
-    public SseEmitter registerSubscriber(String sessionId, LocalDateTime sinceDateRanking){
+    public SseEmitter registerSubscriber(String sessionId, LocalDateTime sinceDateTime){
 
-        RankingSubscriber rankingSubscriber = new RankingSubscriber(sessionId, sinceDateRanking);
+        Date initialDate = null;
+        if(sinceDateTime != null) {
+            initialDate = Date.from(sinceDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        }
 
-        if (rankingSubscriber.getSinceDateRanking() != null)
-        	System.out.println(rankingSubscriber.getSinceDateRanking().toString());
-        
+        RankingSubscriber rankingSubscriber = new RankingSubscriber(sessionId,initialDate);
+
         SseEmitter emmiter = emitterStore.createEmitterForSessionId(sessionId);
-        
+
         if (!rankingSubscribers.add(rankingSubscriber)) {
         	rankingSubscribers.remove(rankingSubscriber);
-        	rankingSubscribers.add(rankingSubscriber);        
+        	rankingSubscribers.add(rankingSubscriber);
         }
         
         return emmiter;
